@@ -1,0 +1,13 @@
+ServerEvent Enum
+https://stackoverflow.com/questions/54802616/how-can-one-use-enums-as-a-choice-field-in-a-django-model
+
+
+TextChoices
+https://stackoverflow.com/questions/60869395/python-covert-enum-to-django-models-charfield-choices-tuple?noredirect=1&lq=1
+
+Docker SDK in container
+https://stackoverflow.com/questions/60054378/i-want-to-use-docker-sdk-inside-a-running-docker-container-and-want-to-build-an
+
+
+Full blown privileges could be:
+Access-control list (ACl)

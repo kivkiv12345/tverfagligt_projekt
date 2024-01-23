@@ -4,21 +4,21 @@
  <office:meta><dc:date>2024-01-19T13:43:47.454983120</dc:date><meta:editing-duration>PT1H12M15S</meta:editing-duration><meta:editing-cycles>10</meta:editing-cycles><meta:generator>LibreOffice/7.3.7.2$Linux_X86_64 LibreOffice_project/30$Build-2</meta:generator><meta:document-statistic meta:table-count="3" meta:image-count="0" meta:object-count="0" meta:page-count="3" meta:paragraph-count="98" meta:word-count="508" meta:character-count="3521" meta:non-whitespace-character-count="3109"/></office:meta>
  <office:settings>
   <config:config-item-set config:name="ooo:view-settings">
-   <config:config-item config:name="ViewAreaTop" config:type="long">63018</config:config-item>
+   <config:config-item config:name="ViewAreaTop" config:type="long">152</config:config-item>
    <config:config-item config:name="ViewAreaLeft" config:type="long">0</config:config-item>
    <config:config-item config:name="ViewAreaWidth" config:type="long">37858</config:config-item>
-   <config:config-item config:name="ViewAreaHeight" config:type="long">17016</config:config-item>
+   <config:config-item config:name="ViewAreaHeight" config:type="long">16468</config:config-item>
    <config:config-item config:name="ShowRedlineChanges" config:type="boolean">true</config:config-item>
    <config:config-item config:name="InBrowseMode" config:type="boolean">false</config:config-item>
    <config:config-item-map-indexed config:name="Views">
     <config:config-item-map-entry>
      <config:config-item config:name="ViewId" config:type="string">view2</config:config-item>
-     <config:config-item config:name="ViewLeft" config:type="long">14078</config:config-item>
-     <config:config-item config:name="ViewTop" config:type="long">65049</config:config-item>
+     <config:config-item config:name="ViewLeft" config:type="long">16471</config:config-item>
+     <config:config-item config:name="ViewTop" config:type="long">6488</config:config-item>
      <config:config-item config:name="VisibleLeft" config:type="long">0</config:config-item>
-     <config:config-item config:name="VisibleTop" config:type="long">63018</config:config-item>
+     <config:config-item config:name="VisibleTop" config:type="long">152</config:config-item>
      <config:config-item config:name="VisibleRight" config:type="long">37857</config:config-item>
-     <config:config-item config:name="VisibleBottom" config:type="long">80033</config:config-item>
+     <config:config-item config:name="VisibleBottom" config:type="long">16618</config:config-item>
      <config:config-item config:name="ZoomType" config:type="short">0</config:config-item>
      <config:config-item config:name="ViewLayoutColumns" config:type="short">1</config:config-item>
      <config:config-item config:name="ViewLayoutBookMode" config:type="boolean">false</config:config-item>
@@ -88,7 +88,7 @@
    <config:config-item config:name="ChartAutoUpdate" config:type="boolean">true</config:config-item>
    <config:config-item config:name="PrinterSetup" config:type="base64Binary"/>
    <config:config-item config:name="AddParaTableSpacingAtStart" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="Rsid" config:type="int">4332785</config:config-item>
+   <config:config-item config:name="Rsid" config:type="int">4437667</config:config-item>
    <config:config-item config:name="EmbeddedDatabaseName" config:type="string"/>
    <config:config-item config:name="FieldAutoUpdate" config:type="boolean">true</config:config-item>
    <config:config-item config:name="OutlineLevelYieldsNumbering" config:type="boolean">false</config:config-item>
@@ -152,13 +152,13 @@
  <office:styles>
   <style:default-style style:family="graphic">
    <style:graphic-properties svg:stroke-color="#3465a4" draw:fill-color="#729fcf" fo:wrap-option="no-wrap" draw:shadow-offset-x="0.1181in" draw:shadow-offset-y="0.1181in" draw:start-line-spacing-horizontal="0.1114in" draw:start-line-spacing-vertical="0.1114in" draw:end-line-spacing-horizontal="0.1114in" draw:end-line-spacing-vertical="0.1114in" style:flow-with-text="false"/>
-   <style:paragraph-properties style:text-autospace="ideograph-alpha" style:line-break="strict" style:font-independent-line-spacing="false">
+   <style:paragraph-properties style:text-autospace="ideograph-alpha" style:line-break="strict" style:writing-mode="lr-tb" style:font-independent-line-spacing="false">
     <style:tab-stops/>
    </style:paragraph-properties>
    <style:text-properties style:use-window-font-color="true" loext:opacity="0%" style:font-name="Liberation Serif" fo:font-size="12pt" fo:language="da" fo:country="DK" style:letter-kerning="true" style:font-name-asian="Noto Serif CJK SC" style:font-size-asian="10.5pt" style:language-asian="zh" style:country-asian="CN" style:font-name-complex="Lohit Devanagari1" style:font-size-complex="12pt" style:language-complex="hi" style:country-complex="IN"/>
   </style:default-style>
   <style:default-style style:family="paragraph">
-   <style:paragraph-properties fo:hyphenation-ladder-count="no-limit" style:text-autospace="ideograph-alpha" style:punctuation-wrap="hanging" style:line-break="strict" style:tab-stop-distance="0.4925in" style:writing-mode="page"/>
+   <style:paragraph-properties fo:hyphenation-ladder-count="no-limit" style:text-autospace="ideograph-alpha" style:punctuation-wrap="hanging" style:line-break="strict" style:tab-stop-distance="0.4925in" style:writing-mode="lr-tb"/>
    <style:text-properties style:use-window-font-color="true" loext:opacity="0%" style:font-name="Liberation Serif" fo:font-size="12pt" fo:language="da" fo:country="DK" style:letter-kerning="true" style:font-name-asian="Noto Serif CJK SC" style:font-size-asian="10.5pt" style:language-asian="zh" style:country-asian="CN" style:font-name-complex="Lohit Devanagari1" style:font-size-complex="12pt" style:language-complex="hi" style:country-complex="IN" fo:hyphenate="false" fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2" loext:hyphenation-no-caps="false"/>
   </style:default-style>
   <style:default-style style:family="table">
@@ -347,8 +347,37 @@
   </style:default-page-layout>
  </office:styles>
  <office:automatic-styles>
+  <style:style style:name="FeatureSpecification" style:family="table">
+   <style:table-properties style:width="6.6931in" table:align="margins" style:may-break-between-rows="true" table:border-model="collapsing"/>
+  </style:style>
+  <style:style style:name="FeatureSpecification.A" style:family="table-column">
+   <style:table-column-properties style:column-width="2.2313in" style:rel-column-width="21845*"/>
+  </style:style>
+  <style:style style:name="FeatureSpecification.A1" style:family="table-cell">
+   <style:table-cell-properties fo:background-color="transparent" fo:padding="0.0382in" fo:border-left="0.5pt solid #000000" fo:border-right="none" fo:border-top="0.5pt solid #000000" fo:border-bottom="0.5pt solid #000000" style:writing-mode="page">
+    <style:background-image/>
+   </style:table-cell-properties>
+  </style:style>
+  <style:style style:name="FeatureSpecification.C1" style:family="table-cell">
+   <style:table-cell-properties fo:background-color="transparent" fo:padding="0.0382in" fo:border="0.5pt solid #000000" style:writing-mode="page">
+    <style:background-image/>
+   </style:table-cell-properties>
+  </style:style>
+  <style:style style:name="FeatureSpecification.2" style:family="table-row">
+   <style:table-row-properties fo:keep-together="auto"/>
+  </style:style>
+  <style:style style:name="FeatureSpecification.A2" style:family="table-cell">
+   <style:table-cell-properties fo:background-color="transparent" fo:padding="0.0382in" fo:border-left="0.5pt solid #000000" fo:border-right="none" fo:border-top="none" fo:border-bottom="0.5pt solid #000000" style:writing-mode="page">
+    <style:background-image/>
+   </style:table-cell-properties>
+  </style:style>
+  <style:style style:name="FeatureSpecification.C2" style:family="table-cell">
+   <style:table-cell-properties fo:background-color="transparent" fo:padding="0.0382in" fo:border-left="0.5pt solid #000000" fo:border-right="0.5pt solid #000000" fo:border-top="none" fo:border-bottom="0.5pt solid #000000" style:writing-mode="page">
+    <style:background-image/>
+   </style:table-cell-properties>
+  </style:style>
   <style:style style:name="Kravspec" style:family="table">
-   <style:table-properties style:width="6.691in" table:align="left" style:shadow="none" style:may-break-between-rows="true" table:border-model="collapsing"/>
+   <style:table-properties style:width="6.691in" table:align="left" style:may-break-between-rows="true" table:border-model="collapsing"/>
   </style:style>
   <style:style style:name="Kravspec.A" style:family="table-column">
    <style:table-column-properties style:column-width="0.809in"/>
@@ -386,7 +415,7 @@
    </style:table-cell-properties>
   </style:style>
   <style:style style:name="Features" style:family="table">
-   <style:table-properties style:width="6.6931in" table:align="margins" style:shadow="none" style:may-break-between-rows="true" table:border-model="collapsing"/>
+   <style:table-properties style:width="6.6931in" table:align="margins" style:may-break-between-rows="true" table:border-model="collapsing"/>
   </style:style>
   <style:style style:name="Features.A" style:family="table-column">
    <style:table-column-properties style:column-width="1.1153in" style:rel-column-width="10922*"/>
@@ -413,35 +442,6 @@
    </style:table-cell-properties>
   </style:style>
   <style:style style:name="Features.F2" style:family="table-cell">
-   <style:table-cell-properties fo:background-color="transparent" fo:padding="0.0382in" fo:border-left="0.5pt solid #000000" fo:border-right="0.5pt solid #000000" fo:border-top="none" fo:border-bottom="0.5pt solid #000000" style:writing-mode="page">
-    <style:background-image/>
-   </style:table-cell-properties>
-  </style:style>
-  <style:style style:name="FeatureSpecification" style:family="table">
-   <style:table-properties style:width="6.6931in" table:align="margins" style:shadow="none" style:may-break-between-rows="true" table:border-model="collapsing"/>
-  </style:style>
-  <style:style style:name="FeatureSpecification.A" style:family="table-column">
-   <style:table-column-properties style:column-width="2.2313in" style:rel-column-width="21845*"/>
-  </style:style>
-  <style:style style:name="FeatureSpecification.A1" style:family="table-cell">
-   <style:table-cell-properties fo:background-color="transparent" fo:padding="0.0382in" fo:border-left="0.5pt solid #000000" fo:border-right="none" fo:border-top="0.5pt solid #000000" fo:border-bottom="0.5pt solid #000000" style:writing-mode="page">
-    <style:background-image/>
-   </style:table-cell-properties>
-  </style:style>
-  <style:style style:name="FeatureSpecification.C1" style:family="table-cell">
-   <style:table-cell-properties fo:background-color="transparent" fo:padding="0.0382in" fo:border="0.5pt solid #000000" style:writing-mode="page">
-    <style:background-image/>
-   </style:table-cell-properties>
-  </style:style>
-  <style:style style:name="FeatureSpecification.2" style:family="table-row">
-   <style:table-row-properties fo:keep-together="auto"/>
-  </style:style>
-  <style:style style:name="FeatureSpecification.A2" style:family="table-cell">
-   <style:table-cell-properties fo:background-color="transparent" fo:padding="0.0382in" fo:border-left="0.5pt solid #000000" fo:border-right="none" fo:border-top="none" fo:border-bottom="0.5pt solid #000000" style:writing-mode="page">
-    <style:background-image/>
-   </style:table-cell-properties>
-  </style:style>
-  <style:style style:name="FeatureSpecification.C2" style:family="table-cell">
    <style:table-cell-properties fo:background-color="transparent" fo:padding="0.0382in" fo:border-left="0.5pt solid #000000" fo:border-right="0.5pt solid #000000" fo:border-top="none" fo:border-bottom="0.5pt solid #000000" style:writing-mode="page">
     <style:background-image/>
    </style:table-cell-properties>
@@ -544,87 +544,87 @@
   <style:style style:name="P29" style:family="paragraph" style:parent-style-name="Heading_20_2">
    <style:text-properties officeooo:rsid="003e4a85" officeooo:paragraph-rsid="003e4a85"/>
   </style:style>
-  <style:style style:name="P30" style:family="paragraph" style:parent-style-name="Standard">
-   <style:text-properties style:use-window-font-color="true" loext:opacity="0%"/>
+  <style:style style:name="P30" style:family="paragraph" style:parent-style-name="Text_20_body">
+   <style:text-properties officeooo:rsid="003e4a85" officeooo:paragraph-rsid="003e4a85"/>
   </style:style>
   <style:style style:name="P31" style:family="paragraph" style:parent-style-name="Standard">
+   <style:text-properties style:use-window-font-color="true" loext:opacity="0%"/>
+  </style:style>
+  <style:style style:name="P32" style:family="paragraph" style:parent-style-name="Table_20_Contents">
+   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
+   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" style:text-outline="false" style:text-line-through-style="none" style:text-line-through-type="none" style:font-name="Liberation Serif" fo:font-size="12pt" fo:font-style="normal" fo:text-shadow="none" style:text-underline-style="none" fo:font-weight="normal" style:font-size-asian="12pt" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-size-complex="12pt" style:font-style-complex="normal" style:font-weight-complex="normal" style:text-overline-style="none" style:text-overline-color="font-color"/>
+  </style:style>
+  <style:style style:name="P33" style:family="paragraph" style:parent-style-name="Table_20_Contents">
+   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
+   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" style:text-outline="false" style:text-line-through-style="none" style:text-line-through-type="none" style:font-name="Liberation Serif" fo:font-size="12pt" fo:font-style="normal" fo:text-shadow="none" style:text-underline-style="none" fo:font-weight="normal" officeooo:rsid="0034459d" officeooo:paragraph-rsid="0034459d" style:font-size-asian="12pt" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-size-complex="12pt" style:font-style-complex="normal" style:font-weight-complex="normal" style:text-overline-style="none" style:text-overline-color="font-color"/>
+  </style:style>
+  <style:style style:name="P34" style:family="paragraph" style:parent-style-name="Table_20_Contents">
+   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
+   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" style:text-outline="false" style:text-line-through-style="none" style:text-line-through-type="none" style:font-name="Liberation Serif" fo:font-size="12pt" fo:font-style="normal" fo:text-shadow="none" style:text-underline-style="none" fo:font-weight="normal" officeooo:rsid="0035b306" officeooo:paragraph-rsid="0035b306" style:font-size-asian="12pt" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-size-complex="12pt" style:font-style-complex="normal" style:font-weight-complex="normal" style:text-overline-style="none" style:text-overline-color="font-color"/>
+  </style:style>
+  <style:style style:name="P35" style:family="paragraph" style:parent-style-name="Table_20_Contents">
+   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
+   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" style:text-outline="false" style:text-line-through-style="none" style:text-line-through-type="none" style:font-name="Liberation Serif" fo:font-size="12pt" fo:font-style="normal" fo:text-shadow="none" style:text-underline-style="none" fo:font-weight="normal" officeooo:rsid="0035b306" officeooo:paragraph-rsid="0038584c" style:font-size-asian="12pt" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-size-complex="12pt" style:font-style-complex="normal" style:font-weight-complex="normal" style:text-overline-style="none" style:text-overline-color="font-color"/>
+  </style:style>
+  <style:style style:name="P36" style:family="paragraph" style:parent-style-name="Table_20_Contents">
+   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
+   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" style:text-outline="false" style:text-line-through-style="none" style:text-line-through-type="none" style:font-name="Liberation Serif" fo:font-size="12pt" fo:font-style="normal" fo:text-shadow="none" style:text-underline-style="none" fo:font-weight="normal" officeooo:rsid="0038584c" officeooo:paragraph-rsid="0038584c" style:font-size-asian="12pt" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-size-complex="12pt" style:font-style-complex="normal" style:font-weight-complex="normal" style:text-overline-style="none" style:text-overline-color="font-color"/>
+  </style:style>
+  <style:style style:name="P37" style:family="paragraph" style:parent-style-name="Table_20_Contents">
+   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
+   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" style:text-outline="false" style:text-line-through-style="none" style:text-line-through-type="none" style:font-name="Liberation Serif" fo:font-size="12pt" fo:font-style="normal" fo:text-shadow="none" style:text-underline-style="none" fo:font-weight="normal" officeooo:rsid="003b2219" officeooo:paragraph-rsid="003b2219" style:font-size-asian="12pt" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-size-complex="12pt" style:font-style-complex="normal" style:font-weight-complex="normal" style:text-overline-style="none" style:text-overline-color="font-color"/>
+  </style:style>
+  <style:style style:name="P38" style:family="paragraph" style:parent-style-name="Table_20_Contents">
+   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
+   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" style:text-outline="false" style:text-line-through-style="none" style:text-line-through-type="none" style:font-name="Liberation Serif" fo:font-size="12pt" fo:font-style="normal" fo:text-shadow="none" style:text-underline-style="none" fo:font-weight="normal" officeooo:rsid="003a2c5a" officeooo:paragraph-rsid="003a2c5a" style:font-size-asian="12pt" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-size-complex="12pt" style:font-style-complex="normal" style:font-weight-complex="normal" style:text-overline-style="none" style:text-overline-color="font-color"/>
+  </style:style>
+  <style:style style:name="P39" style:family="paragraph" style:parent-style-name="Table_20_Contents">
+   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
+   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" style:text-outline="false" style:text-line-through-style="none" style:text-line-through-type="none" style:font-name="Liberation Serif" fo:font-size="12pt" fo:font-style="normal" fo:text-shadow="none" style:text-underline-style="none" fo:font-weight="normal" officeooo:rsid="003a2c5a" officeooo:paragraph-rsid="003b2219" style:font-size-asian="12pt" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-size-complex="12pt" style:font-style-complex="normal" style:font-weight-complex="normal" style:text-overline-style="none" style:text-overline-color="font-color"/>
+  </style:style>
+  <style:style style:name="P40" style:family="paragraph" style:parent-style-name="Table_20_Contents">
+   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
+   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" style:text-outline="false" style:text-line-through-style="none" style:text-line-through-type="none" style:font-name="Liberation Serif" fo:font-size="12pt" fo:font-style="normal" fo:text-shadow="none" style:text-underline-style="none" fo:font-weight="normal" officeooo:rsid="003ccf54" officeooo:paragraph-rsid="003ccf54" style:font-size-asian="12pt" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-size-complex="12pt" style:font-style-complex="normal" style:font-weight-complex="normal" style:text-overline-style="none" style:text-overline-color="font-color"/>
+  </style:style>
+  <style:style style:name="P41" style:family="paragraph" style:parent-style-name="Text_20_body">
+   <style:text-properties style:use-window-font-color="true" loext:opacity="0%"/>
+  </style:style>
+  <style:style style:name="P42" style:family="paragraph" style:parent-style-name="Text_20_body">
+   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" officeooo:rsid="003137bc" officeooo:paragraph-rsid="003137bc"/>
+  </style:style>
+  <style:style style:name="P43" style:family="paragraph" style:parent-style-name="Text_20_body">
+   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" officeooo:rsid="003e4a85" officeooo:paragraph-rsid="003e4a85"/>
+  </style:style>
+  <style:style style:name="P44" style:family="paragraph" style:parent-style-name="Title">
+   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" officeooo:rsid="003e4a85" officeooo:paragraph-rsid="003e4a85"/>
+  </style:style>
+  <style:style style:name="P45" style:family="paragraph" style:parent-style-name="Standard">
    <style:paragraph-properties fo:text-align="start" style:justify-single-word="false">
     <style:tab-stops/>
    </style:paragraph-properties>
   </style:style>
-  <style:style style:name="P32" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P46" style:family="paragraph" style:parent-style-name="Standard">
    <style:paragraph-properties fo:text-align="center" style:justify-single-word="false">
     <style:tab-stops/>
    </style:paragraph-properties>
    <style:text-properties fo:font-weight="bold" style:font-weight-asian="bold"/>
   </style:style>
-  <style:style style:name="P33" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P47" style:family="paragraph" style:parent-style-name="Standard">
    <style:paragraph-properties fo:text-align="start" style:justify-single-word="false">
     <style:tab-stops/>
    </style:paragraph-properties>
    <style:text-properties fo:font-weight="bold" style:font-weight-asian="bold"/>
   </style:style>
-  <style:style style:name="P34" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P48" style:family="paragraph" style:parent-style-name="Standard">
    <style:paragraph-properties fo:text-align="center" style:justify-single-word="false">
     <style:tab-stops/>
    </style:paragraph-properties>
   </style:style>
-  <style:style style:name="P35" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P49" style:family="paragraph" style:parent-style-name="Standard">
    <style:paragraph-properties fo:text-align="start" style:justify-single-word="false">
     <style:tab-stops/>
    </style:paragraph-properties>
    <style:text-properties fo:font-style="italic" style:font-style-asian="italic"/>
-  </style:style>
-  <style:style style:name="P36" style:family="paragraph" style:parent-style-name="Table_20_Contents">
-   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
-   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" style:text-outline="false" style:text-line-through-style="none" style:text-line-through-type="none" style:font-name="Liberation Serif" fo:font-size="12pt" fo:font-style="normal" fo:text-shadow="none" style:text-underline-style="none" fo:font-weight="normal" style:font-size-asian="12pt" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-size-complex="12pt" style:font-style-complex="normal" style:font-weight-complex="normal" style:text-overline-style="none" style:text-overline-color="font-color"/>
-  </style:style>
-  <style:style style:name="P37" style:family="paragraph" style:parent-style-name="Table_20_Contents">
-   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
-   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" style:text-outline="false" style:text-line-through-style="none" style:text-line-through-type="none" style:font-name="Liberation Serif" fo:font-size="12pt" fo:font-style="normal" fo:text-shadow="none" style:text-underline-style="none" fo:font-weight="normal" officeooo:rsid="0034459d" officeooo:paragraph-rsid="0034459d" style:font-size-asian="12pt" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-size-complex="12pt" style:font-style-complex="normal" style:font-weight-complex="normal" style:text-overline-style="none" style:text-overline-color="font-color"/>
-  </style:style>
-  <style:style style:name="P38" style:family="paragraph" style:parent-style-name="Table_20_Contents">
-   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
-   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" style:text-outline="false" style:text-line-through-style="none" style:text-line-through-type="none" style:font-name="Liberation Serif" fo:font-size="12pt" fo:font-style="normal" fo:text-shadow="none" style:text-underline-style="none" fo:font-weight="normal" officeooo:rsid="0035b306" officeooo:paragraph-rsid="0035b306" style:font-size-asian="12pt" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-size-complex="12pt" style:font-style-complex="normal" style:font-weight-complex="normal" style:text-overline-style="none" style:text-overline-color="font-color"/>
-  </style:style>
-  <style:style style:name="P39" style:family="paragraph" style:parent-style-name="Table_20_Contents">
-   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
-   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" style:text-outline="false" style:text-line-through-style="none" style:text-line-through-type="none" style:font-name="Liberation Serif" fo:font-size="12pt" fo:font-style="normal" fo:text-shadow="none" style:text-underline-style="none" fo:font-weight="normal" officeooo:rsid="0035b306" officeooo:paragraph-rsid="0038584c" style:font-size-asian="12pt" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-size-complex="12pt" style:font-style-complex="normal" style:font-weight-complex="normal" style:text-overline-style="none" style:text-overline-color="font-color"/>
-  </style:style>
-  <style:style style:name="P40" style:family="paragraph" style:parent-style-name="Table_20_Contents">
-   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
-   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" style:text-outline="false" style:text-line-through-style="none" style:text-line-through-type="none" style:font-name="Liberation Serif" fo:font-size="12pt" fo:font-style="normal" fo:text-shadow="none" style:text-underline-style="none" fo:font-weight="normal" officeooo:rsid="0038584c" officeooo:paragraph-rsid="0038584c" style:font-size-asian="12pt" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-size-complex="12pt" style:font-style-complex="normal" style:font-weight-complex="normal" style:text-overline-style="none" style:text-overline-color="font-color"/>
-  </style:style>
-  <style:style style:name="P41" style:family="paragraph" style:parent-style-name="Table_20_Contents">
-   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
-   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" style:text-outline="false" style:text-line-through-style="none" style:text-line-through-type="none" style:font-name="Liberation Serif" fo:font-size="12pt" fo:font-style="normal" fo:text-shadow="none" style:text-underline-style="none" fo:font-weight="normal" officeooo:rsid="003b2219" officeooo:paragraph-rsid="003b2219" style:font-size-asian="12pt" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-size-complex="12pt" style:font-style-complex="normal" style:font-weight-complex="normal" style:text-overline-style="none" style:text-overline-color="font-color"/>
-  </style:style>
-  <style:style style:name="P42" style:family="paragraph" style:parent-style-name="Table_20_Contents">
-   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
-   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" style:text-outline="false" style:text-line-through-style="none" style:text-line-through-type="none" style:font-name="Liberation Serif" fo:font-size="12pt" fo:font-style="normal" fo:text-shadow="none" style:text-underline-style="none" fo:font-weight="normal" officeooo:rsid="003a2c5a" officeooo:paragraph-rsid="003a2c5a" style:font-size-asian="12pt" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-size-complex="12pt" style:font-style-complex="normal" style:font-weight-complex="normal" style:text-overline-style="none" style:text-overline-color="font-color"/>
-  </style:style>
-  <style:style style:name="P43" style:family="paragraph" style:parent-style-name="Table_20_Contents">
-   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
-   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" style:text-outline="false" style:text-line-through-style="none" style:text-line-through-type="none" style:font-name="Liberation Serif" fo:font-size="12pt" fo:font-style="normal" fo:text-shadow="none" style:text-underline-style="none" fo:font-weight="normal" officeooo:rsid="003a2c5a" officeooo:paragraph-rsid="003b2219" style:font-size-asian="12pt" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-size-complex="12pt" style:font-style-complex="normal" style:font-weight-complex="normal" style:text-overline-style="none" style:text-overline-color="font-color"/>
-  </style:style>
-  <style:style style:name="P44" style:family="paragraph" style:parent-style-name="Table_20_Contents">
-   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
-   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" style:text-outline="false" style:text-line-through-style="none" style:text-line-through-type="none" style:font-name="Liberation Serif" fo:font-size="12pt" fo:font-style="normal" fo:text-shadow="none" style:text-underline-style="none" fo:font-weight="normal" officeooo:rsid="003ccf54" officeooo:paragraph-rsid="003ccf54" style:font-size-asian="12pt" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-size-complex="12pt" style:font-style-complex="normal" style:font-weight-complex="normal" style:text-overline-style="none" style:text-overline-color="font-color"/>
-  </style:style>
-  <style:style style:name="P45" style:family="paragraph" style:parent-style-name="Text_20_body">
-   <style:text-properties style:use-window-font-color="true" loext:opacity="0%"/>
-  </style:style>
-  <style:style style:name="P46" style:family="paragraph" style:parent-style-name="Text_20_body">
-   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" officeooo:rsid="003137bc" officeooo:paragraph-rsid="003137bc"/>
-  </style:style>
-  <style:style style:name="P47" style:family="paragraph" style:parent-style-name="Text_20_body">
-   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" officeooo:rsid="003e4a85" officeooo:paragraph-rsid="003e4a85"/>
-  </style:style>
-  <style:style style:name="P48" style:family="paragraph" style:parent-style-name="Text_20_body">
-   <style:text-properties officeooo:rsid="003e4a85" officeooo:paragraph-rsid="003e4a85"/>
-  </style:style>
-  <style:style style:name="P49" style:family="paragraph" style:parent-style-name="Title">
-   <style:text-properties style:use-window-font-color="true" loext:opacity="0%" officeooo:rsid="003e4a85" officeooo:paragraph-rsid="003e4a85"/>
   </style:style>
   <style:style style:name="T1" style:family="text">
    <style:text-properties officeooo:rsid="001d33c6"/>
@@ -736,87 +736,87 @@
     <text:sequence-decl text:display-outline-level="0" text:name="Drawing"/>
     <text:sequence-decl text:display-outline-level="0" text:name="Figure"/>
    </text:sequence-decls>
-   <text:p text:style-name="P49">Rapport – Spilserver Administration</text:p>
-   <text:p text:style-name="P45"/>
+   <text:p text:style-name="P44">Rapport – Spilserver Administration</text:p>
+   <text:p text:style-name="P41"/>
    <text:h text:style-name="Heading_20_1" text:outline-level="1">Case Beskrivelse</text:h>
-   <text:p text:style-name="P30">Mange vennegrupper verden rundt bevæger sig mellem spil som tillader at man hoster sine egne servere. Når muligt foretrækker spillere typisk at køre en midlertidig server direkte gennem deres spil, men det <text:span text:style-name="T6">nødvendiggør at den spillers computer er tændt og kører spillet.</text:span></text:p>
-   <text:p text:style-name="P30">Den traditionelle løsning er en dedikeret server, som ikke kræver at spillet selv er kørende.</text:p>
-   <text:p text:style-name="P30"/>
-   <text:p text:style-name="P30">Oftest anses dedikerede servere som dårligt passende for mindre vennegrupper, hvilket i større grad skyldes besværligheder med deres opsætning.</text:p>
-   <text:p text:style-name="P30">På den anden side har de til fordel at kunne køre uafhængigt af enkelte spillere. Det egner sig godt til vennegrupper som har sjældent kan spille samtidigt.</text:p>
-   <text:p text:style-name="P30"/>
-   <text:p text:style-name="P30">Med mit projekt vil jeg levere en software-pakke som giver et fælles interface for nem administration af spilservere.</text:p>
-   <text:p text:style-name="P30">Projektet har stor fokus på at skulle køre og opsættes på fysisk forbruger hardware, såsom gamle computere og Raspberry PIs; hvad end vennegruppernes medlemmer ejer.</text:p>
-   <text:p text:style-name="P30">Derfor er det også attraktivt at opsætningen kan slukkes for at spare strøm, og at spillerne kan tænde den igen når den skal bruges.</text:p>
-   <text:p text:style-name="P30">Software-pakken vil som minimum indeholde et administrationsværktøj/backend med et fælles interface til forskellige spilservere, og en mobil-app til <text:span text:style-name="T18">administration</text:span> deraf.</text:p>
-   <text:p text:style-name="P30"/>
-   <text:p text:style-name="P30"/>
+   <text:p text:style-name="P31">Mange vennegrupper verden rundt bevæger sig mellem spil som tillader at man hoster sine egne servere. Når muligt foretrækker spillere typisk at køre en midlertidig server direkte gennem deres spil, men det <text:span text:style-name="T6">nødvendiggør at den spillers computer er tændt og kører spillet.</text:span></text:p>
+   <text:p text:style-name="P31">Den traditionelle løsning er en dedikeret server, som ikke kræver at spillet selv er kørende.</text:p>
+   <text:p text:style-name="P31"/>
+   <text:p text:style-name="P31">Oftest anses dedikerede servere som dårligt passende for mindre vennegrupper, hvilket i større grad skyldes besværligheder med deres opsætning.</text:p>
+   <text:p text:style-name="P31">På den anden side har de til fordel at kunne køre uafhængigt af enkelte spillere. Det egner sig godt til vennegrupper som har sjældent kan spille samtidigt.</text:p>
+   <text:p text:style-name="P31"/>
+   <text:p text:style-name="P31">Med mit projekt vil jeg levere en software-pakke som giver et fælles interface for nem administration af spilservere.</text:p>
+   <text:p text:style-name="P31">Projektet har stor fokus på at skulle køre og opsættes på fysisk forbruger hardware, såsom gamle computere og Raspberry PIs; hvad end vennegruppernes medlemmer ejer.</text:p>
+   <text:p text:style-name="P31">Derfor er det også attraktivt at opsætningen kan slukkes for at spare strøm, og at spillerne kan tænde den igen når den skal bruges.</text:p>
+   <text:p text:style-name="P31">Software-pakken vil som minimum indeholde et administrationsværktøj/backend med et fælles interface til forskellige spilservere, og en mobil-app til <text:span text:style-name="T18">administration</text:span> deraf.</text:p>
+   <text:p text:style-name="P31"/>
+   <text:p text:style-name="P31"/>
    <text:h text:style-name="Heading_20_1" text:outline-level="1">Problemformulering</text:h>
-   <text:p text:style-name="P45">Hvordan kan slutbrugere oprette og fjernadminist<text:span text:style-name="T20">r</text:span>ere spilservere på deres nemt tilgængelige hardware?</text:p>
-   <text:p text:style-name="P45"/>
+   <text:p text:style-name="P41">Hvordan kan slutbrugere oprette og fjernadminist<text:span text:style-name="T20">r</text:span>ere spilservere på deres nemt tilgængelige hardware?</text:p>
+   <text:p text:style-name="P41"/>
    <text:h text:style-name="Heading_20_1" text:outline-level="1">Kravspecifikation</text:h>
-   <text:p text:style-name="P47"/>
+   <text:p text:style-name="P43"/>
    <text:h text:style-name="P29" text:outline-level="2">Krav kategorier</text:h>
-   <text:p text:style-name="P48">Tabellen herunder fortæller hvilke kategorier de forskellige krav kan tilhøre, og dermed også hvilken funktion de tjener projektet.</text:p>
+   <text:p text:style-name="P30">Tabellen herunder fortæller hvilke kategorier de forskellige krav kan tilhøre, og dermed også hvilken funktion de tjener projektet.</text:p>
    <table:table table:name="FeatureSpecification" table:style-name="FeatureSpecification" table:template-name="Default Style">
     <table:table-column table:style-name="FeatureSpecification.A" table:number-columns-repeated="3"/>
     <table:table-row>
      <table:table-cell table:style-name="FeatureSpecification.A1" office:value-type="string">
-      <text:p text:style-name="P38">Kategori ID</text:p>
+      <text:p text:style-name="P34">Kategori ID</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="FeatureSpecification.A1" office:value-type="string">
-      <text:p text:style-name="P38">Navn</text:p>
+      <text:p text:style-name="P34">Navn</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="FeatureSpecification.C1" office:value-type="string">
-      <text:p text:style-name="P38">Beskrivelse</text:p>
+      <text:p text:style-name="P34">Beskrivelse</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="FeatureSpecification.2">
      <table:table-cell table:style-name="FeatureSpecification.A2" office:value-type="string">
-      <text:p text:style-name="P38">KN1</text:p>
+      <text:p text:style-name="P34">KN1</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="FeatureSpecification.A2" office:value-type="string">
-      <text:p text:style-name="P38">Kernefunktionalitet</text:p>
+      <text:p text:style-name="P34">Kernefunktionalitet</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="FeatureSpecification.C2" office:value-type="string">
-      <text:p text:style-name="P39">Funktionaliteter <text:span text:style-name="T23">som ikke kan undværes, da de er kritiske for </text:span><text:soft-page-break/><text:span text:style-name="T23">projektets helhed</text:span></text:p>
+      <text:p text:style-name="P35">Funktionaliteter <text:span text:style-name="T23">som ikke kan undværes, da de er kritiske for </text:span><text:soft-page-break/><text:span text:style-name="T23">projektets helhed</text:span></text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="FeatureSpecification.2">
      <table:table-cell table:style-name="FeatureSpecification.A2" office:value-type="string">
-      <text:p text:style-name="P38">KN2</text:p>
+      <text:p text:style-name="P34">KN2</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="FeatureSpecification.A2" office:value-type="string">
-      <text:p text:style-name="P38">Brugervenlighed</text:p>
+      <text:p text:style-name="P34">Brugervenlighed</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="FeatureSpecification.C2" office:value-type="string">
-      <text:p text:style-name="P39">Funktionaliteter <text:span text:style-name="T23">rettet mod slutbrugere som gør det nemmere for dem at anvende software-pakken</text:span></text:p>
+      <text:p text:style-name="P35">Funktionaliteter <text:span text:style-name="T23">rettet mod slutbrugere som gør det nemmere for dem at anvende software-pakken</text:span></text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="FeatureSpecification.2">
      <table:table-cell table:style-name="FeatureSpecification.A2" office:value-type="string">
-      <text:p text:style-name="P38">KN3</text:p>
+      <text:p text:style-name="P34">KN3</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="FeatureSpecification.A2" office:value-type="string">
-      <text:p text:style-name="P38">Telemetri/Logning</text:p>
+      <text:p text:style-name="P34">Telemetri/Logning</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="FeatureSpecification.C2" office:value-type="string">
-      <text:p text:style-name="P40">Mulighed for at tilgå historisk data for handlinger og statistikker</text:p>
+      <text:p text:style-name="P36">Mulighed for at tilgå historisk data for handlinger og statistikker</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row>
      <table:table-cell table:style-name="FeatureSpecification.A2" office:value-type="string">
-      <text:p text:style-name="P38">KN4</text:p>
+      <text:p text:style-name="P34">KN4</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="FeatureSpecification.A2" office:value-type="string">
-      <text:p text:style-name="P38">Udvidet funktionalitet</text:p>
+      <text:p text:style-name="P34">Udvidet funktionalitet</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="FeatureSpecification.C2" office:value-type="string">
-      <text:p text:style-name="P38">Funktionaliteter som er mindre vigtige for projektets helhed. <text:span text:style-name="T22">Dermed kan de også nedprioriteres og undværes under tidspres.</text:span></text:p>
+      <text:p text:style-name="P34">Funktionaliteter som er mindre vigtige for projektets helhed. <text:span text:style-name="T22">Dermed kan de også nedprioriteres og undværes under tidspres.</text:span></text:p>
      </table:table-cell>
     </table:table-row>
    </table:table>
-   <text:p text:style-name="P45"/>
+   <text:p text:style-name="P41"/>
    <text:h text:style-name="Heading_20_2" text:outline-level="2">Kravspecifikation</text:h>
    <table:table table:name="Kravspec" table:style-name="Kravspec" table:template-name="Default Style">
     <table:table-column table:style-name="Kravspec.A"/>
@@ -825,304 +825,304 @@
     <table:table-column table:style-name="Kravspec.D"/>
     <table:table-row table:style-name="Kravspec.1">
      <table:table-cell table:style-name="Kravspec.A1" office:value-type="string">
-      <text:p text:style-name="P36">Krav ID</text:p>
+      <text:p text:style-name="P32">Krav ID</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A1" office:value-type="string">
-      <text:p text:style-name="P36">Kategori</text:p>
+      <text:p text:style-name="P32">Kategori</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A1" office:value-type="string">
-      <text:p text:style-name="P36">Beskrivelse</text:p>
+      <text:p text:style-name="P32">Beskrivelse</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.D1" office:value-type="string">
-      <text:p text:style-name="P36">Prioritering</text:p>
+      <text:p text:style-name="P32">Prioritering</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="Kravspec.1">
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P36"><text:span text:style-name="T21">K</text:span>1</text:p>
+      <text:p text:style-name="P32"><text:span text:style-name="T21">K</text:span>1</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P38">KN1</text:p>
+      <text:p text:style-name="P34">KN1</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P36">Administrationsværktøjet kan åbne/lukke de understøttede spilservere</text:p>
+      <text:p text:style-name="P32">Administrationsværktøjet kan åbne/lukke de understøttede spilservere</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.D2" office:value-type="string">
-      <text:p text:style-name="P36">1</text:p>
+      <text:p text:style-name="P32">1</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="Kravspec.1">
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P36"><text:span text:style-name="T21">K</text:span>2</text:p>
+      <text:p text:style-name="P32"><text:span text:style-name="T21">K</text:span>2</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P38">KN2</text:p>
+      <text:p text:style-name="P34">KN2</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P36">Software-pakken indeholder en app, der som minimum tillader brugere at åbne/lukke servere</text:p>
+      <text:p text:style-name="P32">Software-pakken indeholder en app, der som minimum tillader brugere at åbne/lukke servere</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.D2" office:value-type="string">
-      <text:p text:style-name="P36">2</text:p>
+      <text:p text:style-name="P32">2</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="Kravspec.1">
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P37">K3</text:p>
+      <text:p text:style-name="P33">K3</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P38">KN3</text:p>
+      <text:p text:style-name="P34">KN3</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P37">Når servere åbnes/lukkes skal administrationsværktøjet kunne logge, af hvem, og hvornår det skete.</text:p>
+      <text:p text:style-name="P33">Når servere åbnes/lukkes skal administrationsværktøjet kunne logge, af hvem, og hvornår det skete.</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.D2" office:value-type="string">
-      <text:p text:style-name="P37">2</text:p>
+      <text:p text:style-name="P33">2</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="Kravspec.1">
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P37">K4</text:p>
+      <text:p text:style-name="P33">K4</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P38">KN3</text:p>
+      <text:p text:style-name="P34">KN3</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P36">Administrationsværktøjet kan vise og logge hvor mange/hvilke spillere der er online på serverne</text:p>
+      <text:p text:style-name="P32">Administrationsværktøjet kan vise og logge hvor mange/hvilke spillere der er online på serverne</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.D2" office:value-type="string">
-      <text:p text:style-name="P36">3</text:p>
+      <text:p text:style-name="P32">3</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="Kravspec.1">
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P37">K5</text:p>
+      <text:p text:style-name="P33">K5</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P38">KN2</text:p>
+      <text:p text:style-name="P34">KN2</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P36">Appen opdaterer live for at vise aktive spillere/servere</text:p>
+      <text:p text:style-name="P32">Appen opdaterer live for at vise aktive spillere/servere</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.D2" office:value-type="string">
-      <text:p text:style-name="P36">3</text:p>
+      <text:p text:style-name="P32">3</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="Kravspec.1">
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P37">K6</text:p>
+      <text:p text:style-name="P33">K6</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P38">KN2</text:p>
+      <text:p text:style-name="P34">KN2</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P36">Administrationsværktøjet giver skrive/læse adgang til servernes eventuelle konsoller</text:p>
+      <text:p text:style-name="P32">Administrationsværktøjet giver skrive/læse adgang til servernes eventuelle konsoller</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.D2" office:value-type="string">
-      <text:p text:style-name="P36">4</text:p>
+      <text:p text:style-name="P32">4</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="Kravspec.1">
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P37">K7</text:p>
+      <text:p text:style-name="P33">K7</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P38">KN4</text:p>
+      <text:p text:style-name="P34">KN4</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P36">Administrationsværktøjet kan indstilles til at tage automatiske backups af save-filer</text:p>
+      <text:p text:style-name="P32">Administrationsværktøjet kan indstilles til at tage automatiske backups af save-filer</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.D2" office:value-type="string">
-      <text:p text:style-name="P36">4</text:p>
+      <text:p text:style-name="P32">4</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="Kravspec.1">
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P37">K8</text:p>
+      <text:p text:style-name="P33">K8</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P38">KN4</text:p>
+      <text:p text:style-name="P34">KN4</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P36">Administrationsværktøjet inkluderer en web-frontend, udover dets web-api</text:p>
+      <text:p text:style-name="P32">Administrationsværktøjet inkluderer en web-frontend, udover dets web-api</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.D2" office:value-type="string">
-      <text:p text:style-name="P36">5</text:p>
+      <text:p text:style-name="P32">5</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="Kravspec.1">
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P41">K9</text:p>
+      <text:p text:style-name="P37">K9</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P41">KN2</text:p>
+      <text:p text:style-name="P37">KN2</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P42"><text:span text:style-name="T24">Appen kan sende p</text:span>ush notifikationer <text:span text:style-name="T24">når servere åbnes/lukkes og eller når spillere forbinder dertil</text:span></text:p>
+      <text:p text:style-name="P38"><text:span text:style-name="T24">Appen kan sende p</text:span>ush notifikationer <text:span text:style-name="T24">når servere åbnes/lukkes og eller når spillere forbinder dertil</text:span></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.D2" office:value-type="string">
-      <text:p text:style-name="P44">5</text:p>
+      <text:p text:style-name="P40">5</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="Kravspec.1">
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P41">K10</text:p>
+      <text:p text:style-name="P37">K10</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P41">KN4</text:p>
+      <text:p text:style-name="P37">KN4</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P42"><text:span text:style-name="T24">Brugere kan tildeles rettigheder til administration (åbne/lukke, osv.) af specifikke servere på </text:span>administrationsværktøjet</text:p>
+      <text:p text:style-name="P38"><text:span text:style-name="T24">Brugere kan tildeles rettigheder til administration (åbne/lukke, osv.) af specifikke servere på </text:span>administrationsværktøjet</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.D2" office:value-type="string">
-      <text:p text:style-name="P44">5</text:p>
+      <text:p text:style-name="P40">5</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="Kravspec.1">
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P41">K11</text:p>
+      <text:p text:style-name="P37">K11</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P41">KN4</text:p>
+      <text:p text:style-name="P37">KN4</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.A2" office:value-type="string">
-      <text:p text:style-name="P43"><text:span text:style-name="T24">A</text:span>dministrationsværktøjet <text:span text:style-name="T24">kan tildele spillere til whitelist/blacklist og administratorlister for de forskellige servere.</text:span></text:p>
-      <text:p text:style-name="P41">Hermed menes der om den givne spiller kan forbinde til serveren, og om de har administratorrettigheder deri.</text:p>
+      <text:p text:style-name="P39"><text:span text:style-name="T24">A</text:span>dministrationsværktøjet <text:span text:style-name="T24">kan tildele spillere til whitelist/blacklist og administratorlister for de forskellige servere.</text:span></text:p>
+      <text:p text:style-name="P37">Hermed menes der om den givne spiller kan forbinde til serveren, og om de har administratorrettigheder deri.</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Kravspec.D2" office:value-type="string">
-      <text:p text:style-name="P44">5</text:p>
+      <text:p text:style-name="P40">5</text:p>
      </table:table-cell>
     </table:table-row>
    </table:table>
-   <text:p text:style-name="P45"><text:soft-page-break/></text:p>
+   <text:p text:style-name="P41"><text:soft-page-break/></text:p>
    <text:h text:style-name="Heading_20_2" text:outline-level="2">Krav matrice</text:h>
-   <text:p text:style-name="P46">Matrixens celler indeholder ”Krav ID” fra kravspecifikationen, mens deres placering fortæller vigtighed kontra kompleksitet for projetet.</text:p>
+   <text:p text:style-name="P42">Matrixens celler indeholder ”Krav ID” fra kravspecifikationen, mens deres placering fortæller vigtighed kontra kompleksitet for projetet.</text:p>
    <table:table table:name="Features" table:style-name="Features" table:template-name="Default Style">
     <table:table-column table:style-name="Features.A" table:number-columns-repeated="5"/>
     <table:table-column table:style-name="Features.F"/>
     <table:table-row table:style-name="Features.1">
      <table:table-cell table:style-name="Features.A1" office:value-type="string">
-      <text:p text:style-name="P36"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A1" office:value-type="string">
-      <text:p text:style-name="P36"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A1" office:value-type="string">
-      <text:p text:style-name="P36"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A1" office:value-type="string">
-      <text:p text:style-name="P36"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A1" office:value-type="string">
-      <text:p text:style-name="P36"><text:span text:style-name="T21">K</text:span>2</text:p>
+      <text:p text:style-name="P32"><text:span text:style-name="T21">K</text:span>2</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Features.F1" office:value-type="string">
-      <text:p text:style-name="P36"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="Features.1">
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P36">^</text:p>
+      <text:p text:style-name="P32">^</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P36"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P36"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P37">K5</text:p>
+      <text:p text:style-name="P33">K5</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P36"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
      <table:table-cell table:style-name="Features.F2" office:value-type="string">
-      <text:p text:style-name="P36"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="Features.1">
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P36"><text:s/>|</text:p>
+      <text:p text:style-name="P32"><text:s/>|</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P36"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P44">K11</text:p>
+      <text:p text:style-name="P40">K11</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P37">K4</text:p>
+      <text:p text:style-name="P33">K4</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P36"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
      <table:table-cell table:style-name="Features.F2" office:value-type="string">
-      <text:p text:style-name="P36"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="Features.1">
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P36"><text:s/>|</text:p>
+      <text:p text:style-name="P32"><text:s/>|</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P36"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P37">K8, <text:span text:style-name="T25">K9</text:span></text:p>
+      <text:p text:style-name="P33">K8, <text:span text:style-name="T25">K9</text:span></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P37">K3, K7</text:p>
+      <text:p text:style-name="P33">K3, K7</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P37">K6</text:p>
+      <text:p text:style-name="P33">K6</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Features.F2" office:value-type="string">
-      <text:p text:style-name="P36"><text:span text:style-name="T21">K</text:span>1</text:p>
+      <text:p text:style-name="P32"><text:span text:style-name="T21">K</text:span>1</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="Features.1">
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P36">Vurderet Kompleksitet</text:p>
+      <text:p text:style-name="P32">Vurderet Kompleksitet</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P36"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P44">K10</text:p>
+      <text:p text:style-name="P40">K10</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P36"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P36"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
      <table:table-cell table:style-name="Features.F2" office:value-type="string">
-      <text:p text:style-name="P36"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="Features.1">
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P36"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P36">Vigtighed</text:p>
+      <text:p text:style-name="P32">Vigtighed</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P36">--&gt;</text:p>
+      <text:p text:style-name="P32">--&gt;</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P36"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
      <table:table-cell table:style-name="Features.A2" office:value-type="string">
-      <text:p text:style-name="P36"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
      <table:table-cell table:style-name="Features.F2" office:value-type="string">
-      <text:p text:style-name="P36"/>
+      <text:p text:style-name="P32"/>
      </table:table-cell>
     </table:table-row>
    </table:table>
-   <text:p text:style-name="P45"/>
-   <text:p text:style-name="P45"/>
-   <text:p text:style-name="P45"/>
+   <text:p text:style-name="P41"/>
+   <text:p text:style-name="P41"/>
+   <text:p text:style-name="P41"/>
   </office:text>
  </office:body>
 </office:document>

@@ -1,0 +1,13 @@
+Mht. til brugerrettigheder til spilservere overvejede jeg at gå hele vejen med "Access-control list",
+men i sidste ende besluttede jeg mig at for at min composite key i "Privilege" tabellen var nok.
+
+Django tillader 3 forskellige måder at, effiktivt set, lave en composite key:
+1. Meta.unique_together | efter min forståelse laver dette ikke en constraint i databasen,
+    men Django stopper dig inden vi når dertil.
+2. django.db.models.UniqueConstraint | Her er jeg rigeligt sikker på at der laves en constraint i databasen,
+    men den constraint kommer nok ikke i form af en "composite key".
+3. Meta.managed = False | Her tager du selv ansvaret for at lave din tabel i databasen,
+    og lover til Django at den er der, og er tilpas ens til klassen i Python til at den kan bruges.
+
+Jeg har så valgt at afprøve 2., for at give mig chancen for at se om den laver en constraint i databasen.
+Desuden har jeg også brugt 1. før, og vil derfor bruge noget nyt.
