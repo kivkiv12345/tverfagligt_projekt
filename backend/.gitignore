@@ -1,0 +1,6 @@
+# Exclude PyCharm project, dunno what is best practice
+.idea/
+
+secret_key.txt
+
+env/
