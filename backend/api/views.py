@@ -1,3 +1,161 @@
+from __future__ import annotations
+
+from typing import NamedTuple, Any
+
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import JsonResponse
 from django.shortcuts import render
+from rest_framework import status
+from rest_framework.authtoken.admin import User
+from rest_framework.decorators import api_view
+from rest_framework.request import Request
+from rest_framework.response import Response
+
+from api.models import ServerPermission, GameServer, ServerPermissionChoices
+
 
 # Create your views here.
+@api_view(['GET'])
+def get_server_info(request: Request) -> Response:
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# class Result(NamedTuple):
+#     data: Any
+#     err_resp: Response
+
+
+# TODO Kevin: I can't really decide what return value pattern feels best here.
+def server_from_identifier(identifier: int | str | GameServer) -> GameServer | Response:
+    """
+
+    :returns: A GameServer if a valid identifier was specified, otherwise Response with error-code set
+    """
+
+    if isinstance(identifier, GameServer):
+        return identifier
+
+    if isinstance(identifier, int):
+        try:
+            return GameServer.objects.get(pk=identifier)
+        except GameServer.DoesNotExist:
+            return Response(f"Server with ID '{identifier}' could not be found", status=status.HTTP_404_NOT_FOUND)
+
+    if isinstance(identifier, str):
+        try:
+            return GameServer.objects.get(name=identifier)
+        except GameServer.DoesNotExist:
+            return Response(f"Server with name '{identifier}' could not be found", status=status.HTTP_404_NOT_FOUND)
+
+    raise TypeError(f"type {type(identifier)} is not a valid identifier for GameServer")
+
+
+def validate_server_permission(server: GameServer | int, user: User) -> Response | None:
+    """
+    Check if a given has permission to control the specified server.
+
+    :returns: a Response instance with a status code set,
+        if the user lacks permissions for the specified server, otherwise None.
+    """
+    # TODO Kevin: Unit test this.
+
+    if isinstance(server := server_from_identifier(server), Response):
+        return server
+
+    try:
+        # TODO Kevin: This will create 2 queries, so is bad.
+        user_permission: ServerPermission = ServerPermission.objects.get(user=user, server=server)
+        if user_permission.access is ServerPermissionChoices.ALLOW:
+            return None  # User has permissions for this server
+        elif user_permission.access is ServerPermissionChoices.DENY:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+    except User.DoesNotExist:
+        # I think it's very unlikely that the user doesn't exist.
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    except ServerPermission.DoesNotExist:  # No override persmission specified between this server and user.
+        if server.default_permissions is ServerPermissionChoices.ALLOW:
+            return None
+        return Response(status=status.HTTP_403_FORBIDDEN)
+
+    assert False, "With how the validation function is structured, it shouldn't be possible to reach a default here."
+
+
+@api_view(['POST'])
+def backup_savefile(request: Request) -> Response:
+    """
+
+    Expected JSON:
+    {
+        "server_ident": int | str,
+    }
+    """
+
+    data = request.data
+
+    server_ident = data['server_ident']
+
+    # Find server from name or ID
+    if isinstance(server := server_from_identifier(server_ident), Response):
+        return server
+
+    # Check if the user has permission to stop the server
+    if error_response := validate_server_permission(server, request.user):
+        return error_response
+
+    server.make_savefile_backup()  # TODO Kevin: Error handling here?
+
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['POST'])
+def stop_server(request: Request) -> Response:
+    """
+
+    Expected JSON:
+    {
+        "server_ident": int | str,
+    }
+    """
+
+    data = request.data
+
+    server_ident = data['server_ident']
+
+    # Find server from name or ID
+    if isinstance(server := server_from_identifier(server_ident), Response):
+        return server
+
+    # Check if the user has permission to stop the server
+    if error_response := validate_server_permission(server, request.user):
+        return error_response
+
+    server.stop()  # TODO Kevin: Error handling here?
+
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['POST'])
+def start_server(request: Request) -> Response:
+    """
+
+    Expected JSON:
+    {
+        "server_ident": int | str,
+    }
+    """
+
+    data = request.data
+
+    server_ident = data['server_ident']
+
+    # Find server from name or ID
+    if isinstance(server := server_from_identifier(server_ident), Response):
+        return server
+
+    # Check if the user has permission to stop the server
+    if error_response := validate_server_permission(server, request.user):
+        return error_response
+
+    server.start()  # TODO Kevin: Error handling here?
+
+    return Response(status=status.HTTP_204_NO_CONTENT)

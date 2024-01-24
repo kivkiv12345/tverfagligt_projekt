@@ -1,5 +1,6 @@
 ServerEvent Enum
 https://stackoverflow.com/questions/54802616/how-can-one-use-enums-as-a-choice-field-in-a-django-model
+Could also use django-enum package
 
 
 TextChoices

@@ -1,6 +1,6 @@
 services:
   api:
-    build: ollert_backend
+    build: backend
     volumes:
       - .:/code
       - /var/run/docker.sock:/var/run/docker.sock  # Allow this container to administrate other containers

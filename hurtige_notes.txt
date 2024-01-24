@@ -11,3 +11,11 @@ Django tillader 3 forskellige måder at, effiktivt set, lave en composite key:
 
 Jeg har så valgt at afprøve 2., for at give mig chancen for at se om den laver en constraint i databasen.
 Desuden har jeg også brugt 1. før, og vil derfor bruge noget nyt.
+
+
+På min tredje udviklingsdag (23/01) indså jeg at mine enums (ServerPermissionChoices og ServerEventChoices, på daværende tidspunkt),
+nok ville forblive tilpas simple til at de kunne have været BooleanField(s).
+I deres forsvar tillader de nu større fleksibilitet, samtidig med at de giver et større indblik i deres brug. 
+
+
+Nginx Proxy Manager
