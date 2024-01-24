@@ -40,6 +40,9 @@ class GameServer(Model):
     def stop(self):
         raise NotImplementedError
 
+    def __str__(self):
+        return self.container
+
 
 class ServerEventChoices(StrChoicesEnum):
     ENABLE = 'ENABLE'
@@ -57,8 +60,7 @@ class ServerPermission(Model):
     server = ForeignKey(GameServer, on_delete=CASCADE)
     user = ForeignKey(User, on_delete=CASCADE)
     access = CharField(choices=ServerPermissionChoices.choices, max_length=ServerPermissionChoices.max_choice_len(),
-                       help_text='This is the final say for whether a given '
-                                 'user has permission to control a given server')
+                       help_text='This is the final say for whether a user has permission to control a given server')
 
     class Meta:
         constraints = [
@@ -70,3 +72,6 @@ class ServerPermission(Model):
         # unique_together can also be used, but I've tried this before,
         # and I don't belive it actually creates a composite key.
         # unique_together = ('server', 'user')
+
+    def __str__(self):
+        return f"{self.server} + {self.user} = {self.access}"
