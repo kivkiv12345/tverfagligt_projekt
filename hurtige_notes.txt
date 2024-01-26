@@ -50,7 +50,15 @@ class VintageStoryManager(AbstractDockerComposeGameServerManager):
 I could start and stop the container using the REST API.
 But when I tried the connect I was met with a warning, stating my game version was out of date.
 Of course I have to handle game/server versions as well.
-I actually realized this yesterday, so I wasn't really suprised, but it still frustrated me.
+I actually realized this yesterday, so I wasn't really surprised, but it still frustrated me.
 Every game has its own set of versions, and every docker-compose file its own way to specify them.
+
+GitPython - Leakage of System Resources
+Many docker images are open-source on GitHub,
+so versioning could be handled by cloning the commit,
+corresponding to the desired game version and building locally.
+To this end, I would've preferred to use a Python library,
+rather than the GitHub REST web-API directly.
+
 
 Nginx Proxy Manager

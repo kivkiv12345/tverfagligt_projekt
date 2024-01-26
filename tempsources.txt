@@ -12,3 +12,7 @@ https://stackoverflow.com/questions/60054378/i-want-to-use-docker-sdk-inside-a-r
 
 Full blown privileges could be:
 Access-control list (ACl)
+
+
+GameServer.server_name must be case-insensitive unique:
+https://stackoverflow.com/questions/7773341/case-insensitive-unique-model-fields-in-django
