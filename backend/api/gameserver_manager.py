@@ -1,10 +1,11 @@
-from typing import Type
+from typing import Type, Iterable, Sequence
 from abc import ABC, abstractmethod
 
 
 class AbstractGameServerManager(ABC):
 
     game_name: str
+    game_versions: Sequence[str] = ()
     server_name: str  # TODO Kevin: This should probably update if the container name on the Model does.
 
     def __init__(self, server_name: str) -> None:
@@ -14,10 +15,14 @@ class AbstractGameServerManager(ABC):
     def __init_subclass__(cls) -> None:
         cls.game_name = cls.__name__.removesuffix('Manager')
         super().__init_subclass__()
+
+        # Only non-abstract classes should be registered to the manager dictionary.
         # They may be better ways to check if the subclass is still abstract.
         #   What if the user doesn't know to subclass ABC ?
+        #   inspect.isabstract() doesn't appear to work for AbstractDockerComposeGameServer sadly
         if ABC in cls.__bases__:
             return
+
         assert cls.game_name not in managers, 'Game name should be unique'
         # TODO Kevin: This will explode into a thousand pieces if we change the key while we have rows in the database.
         #   Perhaps we should use Django-polymorphism (or similar) instead.
@@ -27,7 +32,10 @@ class AbstractGameServerManager(ABC):
         # TODO Kevin: We can definitely run out of space here
         raise NotImplementedError
 
-    def update_version(self, version=None):
+    def get_version(self):
+        raise NotImplementedError
+
+    def set_version(self, version: str):
         raise NotImplementedError
 
     @abstractmethod

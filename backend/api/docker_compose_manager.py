@@ -16,6 +16,8 @@ class AbstractDockerComposeGameServerManager(AbstractGameServerManager, ABC):
         super().__init__(server_name)
 
     def __init_subclass__(cls) -> None:
+        """ The only purpose of AbstractDockerComposeGameServerManager.__init_subclass__()
+            is to ensure that subclasses specify a compose_file """
         assert cls.compose_file is not None,\
             'Subclassed AbstractDockerComposeGameServerManagers must specify a docker-compose file'
         super().__init_subclass__()

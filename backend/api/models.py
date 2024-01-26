@@ -56,6 +56,13 @@ class GameServer(Model):
     def __str__(self):
         return f"{self.game} | {self.server_name}"
 
+    @property
+    def server_version(self):
+        try:
+            return self.manager.get_version()
+        except NotImplementedError:
+            return None
+
     class Meta:
         constraints = [
             # Source: https://stackoverflow.com/questions/7773341/case-insensitive-unique-model-fields-in-django
