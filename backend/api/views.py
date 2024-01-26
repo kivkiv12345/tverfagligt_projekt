@@ -9,7 +9,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
 from rest_framework.response import Response
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 
 from api.models import ServerPermission, GameServer, ServerPermissionChoices
 
@@ -17,6 +17,7 @@ from api.models import ServerPermission, GameServer, ServerPermissionChoices
 # Create your views here.
 @api_view(['GET'])
 def get_server_info(request: Request) -> Response:
+    raise NotImplementedError
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -43,7 +44,7 @@ def server_from_identifier(identifier: int | str | GameServer) -> GameServer | R
 
     if isinstance(identifier, str):
         try:
-            return GameServer.objects.get(container=identifier)
+            return GameServer.objects.get(server_name=identifier)
         except GameServer.DoesNotExist:
             return Response(f"Server with name '{identifier}' could not be found", status=status.HTTP_404_NOT_FOUND)
 
@@ -64,6 +65,8 @@ def validate_server_permission(server: GameServer | int, user: User) -> Response
 
     try:
         # TODO Kevin: This will create 2 queries, so is bad.
+        if isinstance(user, AnonymousUser):
+            raise ServerPermission.DoesNotExist
         user_permission: ServerPermission = ServerPermission.objects.get(user=user, server=server)
         if user_permission.access is ServerPermissionChoices.ALLOW:
             return None  # User has permissions for this server
@@ -73,7 +76,7 @@ def validate_server_permission(server: GameServer | int, user: User) -> Response
         # I think it's very unlikely that the user doesn't exist.
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     except ServerPermission.DoesNotExist:  # No override persmission specified between this server and user.
-        if server.default_permissions is ServerPermissionChoices.ALLOW:
+        if server.default_permissions == ServerPermissionChoices.ALLOW:
             return None
         return Response(status=status.HTTP_403_FORBIDDEN)
 
@@ -104,7 +107,7 @@ def backup_savefile(request: Request) -> Response:
     if error_response := validate_server_permission(server, request.user):
         return error_response
 
-    server.make_savefile_backup()  # TODO Kevin: Error handling here?
+    server.manager.make_savefile_backup()  # TODO Kevin: Error handling here?
 
     return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -133,7 +136,7 @@ def stop_server(request: Request) -> Response:
     if error_response := validate_server_permission(server, request.user):
         return error_response
 
-    server.stop()  # TODO Kevin: Error handling here?
+    server.manager.stop()  # TODO Kevin: Error handling here?
 
     return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -162,6 +165,6 @@ def start_server(request: Request) -> Response:
     if error_response := validate_server_permission(server, request.user):
         return error_response
 
-    server.start()  # TODO Kevin: Error handling here?
+    server.manager.start()  # TODO Kevin: Error handling here?
 
     return Response(status=status.HTTP_204_NO_CONTENT)

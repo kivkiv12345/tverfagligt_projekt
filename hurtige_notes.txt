@@ -18,4 +18,39 @@ nok ville forblive tilpas simple til at de kunne have været BooleanField(s).
 I deres forsvar tillader de nu større fleksibilitet, samtidig med at de giver et større indblik i deres brug. 
 
 
+Jan 24 - I realized that my enum choicefield wasn't sufficient for the permission I ideally wanted.
+I am considering django-bitfield, but that requires me to switch to PostgreSQL. Options options can be found here:
+https://stackoverflow.com/questions/3464758/how-should-i-represent-a-bit-flags-int-field-in-django-admin
+https://stackoverflow.com/questions/2726476/django-multiple-choice-field-checkbox-select-multiple
+https://github.com/goinnn/django-multiselectfield
+
+Perhaps django-enums could also be used:
+https://github.com/bckohan/django-enum
+https://stackoverflow.com/questions/54802616/how-can-one-use-enums-as-a-choice-field-in-a-django-model
+
+
+Jan 25 - I've been considering my options for interfacing with different Docker images.
+At this point I had a single base manager class where a Docker image could be specified, which the Docker SDK/API could manage for me.
+When I realized I had been using Docker-compose for all the servers I have hosted previously, it became apparent to me that this approach wouldn't work.
+The official Docker SDK/API doesn't support Docker-compose, so I went looking for a better solution...
+That's when I found Python-on-whales, which handles Docker-compose and everything the official SDK/API does.
+
+So in the end I settled on multiple abstract base manager classes (With a base class called "AbstractGameServerManager" at the time of writing).
+This class is then subclassed into "AbstractDockerComposeGameServerManager" and "AbstractDockerImageGameServerManager"
+These classes are defined in dedicated Python modules, which means their respective third-party depdendencies are optional,
+only needing to be installed when the classes are used.
+
+
+Jan 26 - I continued working on my base Docker-compose manager,
+and got it working for Vintage Story with this concise subclass: 
+
+class VintageStoryManager(AbstractDockerComposeGameServerManager):
+    compose_file = 'docker-compose/vintage-story_server/docker-compose.yml'
+
+I could start and stop the container using the REST API.
+But when I tried the connect I was met with a warning, stating my game version was out of date.
+Of course I have to handle game/server versions as well.
+I actually realized this yesterday, so I wasn't really suprised, but it still frustrated me.
+Every game has its own set of versions, and every docker-compose file its own way to specify them.
+
 Nginx Proxy Manager

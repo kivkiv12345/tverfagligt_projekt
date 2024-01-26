@@ -4,6 +4,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Model, ForeignKey, CASCADE, TextChoices, CharField, UniqueConstraint, PositiveIntegerField, \
     DateTimeField
+from django.db.models.functions import Lower
+
+from api.gameserver_manager import AbstractGameServerManager, managers
 
 
 class StrChoicesEnum(TextChoices):
@@ -18,30 +21,52 @@ class ServerPermissionChoices(StrChoicesEnum):
     ALLOW = 'ALLOW'
     DENY = 'DENY'
 
+# TODO Kevin: How best to get GameServer containers on the same Docker network as Django?
+
 
 class GameServer(Model):
     # TODO Kevin: Consider what happens when containers are deleted.
     # TODO Kevin: Could it make sense to subclass GameServer?
-    container = CharField(max_length=255)
+    #   Or should we make an Enum with managers?
+    server_name = CharField(max_length=255)
     default_permissions = CharField(choices=ServerPermissionChoices.choices,
                                     max_length=ServerPermissionChoices.max_choice_len(),
                                     default=ServerPermissionChoices.DENY)
+    # TODO Kevin: We may want to subclass a field here,
+    #   which could probably give us a pretty way to get the manager and handle migrations.
+    game = CharField(choices=[(game_name, game_name) for game_name in managers.keys()],
+                     max_length=len(max(managers.values(), key=lambda manager: len(manager.__qualname__)).__qualname__) + 1,
+                     null=False, blank=False)
+    # version =
 
-    def make_savefile_backup(self):
-        # TODO Kevin: We can definitely run out of space here
-        raise NotImplementedError
+    manager: AbstractGameServerManager = None
 
-    def update_version(self, version=None):
-        raise NotImplementedError
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.pk:
+            self.manager = managers[self.game](self.server_name)
 
-    def start(self):
-        raise NotImplementedError
-
-    def stop(self):
-        raise NotImplementedError
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        super().save(force_insert, force_update, using, update_fields)
+        # self.game was valid and has changed.
+        if self.pk and type(self.manager) is not managers.get(self.game):
+            # We don't really care for changing the game, but we support it for now.
+            self.manager = managers[self.game](self.server_name)
 
     def __str__(self):
-        return self.container
+        return f"{self.game} | {self.server_name}"
+
+    class Meta:
+        constraints = [
+            # Source: https://stackoverflow.com/questions/7773341/case-insensitive-unique-model-fields-in-django
+            # server_name must be case-insensitive unique,
+            # as we must convert it to lower case for python-on-whales to use it as a project name.
+            # Which allows multiple servers to use the same docker-compose file.
+            models.UniqueConstraint(
+                Lower('server_name'),
+                name='unique_ci_server_name'
+            ),
+        ]
 
 
 class ServerEventChoices(StrChoicesEnum):

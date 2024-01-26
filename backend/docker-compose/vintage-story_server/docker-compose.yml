@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  vsserver:
+    image: devidian/vintagestory:latest
+    #container_name: vsserver  # container_name overrides the --project-name prefix
+    restart: unless-stopped
+    volumes:
+    # • your world will be in /appdata/vintagestory/vs by default (/gamedata/vs on the container)
+    # • if you run multiple servers just change the left part
+    # • you could also use docker volumes instead of host path
+      - /appdata/vintagestory:/gamedata
+    ports:
+      - 42420:42420

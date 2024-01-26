@@ -3,3 +3,5 @@ Django==4.1.2
 django-cors-headers==3.13.0
 djangorestframework==3.14.0
 drf-writable-nested==0.7.0
+#docker==7.0.0
+python-on-whales==0.68.0
