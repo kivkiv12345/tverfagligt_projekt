@@ -3,7 +3,7 @@ from abc import ABC
 import docker
 from docker import DockerClient
 
-from api.gameserver_manager import AbstractGameServerManager
+from api.gameserver_manager.base_manager import AbstractGameServerManager
 
 
 class AbstractDockerImageGameServerManager(AbstractGameServerManager, ABC):
@@ -16,5 +16,5 @@ class AbstractDockerImageGameServerManager(AbstractGameServerManager, ABC):
 
     def __init_subclass__(cls) -> None:
         assert cls.docker_image is not None,\
-            'Subclassed AbstractDockerImageGameServerManager must specify a Docker image'
+            f"Subclassed AbstractDockerImageGameServerManager {cls} must specify a Docker image"
         super().__init_subclass__()

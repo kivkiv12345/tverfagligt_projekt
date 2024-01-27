@@ -97,7 +97,7 @@ def backup_savefile(request: Request) -> Response:
 
     server_ident = data.get('server_ident')
     if server_ident is None:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response("Must specify 'server_ident' in request", status=status.HTTP_400_BAD_REQUEST)
 
     # Find server from name or ID
     if isinstance(server := server_from_identifier(server_ident), Response):
@@ -126,13 +126,13 @@ def stop_server(request: Request) -> Response:
 
     server_ident = data.get('server_ident')
     if server_ident is None:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response("Must specify 'server_ident' in request", status=status.HTTP_400_BAD_REQUEST)
 
     # Find server from name or ID
     if isinstance(server := server_from_identifier(server_ident), Response):
         return server
 
-    # Check if the user has permission to stop the server
+    # Check if the user has permission for the server
     if error_response := validate_server_permission(server, request.user):
         return error_response
 
@@ -155,16 +155,89 @@ def start_server(request: Request) -> Response:
 
     server_ident = data.get('server_ident')
     if server_ident is None:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response("Must specify 'server_ident' in request", status=status.HTTP_400_BAD_REQUEST)
 
     # Find server from name or ID
     if isinstance(server := server_from_identifier(server_ident), Response):
         return server
 
-    # Check if the user has permission to stop the server
+    # Check if the user has permission for the server
     if error_response := validate_server_permission(server, request.user):
         return error_response
 
     server.manager.start()  # TODO Kevin: Error handling here?
 
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['POST'])
+def set_server_version(request: Request) -> Response:
+    """
+
+    Expected JSON:
+    {
+        "server_ident": int | str,
+        "server_version": str,
+    }
+    """
+
+    data = request.data
+
+    server_ident = data.get('server_ident')
+    if server_ident is None:
+        return Response("Must specify 'server_ident' in request", status=status.HTTP_400_BAD_REQUEST)
+
+    server_version = data.get('server_version')
+    if server_version is None:
+        return Response("Must specify 'server_version' in request", status=status.HTTP_400_BAD_REQUEST)
+
+    # Find server from name or ID
+    if isinstance(server := server_from_identifier(server_ident), Response):
+        return server
+
+    # Check if the user has permission for the server
+    if error_response := validate_server_permission(server, request.user):
+        return error_response
+
+    try:
+        server.manager.set_version(server_version)
+    except KeyError as e:  # TODO Kevin: Are we revealing to much information here?
+        return Response(str(e), status.HTTP_400_BAD_REQUEST)
+
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+def get_server_version(request: Request, ident: str) -> Response:
+    """
+
+    Expected JSON:
+    {
+        "server_ident": int | str,
+    }
+    """
+
+    data = request.data
+
+    # server_ident = data.get('server_ident')
+    server_ident = ident
+    if server_ident is None:
+        return Response("Must specify 'server_ident' in request", status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        server_ident = int(server_ident)  # ident must be PK
+    except ValueError:
+        pass  # ident should be server name
+
+    # Find server from name or ID
+    if isinstance(server := server_from_identifier(server_ident), Response):
+        return server
+
+    # Check if the user has permission for the server
+    # TODO Kevin: We may want to keep some servers 'secret',
+    #   but otherwise must people should probably be allowed to check versions.
+    if error_response := validate_server_permission(server, request.user):
+        return error_response
+
+    # TODO Kevin: Should probably be JSON
+    return Response(server.manager.get_version(), status=status.HTTP_200_OK)

@@ -6,7 +6,7 @@ from django.db.models import Model, ForeignKey, CASCADE, TextChoices, CharField,
     DateTimeField
 from django.db.models.functions import Lower
 
-from api.gameserver_manager import AbstractGameServerManager, managers
+from api.gameserver_manager.base_manager import AbstractGameServerManager, managers
 
 
 class StrChoicesEnum(TextChoices):
