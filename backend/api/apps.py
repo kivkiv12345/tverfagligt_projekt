@@ -12,6 +12,7 @@ class VintageStoryManager(GitHubVersionedManager, AbstractDockerComposeGameServe
     #compose_file = 'docker-compose/vintage-story_server/docker-compose.yml'
     compose_file = 'repos/docker-vintagestory/docker-compose.yml'
     version_commit_map = {
+        '1.19.3': '5ce36b8a75e909fa30bfdca9f20a2ac46000fdbf',
         '1.19.2': '71fab0d025eecbd73884be8dedced5c65226298d',
         '1.18.15': 'dd4818b90f74786442f7d1985bcb644915d884c1',
         '1.18.1': '558e4aa364a38f1ea8af1caf32c4f94240bfba1a',
@@ -20,6 +21,7 @@ class VintageStoryManager(GitHubVersionedManager, AbstractDockerComposeGameServe
     services = ['vsserver-local',]
 
     game_versions = (
+        '1.19.3',
         '1.19.2',
         '1.18.15',
         '1.18.1',

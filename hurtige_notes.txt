@@ -61,4 +61,10 @@ To this end, I would've preferred to use a Python library,
 rather than the GitHub REST web-API directly.
 
 
+
+Python har et ret stort indbygget bibliotek.
+Men desværre mangler det alligevel mange af de funktionaliter som jeg skulle bruge til mit projekt,
+f.eks såsom .yaml. Jeg har derfor gjort brug af tredje-parti pakker,der hvor det giver mening. 
+
+
 Nginx Proxy Manager

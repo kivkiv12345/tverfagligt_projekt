@@ -18,12 +18,13 @@ class GitHubVersionedManager(AbstractGameServerManager, ABC):
         """ GitHubVersionedManager.__init_subclass__()
             ensures that subclasses specify required class attributes and inherit in the correct order """
 
-        super().__init_subclass__()
-
         assert cls.version_commit_map is not None, \
             f"Subclassed GitHubSourcedManager {cls} must specify a version_commit_map"
         assert cls.repo is not None, \
             f"Subclassed GitHubSourcedManager {cls} must specify a repo"
+        cls.clone()
+
+        super().__init_subclass__()
 
         # Only non-abstract classes should be registered to the manager dictionary.
         # They may be better ways to check if the subclass is still abstract.
@@ -37,14 +38,20 @@ class GitHubVersionedManager(AbstractGameServerManager, ABC):
         assert next(basecls for basecls in cls.mro() if ABC in basecls.__bases__) is GitHubVersionedManager, \
             'GitHubVersionedManager must be subclassed before other base GameServerManagers (when using multiple inheretance)'
 
-    def _get_repo_dir(self) -> str:
-        repo_dir_name: str = path.split(self.repo)[-1].removesuffix('.git')  # Get the name (not path) of the repo dir
+    @classmethod
+    def _get_repo_dir(cls) -> str:
+        repo_dir_name: str = path.split(cls.repo)[-1].removesuffix('.git')  # Get the name (not path) of the repo dir
         return path.join(REPOS_DIR, repo_dir_name)
 
-    def checkout(self, commit: str):
-        run(['git', '-C', REPOS_DIR, 'clone', self.repo])  # We expect this to fail when the commit already exists
+    @classmethod
+    def clone(cls):
+        run(['git', '-C', REPOS_DIR, 'clone', cls.repo])  # We expect this to fail when the commit already exists
+
+    @classmethod
+    def checkout(cls, commit: str):
+        cls.clone()
         # TODO Kevin: We should check if the repo is clean here
-        run(['git', '-C', self._get_repo_dir(), 'checkout', commit])
+        run(['git', '-C', cls._get_repo_dir(), 'checkout', commit])
 
     def set_version(self, version: str):
         try:
@@ -52,6 +59,7 @@ class GitHubVersionedManager(AbstractGameServerManager, ABC):
         except KeyError as e:
             raise KeyError(f"Commit not found for version {version}, available versions are {self.version_commit_map}") from e
         self.checkout(commit)
+        super().set_version(version)
 
     def get_version(self) -> str:
         # TODO Kevin: What if the repo dir doesn't exist yet?
@@ -59,4 +67,6 @@ class GitHubVersionedManager(AbstractGameServerManager, ABC):
         try:
             return next(version for version, version_sha in self.version_commit_map.items() if version_sha == cur_sha)
         except StopIteration:
+            # TODO Kevin: Should we make any attempt to find this unknown commit,
+            #   and figure out which of our known commits it matches best?
             assert False, 'Server repo is somehow using a commit we have no knowledge of'

@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+from os import PathLike
 from typing import Type, Iterable, Sequence
 from abc import ABC, abstractmethod
 
@@ -7,6 +10,7 @@ class AbstractGameServerManager(ABC):
     game_name: str
     game_versions: Sequence[str] = ()
     server_name: str  # TODO Kevin: This should probably update if the container name on the Model does.
+    working_directory: PathLike[str] | str = None
 
     def __init__(self, server_name: str) -> None:
         self.server_name = server_name
@@ -46,10 +50,18 @@ class AbstractGameServerManager(ABC):
     def stop(self):
         raise NotImplementedError
 
-    def get_player_count(self):
+    def restart(self):
+        self.stop()
+        self.start()
+
+    def get_player_count(self) -> int:
         raise NotImplementedError
 
     def get_players(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def is_running(self) -> bool:
         raise NotImplementedError
 
 
