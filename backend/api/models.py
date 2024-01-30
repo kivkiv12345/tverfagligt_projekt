@@ -63,6 +63,10 @@ class GameServer(Model):
         except NotImplementedError:
             return None
 
+    @property
+    def is_running(self) -> bool:
+        return self.manager.server_running()
+
     class Meta:
         constraints = [
             # Source: https://stackoverflow.com/questions/7773341/case-insensitive-unique-model-fields-in-django

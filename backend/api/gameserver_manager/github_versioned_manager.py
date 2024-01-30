@@ -3,7 +3,7 @@ from abc import ABC
 from api.gameserver_manager.base_manager import AbstractGameServerManager
 from os import getcwd
 from pathlib import Path
-from subprocess import run, PIPE
+from subprocess import run, PIPE, DEVNULL
 from os import path
 
 REPOS_DIR: str = 'repos'
@@ -45,7 +45,7 @@ class GitHubVersionedManager(AbstractGameServerManager, ABC):
 
     @classmethod
     def clone(cls):
-        run(['git', '-C', REPOS_DIR, 'clone', cls.repo])  # We expect this to fail when the commit already exists
+        run(['git', '-C', REPOS_DIR, 'clone', cls.repo], stderr=DEVNULL)  # We expect this to fail when the commit already exists
 
     @classmethod
     def checkout(cls, commit: str):

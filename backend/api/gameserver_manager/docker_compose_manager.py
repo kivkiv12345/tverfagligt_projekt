@@ -8,7 +8,7 @@ from abc import ABC
 from typing import Iterable
 
 try:
-    from python_on_whales import DockerClient
+    from python_on_whales import DockerClient, Container
 except (ModuleNotFoundError, ImportError) as e:
     raise ModuleNotFoundError(f"Failed to import python_on_whales, install with 'pip3 install python_on_whales'") from e
 
@@ -85,9 +85,19 @@ class AbstractDockerComposeGameServerManager(AbstractGameServerManager, ABC):
         # TODO Kevin: .stop() or .down()? I dont know.
         self.client.compose.stop()
 
-    def is_running(self) -> bool:
+    def restart(self):
+        self.client.compose.restart()
+
+    def server_running(self) -> bool:
+        """ Currently returns True if all containers in the service are running, otherwise False. """
+
         # TODO Kevin: What if the server has multiple services?
-        raise NotImplementedError
+        for container in self.client.compose.ps(services=self.services):
+            if not container.state.running:
+                return False
+        return True
 
     def set_version(self, version: str):
-        self.restart()
+        self.stop()
+        self.client.compose.build()
+        self.start()

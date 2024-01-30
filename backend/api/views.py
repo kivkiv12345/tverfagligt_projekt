@@ -241,3 +241,39 @@ def get_server_version(request: Request, ident: str) -> Response:
 
     # TODO Kevin: Should probably be JSON
     return Response(server.manager.get_version(), status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def is_server_running(request: Request, ident: str) -> Response:
+    """
+
+    Expected JSON:
+    {
+        "server_ident": int | str,
+    }
+    """
+
+    data = request.data
+
+    # server_ident = data.get('server_ident')
+    server_ident = ident
+    if server_ident is None:
+        return Response("Must specify 'server_ident' in request", status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        server_ident = int(server_ident)  # ident must be PK
+    except ValueError:
+        pass  # ident should be server name
+
+    # Find server from name or ID
+    if isinstance(server := server_from_identifier(server_ident), Response):
+        return server
+
+    # Check if the user has permission for the server
+    # TODO Kevin: We may want to keep some servers 'secret',
+    #   but otherwise must people should probably be allowed to check versions.
+    if error_response := validate_server_permission(server, request.user):
+        return error_response
+
+    # TODO Kevin: Should probably be JSON
+    return Response(server.manager.server_running(), status=status.HTTP_200_OK)

@@ -61,7 +61,7 @@ class AbstractGameServerManager(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def is_running(self) -> bool:
+    def server_running(self) -> bool:
         raise NotImplementedError
 
 
