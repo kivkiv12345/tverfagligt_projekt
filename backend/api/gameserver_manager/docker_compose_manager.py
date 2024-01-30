@@ -24,16 +24,19 @@ class AbstractDockerComposeGameServerManager(AbstractGameServerManager, ABC):
     services: list[str] | str = None  # services must be a list when multiple, because of python-on-whales reasons
 
     def __init__(self, server_name: str) -> None:
+        super().__init__(server_name)
         # TODO Kevin: Everything will most likely explode if the server_name/compose_project_name is changed.
         # TODO Kevin: Also, how can we make sure the project name prefix is applied to containers when container_name
         #   is specified in the docker-compose.yml file?
         # self.client = DockerClient(compose_files=[self.compose_file], compose_env_file= , compose_project_name=server_name)
         self.client = DockerClient(compose_files=[self.compose_file],
-                                   compose_project_name=server_name.lower().replace(' ', '_'),
+                                   compose_project_name=self.get_project_name(),
                                    # compose_project_directory=path.dirname(self.compose_file),
                                    compose_project_directory=self.working_directory,
                                    )
-        super().__init__(server_name)
+
+    def get_project_name(self):
+        return self.server_name.lower().replace(' ', '_')
 
     @classmethod
     def _mutate_to_proper_compose_file(cls) -> str:
@@ -41,6 +44,9 @@ class AbstractDockerComposeGameServerManager(AbstractGameServerManager, ABC):
             compose_contents = yaml.safe_load(compose_file)
 
         assert 'services' in compose_contents, 'How can we have a server, without any docker-compose services'
+        # An alternative approach could be:
+        #for container in self.client.compose.ps(services=self.services):
+        #    container.rename()
         for service in compose_contents['services'].values():
             try:
                 del service['container_name']  # container_name overrules our project_name prefix, so it has to go!
@@ -92,12 +98,9 @@ class AbstractDockerComposeGameServerManager(AbstractGameServerManager, ABC):
         """ Currently returns True if all containers in the service are running, otherwise False. """
 
         # TODO Kevin: What if the server has multiple services?
-        for container in self.client.compose.ps(services=self.services):
-            if not container.state.running:
-                return False
-        return True
+        return bool(self.client.compose.ps(self.services))
 
     def set_version(self, version: str):
         self.stop()
-        self.client.compose.build()
+        self.client.compose.build()  # TODO Kevin: Is a full rebuild required?
         self.start()

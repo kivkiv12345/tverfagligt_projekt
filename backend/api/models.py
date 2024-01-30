@@ -61,7 +61,7 @@ class GameServer(Model):
         try:
             return self.manager.get_version()
         except NotImplementedError:
-            return None
+            return None  # TODO Kevin: This game/server doesn't feature multiple versions, is this okay?
 
     @property
     def is_running(self) -> bool:

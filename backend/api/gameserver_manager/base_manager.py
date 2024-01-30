@@ -42,6 +42,10 @@ class AbstractGameServerManager(ABC):
     def set_version(self, version: str):
         raise NotImplementedError
 
+    @property
+    def available_versions(self) -> Iterable[str]:
+        return self.game_versions
+
     @abstractmethod
     def start(self):
         raise NotImplementedError
