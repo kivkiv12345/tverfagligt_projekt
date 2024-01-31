@@ -84,6 +84,8 @@ class AbstractDockerComposeGameServerManager(AbstractGameServerManager, ABC):
         cls.compose_file = cls._mutate_to_proper_compose_file()
 
     def start(self):
+        # TODO Kevin: Container will obviously fail to start,
+        #   if the port is already in use by another server.
         # TODO Kevin: .start() or .up()? I dont know.
         self.client.compose.up(detach=True, services=list(self.services))
 

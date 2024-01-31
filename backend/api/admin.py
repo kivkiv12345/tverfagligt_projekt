@@ -24,7 +24,8 @@ def stop_servers(modeladmin: ModelAdmin, request: Request, queryset: QuerySet[Ga
 class GameServerAdmin(ModelAdmin):
     model = GameServer
     # fields = *(field.name for field in GameServer._meta.get_fields()),
-    actions = [start_servers]
+    actions = (start_servers,)
+    list_display = ('server_name', 'game', 'server_version', 'is_running',)
 
     def get_form(self, request, obj: GameServer = None, change=False, **kwargs):
         if not obj:
@@ -42,6 +43,9 @@ class GameServerAdmin(ModelAdmin):
         return GameServerAdminForm
 
     def save_model(self, request, obj: GameServer, form, change):
+        if not obj.pk:
+            return super().save_model(request, obj, form, change)
+
         assert 'server_version' in form.data
         new_version = form.data['server_version']
         should_run = 'server_running' in form.data
@@ -53,7 +57,7 @@ class GameServerAdmin(ModelAdmin):
             else:
                 obj.manager.stop()
 
-        super().save_model(request, obj, form, change)
+        return super().save_model(request, obj, form, change)
 
 
 class ServerPermissionAdmin(ModelAdmin):

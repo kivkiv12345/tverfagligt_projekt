@@ -1,0 +1,3 @@
+[submodule "nginx-stream"]
+	path = nginx-stream
+	url = https://github.com/kivkiv12345/nginx-stream.git
