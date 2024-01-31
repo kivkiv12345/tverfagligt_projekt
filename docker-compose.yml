@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   api:
     build: backend
@@ -6,3 +8,25 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock  # Allow this container to administrate other containers
     ports:
       - "8000:8000"
+
+  # proxy_manager:
+  #   image: 'jc21/nginx-proxy-manager:latest'
+  #   restart: unless-stopped
+  #   ports:
+  #     - '80:80'
+  #     - '81:81'
+  #     - '443:443'
+  #   volumes:
+  #     - ./data:/data
+  #     - ./letsencrypt:/etc/letsencrypt
+  #   # depends_on:
+  #   #   - api
+
+  nginx:
+    build: nginx-stream
+    ports:
+        - "27020:27020"
+        - "42420:42420"
+    volumes:
+        # - ./nginx/conf/http:/opt/nginx/http.conf.d
+        - ./nginx/conf/stream:/opt/nginx/stream.conf.d
