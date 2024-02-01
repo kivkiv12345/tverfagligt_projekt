@@ -8,7 +8,8 @@ from abc import ABC
 from typing import Iterable
 
 try:
-    from python_on_whales import DockerClient, Container
+    from python_on_whales import DockerClient, Container, Network, DockerException
+    from python_on_whales.components.container.cli_wrapper import ValidPortMapping
 except (ModuleNotFoundError, ImportError) as e:
     raise ModuleNotFoundError(f"Failed to import python_on_whales, install with 'pip3 install python_on_whales'") from e
 
@@ -88,6 +89,14 @@ class AbstractDockerComposeGameServerManager(AbstractGameServerManager, ABC):
         #   if the port is already in use by another server.
         # TODO Kevin: .start() or .up()? I dont know.
         self.client.compose.up(detach=True, services=list(self.services))
+        # TODO Kevin: Should we connect to it, or it to us? Does it even matter?
+        for container in self.client.compose.ps(services=self.services):
+            try:
+                # TODO Kevin: Name should not be hardcoded
+                self.client.network.connect("tverfagligt_default", container)
+            except DockerException as e:  # A DockerNetworkError doesn't seem to exist.
+                if 'already exists in network' not in e.stderr:
+                    raise
 
     def stop(self):
         # TODO Kevin: .stop() or .down()? I dont know.
@@ -97,7 +106,7 @@ class AbstractDockerComposeGameServerManager(AbstractGameServerManager, ABC):
         self.client.compose.restart()
 
     def server_running(self) -> bool:
-        """ Currently returns True if all containers in the service are running, otherwise False. """
+        """ Currently returns True if any specified services are running, otherwise False. """
 
         # TODO Kevin: What if the server has multiple services?
         return bool(self.client.compose.ps(self.services))
