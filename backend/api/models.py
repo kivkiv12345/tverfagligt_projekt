@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+import re
 from typing import Type
 
 from django.db import models
@@ -7,6 +10,8 @@ from django.db.models import Model, ForeignKey, CASCADE, TextChoices, CharField,
 from django.db.models.functions import Lower
 
 from api.gameserver_manager.base_manager import AbstractGameServerManager, managers
+from api.gameserver_manager.versioned_manager import VersionedGameServerManager
+
 
 
 class StrChoicesEnum(TextChoices):
@@ -57,11 +62,10 @@ class GameServer(Model):
         return f"{self.game} | {self.server_name}"
 
     @property
-    def server_version(self):
-        try:
+    def server_version(self) -> str | None:
+        if isinstance(self.manager, VersionedGameServerManager):
             return self.manager.get_version()
-        except NotImplementedError:
-            return None  # TODO Kevin: This game/server doesn't feature multiple versions, is this okay?
+        return None
 
     @property
     def is_running(self) -> bool:

@@ -233,6 +233,8 @@ def get_server_version(request: Request, ident: str) -> Response:
     if isinstance(server := server_from_identifier(server_ident), Response):
         return server
 
+    # TODO Kevin: Check if server supports multiple versions.
+
     # Check if the user has permission for the server
     # TODO Kevin: We may want to keep some servers 'secret',
     #   but otherwise must people should probably be allowed to check versions.

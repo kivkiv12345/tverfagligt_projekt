@@ -5,6 +5,7 @@ from django.db.models import QuerySet
 from django.forms import ModelForm
 from requests import Request
 
+from api.gameserver_manager.versioned_manager import VersionedGameServerManager
 from api.models import GameServer, ServerPermission, ServerEvent
 
 
@@ -32,8 +33,9 @@ class GameServerAdmin(ModelAdmin):
             return super().get_form(request, obj, change, **kwargs)
 
         class GameServerAdminForm(ModelForm):
-            CHOICES = ((game_version, game_version) for game_version in obj.manager.available_versions)
-            server_version = forms.ChoiceField(choices=CHOICES, initial=obj.server_version)
+            if isinstance(obj.manager, VersionedGameServerManager):
+                CHOICES = ((game_version, game_version) for game_version in obj.manager.available_versions)
+                server_version = forms.ChoiceField(choices=CHOICES, initial=obj.server_version)
             server_running = forms.BooleanField(initial=obj.manager.server_running(), required=False)
 
             class Meta:

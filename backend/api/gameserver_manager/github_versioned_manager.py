@@ -1,4 +1,5 @@
 from abc import ABC
+from typing import Iterable
 
 from api.gameserver_manager.base_manager import AbstractGameServerManager
 from os import getcwd
@@ -6,10 +7,12 @@ from pathlib import Path
 from subprocess import run, PIPE, DEVNULL
 from os import path
 
+from api.gameserver_manager.versioned_manager import VersionedGameServerManager
+
 REPOS_DIR: str = 'repos'
 
 
-class GitHubVersionedManager(AbstractGameServerManager, ABC):
+class GitHubVersionedManager(VersionedGameServerManager, ABC):
 
     version_commit_map: dict[str, str] = None  # TODO Kevin: This smells bad, we shouldn't have 2 places of truth.
     repo: str = None

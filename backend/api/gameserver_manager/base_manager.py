@@ -8,7 +8,7 @@ from abc import ABC, abstractmethod
 class AbstractGameServerManager(ABC):
 
     game_name: str
-    game_versions: Sequence[str] = ()
+
     server_name: str  # TODO Kevin: This should probably update if the container name on the Model does.
     working_directory: PathLike[str] | str = None
 
@@ -36,16 +36,6 @@ class AbstractGameServerManager(ABC):
         # TODO Kevin: We can definitely run out of space here
         raise NotImplementedError
 
-    def get_version(self):
-        raise NotImplementedError
-
-    def set_version(self, version: str):
-        raise NotImplementedError
-
-    @property
-    def available_versions(self) -> Iterable[str]:
-        return self.game_versions
-
     @abstractmethod
     def start(self):
         raise NotImplementedError
@@ -65,6 +55,9 @@ class AbstractGameServerManager(ABC):
         raise NotImplementedError
 
     @abstractmethod
+    def server_running(self) -> bool | None:
+        raise NotImplementedError
+
     def server_running(self) -> bool:
         raise NotImplementedError
 
