@@ -3,15 +3,19 @@ from __future__ import annotations
 import re
 from typing import Type
 
+import string
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.db.models.functions import Lower, Replace
 from django.db.models import Model, ForeignKey, CASCADE, TextChoices, CharField, UniqueConstraint, PositiveIntegerField, \
-    DateTimeField
-from django.db.models.functions import Lower
+    DateTimeField, Value, Case, When, F
 
 from api.gameserver_manager.base_manager import AbstractGameServerManager, managers
 from api.gameserver_manager.versioned_manager import VersionedGameServerManager
 
+STRIP_CHARS: str | set = (string.punctuation + string.whitespace).replace('-', '').replace('_', '')
+STRIP_REPLACEMENT_CHAR: str = ''
 
 
 class StrChoicesEnum(TextChoices):
@@ -86,8 +90,28 @@ class GameServer(Model):
             # as we must convert it to lower case for python-on-whales to use it as a project name.
             # Which allows multiple servers to use the same docker-compose file.
             models.UniqueConstraint(
+                # We would've preferred for the mutated server_name to be unique together with the game.
+                #fields=(Lower('server_name'), 'game'),
                 Lower('server_name'),
                 name='unique_ci_server_name'
+            ),
+
+            # We replace spaces with underscores, to make a better file name for the compose file.
+            models.UniqueConstraint(
+                # We would've preferred for the mutated server_name to be unique together with the game.
+                #fields=(Replace('server_name', Value(' '), Value('_')), 'game'),
+                Replace('server_name', Value(' '), Value('_')),
+                name='unique_sep_server_name'
+            ),
+
+            # Container names must be unique, and without punctuation, so this should also be the case in the database.
+            models.UniqueConstraint(
+                # TODO Kevin: This constraint isn't sufficient,
+                #  but it seems that Django doesn't (or can't) offer a way to strip/replace all but legal characters.
+                #  So for now, we simply strip the most likely illegal characters
+                # TODO Kevin: Also it doesn't work at all.
+                *(Replace('server_name', Value(char), Value(STRIP_REPLACEMENT_CHAR)) for char in STRIP_CHARS),
+                name='unique_server_name_wo_illegal_chars',
             ),
         ]
 
