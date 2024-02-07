@@ -8,13 +8,13 @@ from requests import Request
 from api.models import GameServer, ServerPermission, ServerEvent
 
 
-@admin.action(description="Start multiple servers")
+@admin.action(description="Start servers")
 def start_servers(modeladmin: ModelAdmin, request: Request, queryset: QuerySet[GameServer]):
     for server in queryset:
         server.manager.start()
 
 
-@admin.action(description="Stop multiple servers")
+@admin.action(description="Stop servers")
 def stop_servers(modeladmin: ModelAdmin, request: Request, queryset: QuerySet[GameServer]):
     for server in queryset:
         server.manager.stop()
@@ -24,7 +24,7 @@ def stop_servers(modeladmin: ModelAdmin, request: Request, queryset: QuerySet[Ga
 class GameServerAdmin(ModelAdmin):
     model = GameServer
     # fields = *(field.name for field in GameServer._meta.get_fields()),
-    actions = (start_servers,)
+    actions = (start_servers, stop_servers)
     list_display = ('server_name', 'game', 'server_version', 'is_running',)
 
     def get_form(self, request, obj: GameServer = None, change=False, **kwargs):
