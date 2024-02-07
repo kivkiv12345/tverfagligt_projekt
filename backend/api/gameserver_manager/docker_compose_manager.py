@@ -122,3 +122,6 @@ class AbstractDockerComposeGameServerManager(AbstractGameServerManager, ABC):
         self.stop()
         self.client.compose.build()  # TODO Kevin: Is a full rebuild required?
         self.start()
+
+    def delete(self):
+        self.client.compose.down()

@@ -58,7 +58,8 @@ class AbstractGameServerManager(ABC):
     def server_running(self) -> bool | None:
         raise NotImplementedError
 
-    def server_running(self) -> bool:
+    def delete(self):
+        """ Delete the associated server(s) """
         raise NotImplementedError
 
 

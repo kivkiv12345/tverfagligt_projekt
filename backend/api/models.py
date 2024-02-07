@@ -71,6 +71,14 @@ class GameServer(Model):
     def is_running(self) -> bool:
         return self.manager.server_running()
 
+    def delete(self, using=None, keep_parents=False):
+        res = super().delete(using, keep_parents)
+        try:
+            self.manager.delete()
+        except NotImplementedError:
+            pass
+        return res
+
     class Meta:
         constraints = [
             # Source: https://stackoverflow.com/questions/7773341/case-insensitive-unique-model-fields-in-django
