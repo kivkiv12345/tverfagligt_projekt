@@ -21,12 +21,6 @@ class GitHubVersionedManager(VersionedGameServerManager, ABC):
         """ GitHubVersionedManager.__init_subclass__()
             ensures that subclasses specify required class attributes and inherit in the correct order """
 
-        assert cls.version_commit_map is not None, \
-            f"Subclassed GitHubSourcedManager {cls} must specify a version_commit_map"
-        assert cls.repo is not None, \
-            f"Subclassed GitHubSourcedManager {cls} must specify a repo"
-        cls.clone()
-
         super().__init_subclass__()
 
         # Only non-abstract classes should be registered to the manager dictionary.
@@ -36,9 +30,15 @@ class GitHubVersionedManager(VersionedGameServerManager, ABC):
         if ABC in cls.__bases__:
             return
 
+        assert cls.version_commit_map is not None, \
+            f"Subclassed GitHubSourcedManager {cls} must specify a version_commit_map"
+        assert cls.repo is not None, \
+            f"Subclassed GitHubSourcedManager {cls} must specify a repo"
+        cls.clone()
+
         assert not (unknown_commit_versions := set(cls.game_versions).difference(set(cls.version_commit_map.keys()))), \
             f"No commit has been specified for the following version(s) {unknown_commit_versions}"
-        assert next(basecls for basecls in cls.mro() if ABC in basecls.__bases__) is GitHubVersionedManager, \
+        assert issubclass(next(basecls for basecls in cls.mro() if ABC in basecls.__bases__), GitHubVersionedManager), \
             'GitHubVersionedManager must be subclassed before other base GameServerManagers (when using multiple inheretance)'
 
     @classmethod
@@ -62,7 +62,7 @@ class GitHubVersionedManager(VersionedGameServerManager, ABC):
         except KeyError as e:
             raise KeyError(f"Commit not found for version {version}, available versions are {self.version_commit_map}") from e
         self.checkout(commit)
-        super().set_version(version)
+        #super().set_version(version)  # super() is called from GitHubVersionedDockerComposeManager instead
 
     def get_version(self) -> str:
         # TODO Kevin: What if the repo dir doesn't exist yet?

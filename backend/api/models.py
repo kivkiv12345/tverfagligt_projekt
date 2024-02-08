@@ -12,6 +12,7 @@ from django.db.models import Model, ForeignKey, CASCADE, TextChoices, CharField,
     DateTimeField, Value, Case, When, F
 
 from api.gameserver_manager.base_manager import AbstractGameServerManager, managers
+from api.gameserver_manager.docker_compose_manager import AbstractDockerComposeGameServerManager
 from api.gameserver_manager.versioned_manager import VersionedGameServerManager
 
 STRIP_CHARS: str | set = (string.punctuation + string.whitespace).replace('-', '').replace('_', '')
@@ -74,6 +75,12 @@ class GameServer(Model):
     @property
     def is_running(self) -> bool:
         return self.manager.server_running()
+
+    @property
+    def ports_used(self) -> dict[str, list[str]] | None:
+        if isinstance(self.manager, AbstractDockerComposeGameServerManager):
+            return self.manager.ports_used()
+        return None
 
     def delete(self, using=None, keep_parents=False):
         res = super().delete(using, keep_parents)

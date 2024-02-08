@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from os import path
 from os import PathLike
 from pathlib import Path
@@ -7,6 +8,10 @@ from pathlib import Path
 import yaml
 from abc import ABC
 from typing import Iterable
+
+from api.gameserver_manager.github_versioned_manager import GitHubVersionedManager
+
+PORT_MAX: int = 2**16
 
 try:
     from python_on_whales import DockerClient, Container, Network, DockerException
@@ -22,12 +27,14 @@ COMPOSE_FILES_DIR: PathLike | str = 'compose_files/'
 
 class AbstractDockerComposeGameServerManager(AbstractGameServerManager, ABC):
     compose_file: str = None
+    _original_compose_file: str = None
     client: DockerClient
     services: list[str] | str = None  # services must be a list when multiple, because of python-on-whales reasons
-    ports: list[ValidPortMapping] = None
+    # ports: list[ValidPortMapping] = None
 
     def __init__(self, server_name: str) -> None:
         super().__init__(server_name)
+        self._original_compose_file = self.compose_file
         self.compose_file = self._mutate_to_proper_compose_file()
         # TODO Kevin: Everything will most likely explode if the server_name/compose_project_name is changed.
         # TODO Kevin: Also, how can we make sure the project name prefix is applied to containers when container_name
@@ -42,8 +49,88 @@ class AbstractDockerComposeGameServerManager(AbstractGameServerManager, ABC):
     def get_project_name(self):
         return self.server_name.lower().replace(' ', '_')
 
-    def _mutate_to_proper_compose_file(self) -> str:
+    def _get_game_compose_dir(self) -> Path:
+        assert ' ' not in self.game_name, "Guess we shouldn't use .game_name after all"
+        assert '/' not in self.game_name, "Guess we shouldn't use .game_name after all"
+        return Path(COMPOSE_FILES_DIR, self.game_name)
+
+    @staticmethod
+    def scan_compose_ports(compose_dir: Path = Path(COMPOSE_FILES_DIR), recurse_depth: int = 0) -> set[int]:
+        used_ports: set[int] = set()
+        for file in compose_dir.iterdir():
+
+            if file.parts[-1].startswith('.'):
+                continue  # Ignore hidden files
+
+            try:
+                with open(file, 'r') as compose_file:
+                    compose_contents = yaml.safe_load(compose_file)
+            except IsADirectoryError:
+                if recurse_depth > 0:
+                    used_ports |= AbstractDockerComposeGameServerManager.scan_compose_ports(file, recurse_depth-1)
+                continue
+            except OSError:
+                continue
+
+            if 'services' not in compose_contents:
+                continue  # This is probably not a docker-compose file
+
+            for service in compose_contents['services'].values():
+                ports: list[str] = service['ports']
+                assert isinstance(ports, list)
+                # ports:
+                # - 42420: 42420
+                # - 42421: 42421
+                # - 42422: 42422
+                for port_pair in ports:
+                    #   vvvvv
+                    # - 42420: 42420
+                    host_port: int = int(port_pair.split(':')[0])
+                    used_ports.add(host_port)
+
+        return used_ports
+
+    def ports_used(self) -> dict[str, list[str]]:
+
         with open(self.compose_file, 'r') as compose_file:
+            compose_contents = yaml.safe_load(compose_file)
+        assert 'services' in compose_contents, 'How can we have a server, without any docker-compose services'
+
+        return {service_name: service.get('ports', []) for service_name, service in compose_contents['services'].items()}
+
+    @staticmethod
+    def _fit_available_ports(our_compose: dict) -> None:
+        used_ports: set[int] = AbstractDockerComposeGameServerManager.scan_compose_ports(recurse_depth=2)
+
+        for service in our_compose['services'].values():
+            try:
+                old_ports: list[str] = service['ports']
+            except KeyError:
+                continue
+            new_ports: list[str] = []
+            for port_pair in old_ports:
+                desired_host_port, inner_port = port_pair.split(':')
+                desired_host_port, inner_port = int(desired_host_port), int(inner_port)
+
+                # Keep incrementing from the desired port, until we find one that is actually available.
+                # TODO Kevin: Also check that the port is currently OS available.
+                new_ports.append(f"{next(port for port in range(desired_host_port, PORT_MAX) if port not in used_ports)}:{inner_port}")
+
+            service['ports'] = new_ports  # Replace old desired ports with the actually available ones
+
+    def _mutate_to_proper_compose_file(self) -> str:
+        # assert ' ' not in self.server_name, "Guess we shouldn't use .server_name after all"
+        assert '/' not in self.server_name, "Guess we shouldn't use .server_name after all"
+        qual_server_name = self.server_name.replace(' ', '_')
+        mutated_compose_path: Path = Path(self._get_game_compose_dir(), f"{qual_server_name}.yml")
+        mutated_compose_path.parent.mkdir(exist_ok=True, parents=True)
+
+        # Guard clause
+        if mutated_compose_path.is_file():
+            # Return the already existing mutated compose file.
+            return str(mutated_compose_path)
+
+        with open(self._original_compose_file, 'r') as compose_file:
             compose_contents = yaml.safe_load(compose_file)
 
         assert 'services' in compose_contents, 'How can we have a server, without any docker-compose services'
@@ -62,13 +149,9 @@ class AbstractDockerComposeGameServerManager(AbstractGameServerManager, ABC):
             except KeyError:
                 continue
 
-        assert ' ' not in self.game_name, "Guess we shouldn't use .game_name after all"
-        assert '/' not in self.game_name, "Guess we shouldn't use .game_name after all"
-        #assert ' ' not in self.server_name, "Guess we shouldn't use .server_name after all"
-        qual_server_name = self.server_name.replace(' ', '_')
-        assert '/' not in self.server_name, "Guess we shouldn't use .server_name after all"
-        mutated_compose_path: Path = Path(path.join(COMPOSE_FILES_DIR, self.game_name, f"{qual_server_name}.yml"))
-        mutated_compose_path.parent.mkdir(exist_ok=True, parents=True)
+        self._fit_available_ports(compose_contents)
+
+        # Recreate the mutated compose file.
         with open(mutated_compose_path, 'w') as mutated_compose_file:
             mutated_compose_file.write(  "# WARNING DO NOT EDIT, YOUR CHANGES WILL BE LOST.\n"
                                          "# THIS FILE HAS BEEN MUTATED FROM THE ORIGINAL\n"
@@ -118,10 +201,18 @@ class AbstractDockerComposeGameServerManager(AbstractGameServerManager, ABC):
         except DockerException:
             return None
 
-    def set_version(self, version: str):
-        self.stop()
-        self.client.compose.build()  # TODO Kevin: Is a full rebuild required?
-        self.start()
-
     def delete(self):
         self.client.compose.down()
+        try:
+            os.remove(self.compose_file)
+        except FileNotFoundError:
+            pass
+
+
+class GitHubVersionedDockerComposeManager(GitHubVersionedManager, AbstractDockerComposeGameServerManager, ABC):
+
+    def set_version(self, version: str):
+        super(GitHubVersionedDockerComposeManager, self).set_version(version)
+        #self.stop()
+        self.client.compose.build()  # TODO Kevin: Is a full rebuild required?
+        #self.start()

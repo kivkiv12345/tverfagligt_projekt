@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django import forms
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
@@ -26,7 +28,7 @@ class GameServerAdmin(ModelAdmin):
     model = GameServer
     # fields = *(field.name for field in GameServer._meta.get_fields()),
     actions = (start_servers, stop_servers)
-    list_display = ('server_name', 'game', 'server_version', 'is_running',)
+    list_display = ('server_name', 'game', 'server_version', 'is_running', 'ports_used', )
 
     def get_form(self, request, obj: GameServer = None, change=False, **kwargs):
         if not obj:
@@ -52,7 +54,10 @@ class GameServerAdmin(ModelAdmin):
         new_version = form.data['server_version']
         should_run = 'server_running' in form.data
         if new_version != obj.server_version:
-            obj.manager.set_version(new_version)
+            try:
+                obj.manager.set_version(new_version)
+            except NotImplementedError:
+                pass
         if should_run != obj.manager.server_running():
             if should_run:
                 obj.manager.start()
@@ -60,6 +65,13 @@ class GameServerAdmin(ModelAdmin):
                 obj.manager.stop()
 
         return super().save_model(request, obj, form, change)
+
+    @admin.display()
+    def ports_used(self, obj: GameServer) -> str | None:
+        ports_used = obj.ports_used
+        if not ports_used:
+            return None
+        return ''.join(f"{service}:\n" + ''.join(f"- {pair}\n" for pair in ports) for service, ports in ports_used.items())
 
 
 class ServerPermissionAdmin(ModelAdmin):

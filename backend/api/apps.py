@@ -1,5 +1,6 @@
 from django.apps import AppConfig
-from api.gameserver_manager.docker_compose_manager import AbstractDockerComposeGameServerManager
+from api.gameserver_manager.docker_compose_manager import AbstractDockerComposeGameServerManager, \
+    GitHubVersionedDockerComposeManager
 from api.gameserver_manager.github_versioned_manager import GitHubVersionedManager
 
 
@@ -8,7 +9,7 @@ class ApiConfig(AppConfig):
     name = 'api'
 
 
-class VintageStoryManager(GitHubVersionedManager, AbstractDockerComposeGameServerManager):
+class VintageStoryManager(GitHubVersionedDockerComposeManager):
     #compose_file = 'docker-compose/vintage-story_server/docker-compose.yml'
     compose_file = 'repos/docker-vintagestory/docker-compose.yml'
     version_commit_map = {
