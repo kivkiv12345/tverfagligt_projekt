@@ -9,6 +9,7 @@ import yaml
 from abc import ABC
 from typing import Iterable
 
+from api.gameserver_manager.base_manager import AbstractGameServerManager
 from api.gameserver_manager.github_versioned_manager import GitHubVersionedManager
 
 PORT_MAX: int = 2**16
@@ -18,8 +19,6 @@ try:
     from python_on_whales.components.container.cli_wrapper import ValidPortMapping
 except (ModuleNotFoundError, ImportError) as e:
     raise ModuleNotFoundError(f"Failed to import python_on_whales, install with 'pip3 install python_on_whales'") from e
-
-from api.gameserver_manager.base_manager import AbstractGameServerManager
 
 
 COMPOSE_FILES_DIR: PathLike | str = 'compose_files/'

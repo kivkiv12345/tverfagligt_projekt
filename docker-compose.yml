@@ -25,8 +25,10 @@ services:
   nginx:
     build: nginx-stream
     ports:
-        - "27020:27020"
-        - "42420:42420"
+        - "80:80"
+        # Forwarding game ports should not be required when we are done.
+        # - "27020:27020"
+        # - "42420:42420"
     volumes:
         # - ./nginx/conf/http:/opt/nginx/http.conf.d
         - ./nginx/conf/stream:/opt/nginx/stream.conf.d

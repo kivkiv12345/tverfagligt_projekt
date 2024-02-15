@@ -2,11 +2,14 @@ from __future__ import annotations
 
 from typing import NamedTuple, Any
 
+from django.contrib.auth import logout, authenticate
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
+from rest_framework.authtoken.models import Token
+from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.request import Request
 from rest_framework.response import Response
 from django.contrib.auth.models import User, AnonymousUser
@@ -16,6 +19,7 @@ from api.models import ServerPermission, GameServer, ServerPermissionChoices
 
 # Create your views here.
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
 def get_server_info(request: Request) -> Response:
     raise NotImplementedError
     return Response(status=status.HTTP_204_NO_CONTENT)
@@ -279,3 +283,49 @@ def is_server_running(request: Request, ident: str) -> Response:
 
     # TODO Kevin: Should probably be JSON
     return Response(server.manager.server_running(), status=status.HTTP_200_OK)
+
+
+# With inspiration from https://chat.openai.com
+@api_view(['POST'])
+def user_login(request: Request) -> Response:
+    """
+    Expected JSON:
+    {
+        "username": str,
+        "password": str
+    }
+    """
+
+    data: dict = request.data
+
+    username: str = data.get('username')
+    password: str = data.get('password')
+
+    if None in (username, password):
+        return Response('Request must include both "username" and "password"', status=status.HTTP_400_BAD_REQUEST)
+
+    user: User | None = authenticate(request, username=username, password=password)
+
+    if user is None:
+        return Response('Invalid username or password', status=status.HTTP_400_BAD_REQUEST)
+
+    if not user.is_active:
+        return Response('User is disabled', status=status.HTTP_400_BAD_REQUEST)
+
+    token, created = Token.objects.get_or_create(user=user)
+    return Response({'token': token.key}, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+def user_logout(request: Request) -> Response:
+    """
+    Expected JSON:
+    {
+        "token": str,
+    }
+    """
+
+    request.user.auth_token.delete()
+    logout(request.user)
+    return Response({'detail': 'Logged out successfully.'}, status=status.HTTP_200_OK)
