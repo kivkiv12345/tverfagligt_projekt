@@ -22,6 +22,11 @@ services:
   #   # depends_on:
   #   #   - api
 
+  app:
+    build: gameserver_frontend
+    ports:
+      - "8080:80"
+
   nginx:
     build: nginx-stream
     ports:
