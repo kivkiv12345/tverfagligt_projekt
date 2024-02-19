@@ -2,27 +2,32 @@ from __future__ import annotations
 
 from typing import NamedTuple, Any
 
-from django.contrib.auth import logout, authenticate
+from django.contrib.auth import logout, authenticate, login
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import api_view, authentication_classes
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from django.contrib.auth.models import User, AnonymousUser
 
 from api.models import ServerPermission, GameServer, ServerPermissionChoices
+from api.serializers import GameServerSerializer
 
 
 # Create your views here.
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, TokenAuthentication])
+# @authentication_classes([SessionAuthentication, TokenAuthentication])  # TODO Kevin: CSRF token
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def get_server_info(request: Request) -> Response:
-    raise NotImplementedError
-    return Response(status=status.HTTP_204_NO_CONTENT)
+    servers = GameServer.objects.all()  # TODO Kevin: Filter by permission here.
+    serializer = GameServerSerializer(servers, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 # class Result(NamedTuple):
@@ -312,6 +317,7 @@ def user_login(request: Request) -> Response:
     if not user.is_active:
         return Response('User is disabled', status=status.HTTP_400_BAD_REQUEST)
 
+    login(request, user)
     token, created = Token.objects.get_or_create(user=user)
     return Response({'token': token.key}, status=status.HTTP_200_OK)
 
