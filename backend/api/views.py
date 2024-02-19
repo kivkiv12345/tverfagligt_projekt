@@ -124,6 +124,8 @@ def backup_savefile(request: Request) -> Response:
 @api_view(['POST'])
 def stop_server(request: Request) -> Response:
     """
+    Stop the specified server. This shouldn't delete saves, progress, etc.
+    Response time may be very long (>10 seconds), depending on the server/backend.
 
     Expected JSON:
     {
@@ -153,6 +155,8 @@ def stop_server(request: Request) -> Response:
 @api_view(['POST'])
 def start_server(request: Request) -> Response:
     """
+    Start the specified server. Should create a new one if required.
+    Response time may be very long (>10 seconds), depending on the server/backend.
 
     Expected JSON:
     {
