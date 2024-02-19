@@ -86,44 +86,32 @@ class ServerListItem extends StatelessWidget {
 class ServersListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Server>>(
-      future: fetchServers(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+    return BlocBuilder<ServerBloc, ServerState>(
+      builder: (context, state) {
+        if (state == ServerState.changing) {
           return CircularProgressIndicator();
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else if (!snapshot.hasData) {
-          return Text('No data');
+        } else if (state == ServerState.error) {
+          return Text('Error');
+        } else if (state is ServersLoadedState) {
+          final servers = state.servers;
+          return ListView.builder(
+            itemCount: servers.length,
+            itemBuilder: (context, index) {
+              final Server server = servers[index];
+              return ListTile(
+                title: Text(server.serverName),
+                subtitle: Text(server.game),
+                trailing: IconButton(
+                  icon: Icon(server.state == ServerState.running ? Icons.stop : Icons.play_arrow),
+                  onPressed: () {
+                    context.read<ServerBloc>().add(server.state == ServerState.running ? StopServer(server) : StartServer(server));
+                  },
+                ),
+              );
+            },
+          );
         }
-
-        final servers = snapshot.data!;
-        return ListView.builder(
-          itemCount: servers.length,
-          itemBuilder: (context, index) {
-            final Server server = servers[index];
-            return ListTile(
-              title: Text(server.serverName),
-              subtitle: Text(server.game),
-              trailing: IconButton(
-                icon: Icon(server.state == ServerState.running ? Icons.stop : Icons.play_arrow),
-                onPressed: () async {
-                  final Response response;
-                  if (server.state == ServerState.running) {
-                    response = await server.stop();
-                  } else {
-                    response = await server.start();
-                  }
-
-                  // TODO Kevin: Update widget... Bloc here??
-                  // if (bad_statuscode(response.statusCode)) {
-                  //  setState();  // TODO: Doesn't work, ServersListWidget is stateless
-                  // }
-                },
-              ),
-            );
-          },
-        );
+        return Container(); // Placeholder widget
       },
     );
   }
