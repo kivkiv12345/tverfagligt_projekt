@@ -3,12 +3,13 @@
 // Define Dart classes for JSON serialization
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gameserver_frontend/Exceptions.dart';
+import 'package:gameserver_frontend/api.dart';
+import 'package:gameserver_frontend/bloc/server_bloc.dart';
+import 'package:gameserver_frontend/bloc/server_event.dart';
+import 'package:gameserver_frontend/bloc/server_state.dart';
 
-// Define ServerBloc for state management
-class ServerBloc {
-  // Implement server-related state and actions
-}
 
 const String api_url = 'http://localhost:8000/api';
 
@@ -20,14 +21,14 @@ class Server {
   final String serverName;
   final String game;
   final String serverVersion;
-  final bool isRunning;
+  final ServerState state;
 
   Server({
     required this.id,
     required this.serverName,
     required this.game,
     required this.serverVersion,
-    required this.isRunning,
+    required this.state,
   });
 
   // Add factory constructor to parse JSON
@@ -37,7 +38,7 @@ class Server {
       serverName: json['server_name'] as String,
       game: json['game'] as String,
       serverVersion: json['server_version'] as String,
-      isRunning: json['is_running'] as bool,
+      state: (json['is_running'] as bool) ? ServerState.running : ServerState.stopped, // Convert boolean to enum
     );
   }
 
@@ -52,22 +53,33 @@ class Server {
   }
 }
 
-bool bad_statuscode(int ?statusCode) {
-  return statusCode == null || (statusCode < 200 || statusCode > 299);
-}
 
-// Fetch servers from backend
-Future<List<Server>> fetchServers() async {
-  // TODO Kevin: Set token during login
-  dio.options.headers['Authorization'] = 'Token db35e66399468335c01b806c3c777fc4e4e9edb8';
-  final response = await dio.get('$api_url/get-server-info');
-  // Parse JSON response and return list of Server objects
-  if (bad_statuscode(response.statusCode)) {
-    throw ConnectionError('Failed to fetch servers');
+class ServerListItem extends StatelessWidget {
+  final Server server;
+
+  ServerListItem({required this.server});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(server.serverName),
+      trailing: IconButton(
+        icon: server.state == ServerState.changing
+            ? CircularProgressIndicator() // Display a loading indicator while the state is changing
+            : server.state == ServerState.running
+                ? Icon(Icons.stop)
+                : Icon(Icons.play_arrow),
+        onPressed: server.state == ServerState.changing
+    ? null // Disable the button while the state is changing
+    : () {
+        final ServerEvent event = server.state == ServerState.running
+            ? StopServer(server) // Create a StopServer event with the server object
+            : StartServer(server); // Create a StartServer event with the server object
+        context.read<ServerBloc>().add(event); // Dispatch the event to the ServerBloc
+      },
+      ),
+    );
   }
-
-  final List<dynamic> jsonList = response.data as List<dynamic>;
-  return jsonList.map((json) => Server.fromJson(json)).toList();
 }
 
 // Widget to display list of servers
@@ -94,10 +106,10 @@ class ServersListWidget extends StatelessWidget {
               title: Text(server.serverName),
               subtitle: Text(server.game),
               trailing: IconButton(
-                icon: Icon(server.isRunning ? Icons.stop : Icons.play_arrow),
+                icon: Icon(server.state == ServerState.running ? Icons.stop : Icons.play_arrow),
                 onPressed: () async {
                   final Response response;
-                  if (server.isRunning) {
+                  if (server.state == ServerState.running) {
                     response = await server.stop();
                   } else {
                     response = await server.start();
