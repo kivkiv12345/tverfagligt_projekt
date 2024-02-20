@@ -86,13 +86,13 @@ class ServerListItem extends StatelessWidget {
 class ServersListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ServerBloc, ServerState>(
+    return BlocBuilder<ServerBloc, ServerBlocState>(
       builder: (context, state) {
-        if (state == ServerState.changing) {
+        if (state.state == ServerState.changing) {
           return CircularProgressIndicator();
         } else if (state == ServerState.error) {
           return Text('Error');
-        } else if (state is ServersLoadedState) {
+        } else if (state is ServerLoadedBlocState) {
           final servers = state.servers;
           return ListView.builder(
             itemCount: servers.length,
