@@ -2,14 +2,39 @@ import 'package:gameserver_frontend/ServerListWidget.dart';
 
 abstract class ServerEvent {}
 
-class StartServer extends ServerEvent {
+
+class ServerStart extends ServerEvent {
   final Server server;
 
-  StartServer(this.server);
+  ServerStart(this.server);
 }
 
-class StopServer extends ServerEvent {
+class ServerStarted extends ServerEvent {
   final Server server;
 
-  StopServer(this.server);
+  ServerStarted(this.server);
+}
+
+class ServerStopped extends ServerEvent {
+  final Server server;
+
+  ServerStopped(this.server);
+}
+
+class ServerStop extends ServerEvent {
+  final Server server;
+
+  ServerStop(this.server);
+}
+
+class ServerChanging extends ServerEvent {
+  final Server server;
+
+  ServerChanging(this.server);
+}
+
+class ServerError extends ServerEvent {
+  final Server server;
+
+  ServerError(this.server);
 }

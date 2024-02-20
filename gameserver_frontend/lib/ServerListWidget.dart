@@ -5,16 +5,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gameserver_frontend/Exceptions.dart';
+import 'package:gameserver_frontend/ServerListItemWidget.dart';
 import 'package:gameserver_frontend/api.dart';
 import 'package:gameserver_frontend/bloc/server_bloc.dart';
 import 'package:gameserver_frontend/bloc/server_event.dart';
 import 'package:gameserver_frontend/bloc/server_state.dart';
 
-
-const String api_url = 'http://localhost:8000/api';
-
-// Use Dio for HTTP requests
-final dio = Dio();
 
 class Server {
   final int id;
@@ -53,66 +49,33 @@ class Server {
   }
 }
 
-
-class ServerListItem extends StatelessWidget {
-  final Server server;
-
-  ServerListItem({required this.server});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(server.serverName),
-      trailing: IconButton(
-        icon: server.state == ServerState.changing
-            ? CircularProgressIndicator() // Display a loading indicator while the state is changing
-            : server.state == ServerState.running
-                ? Icon(Icons.stop)
-                : Icon(Icons.play_arrow),
-        onPressed: server.state == ServerState.changing
-    ? null // Disable the button while the state is changing
-    : () {
-        final ServerEvent event = server.state == ServerState.running
-            ? StopServer(server) // Create a StopServer event with the server object
-            : StartServer(server); // Create a StartServer event with the server object
-        context.read<ServerBloc>().add(event); // Dispatch the event to the ServerBloc
-      },
-      ),
-    );
-  }
-}
-
 // Widget to display list of servers
 class ServersListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ServerBloc, ServerState>(
-      builder: (context, state) {
-        if (state == ServerState.changing) {
-          return CircularProgressIndicator();
-        } else if (state == ServerState.error) {
-          return Text('Error');
-        } else if (state is ServersLoadedState) {
-          final servers = state.servers;
+    return BlocProvider(
+      create: (context) => ServerBloc(ServerState.changing),  // TODO Kevin: Specifying a state here doesn't make any sense.
+      child: FutureBuilder<List<Server>>(
+        future: fetchServers(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else if (!snapshot.hasData) {
+            return Text('No data');
+          }
+      
+          final servers = snapshot.data!;
           return ListView.builder(
             itemCount: servers.length,
             itemBuilder: (context, index) {
               final Server server = servers[index];
-              return ListTile(
-                title: Text(server.serverName),
-                subtitle: Text(server.game),
-                trailing: IconButton(
-                  icon: Icon(server.state == ServerState.running ? Icons.stop : Icons.play_arrow),
-                  onPressed: () {
-                    context.read<ServerBloc>().add(server.state == ServerState.running ? StopServer(server) : StartServer(server));
-                  },
-                ),
-              );
-            },
+              return ServerListItemWidget(server: server,);
+            }
           );
-        }
-        return Container(); // Placeholder widget
-      },
+        },
+      ),
     );
   }
 }
