@@ -1,9 +1,8 @@
 import 'package:gameserver_frontend/ServerListWidget.dart';
 
 abstract class ServerBlocState {
-  final Server server;
 
-  ServerBlocState(this.server);
+  ServerBlocState();
 
   // ServerBlocState copyWith({
   //   Server? server,
@@ -15,17 +14,17 @@ abstract class ServerBlocState {
 }
 
 class ServerRunningState extends ServerBlocState {
-  ServerRunningState(super.server);
+  ServerRunningState();
 }
 
 class ServerStoppedState extends ServerBlocState {
-  ServerStoppedState(super.server);
+  ServerStoppedState();
 }
 
 class ServerChangingState extends ServerBlocState {
-  ServerChangingState(super.server);
+  ServerChangingState();
 }
 
 class ServerErrorState extends ServerBlocState {
-  ServerErrorState(super.server);
+  ServerErrorState();
 }

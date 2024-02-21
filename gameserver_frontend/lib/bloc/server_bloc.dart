@@ -8,7 +8,17 @@ import 'package:gameserver_frontend/bloc/server_event.dart';
 import 'package:gameserver_frontend/bloc/server_state.dart';
 
 class ServerBloc extends Bloc<ServerEvent, ServerBlocState> {
-  ServerBloc(super.state) {
+  final int id;
+  final String serverName;
+  final String game;
+  final String serverVersion;
+
+  ServerBloc(super.state, {
+    required this.id,
+    required this.serverName,
+    required this.game,
+    required this.serverVersion,
+  }) {
     on<ServerStart>(serverStart);
     on<ServerStarted>(serverStarted);
     on<ServerStop>(serverStop);
@@ -16,34 +26,46 @@ class ServerBloc extends Bloc<ServerEvent, ServerBlocState> {
     on<ServerChanging>(serverChanging);
   }
 
+  factory ServerBloc.fromJson(Map<String, dynamic> json) {
+    return ServerBloc(
+      (json['is_running'] as bool) ? ServerRunningState() : ServerStoppedState(), // Convert boolean to enum
+      id: json['id'] as int,
+      serverName: json['server_name'] as String,
+      game: json['game'] as String,
+      serverVersion: json['server_version'] as String,
+    );
+  }
+
   Future serverStart(ServerStart event, Emitter<ServerBlocState> emit) async {
     //this.add(ServerChanging(event.server));  // Should disable the server widget
-    emit(ServerChangingState(event.server));  // Should disable the server widget
-    final response = await event.server.start();  // WebAPI call
+    emit(ServerChangingState());  // Should disable the server widget
+
+    final response = await dio.post('$api_url/start-server/', data: {'server_ident': this.id});  // WebAPI call
 
     if (!bad_statuscode(response.statusCode)) {
       //this.add(ServerStarted(event.server)); // Set state to started if start successful
-      emit(ServerRunningState(event.server));
+      emit(ServerRunningState());
     } else {
       //this.add(ServerError(event.server)); // Something went wrong, now we don't know what's going on
-      emit(ServerErrorState(event.server));
+      emit(ServerErrorState());
     }
 
   }
 
   Future serverStarted(ServerStarted event, Emitter<ServerBlocState> emit) async {
     // TODO Kevin: Enable server widget
-    emit(ServerRunningState(event.server));
+    emit(ServerRunningState());
   }
 
   Future serverStop(ServerStop event, Emitter<ServerBlocState> emit) async {
-    this.add(ServerChanging(event.server));  // Should disable the server widget
-    final response = await event.server.stop();  // WebAPI call
+    emit(ServerChangingState());  // Should disable the server widget
+
+    final response = await dio.post('$api_url/stop-server/', data: {'server_ident': this.id});  // WebAPI call
 
     if (!bad_statuscode(response.statusCode)) {
-      this.add(ServerStopped(event.server)); // Set state to stopped if stop successful
+      emit(ServerStoppedState()); // Set state to stopped if stop successful
     } else {
-      this.add(ServerError(event.server)); // Something went wrong, now we don't know what's going on
+      emit(ServerErrorState()); // Something went wrong, now we don't know what's going on
     }
 
   }

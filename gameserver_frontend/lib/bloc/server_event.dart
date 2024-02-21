@@ -1,40 +1,41 @@
 import 'package:gameserver_frontend/ServerListWidget.dart';
+import 'package:gameserver_frontend/bloc/server_bloc.dart';
 
 abstract class ServerEvent {}
 
 
 class ServerStart extends ServerEvent {
-  final Server server;
+  final ServerBloc server;
 
   ServerStart(this.server);
 }
 
 class ServerStarted extends ServerEvent {
-  final Server server;
+  final ServerBloc server;
 
   ServerStarted(this.server);
 }
 
 class ServerStopped extends ServerEvent {
-  final Server server;
+  final ServerBloc server;
 
   ServerStopped(this.server);
 }
 
 class ServerStop extends ServerEvent {
-  final Server server;
+  final ServerBloc server;
 
   ServerStop(this.server);
 }
 
 class ServerChanging extends ServerEvent {
-  final Server server;
+  final ServerBloc server;
 
   ServerChanging(this.server);
 }
 
 class ServerError extends ServerEvent {
-  final Server server;
+  final ServerBloc server;
 
   ServerError(this.server);
 }
