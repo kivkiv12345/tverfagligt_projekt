@@ -17,7 +17,7 @@ class Server {
   final String serverName;
   final String game;
   final String serverVersion;
-  final ServerState state;
+  final ServerBlocState state;
 
   Server({
     required this.id,
@@ -53,29 +53,26 @@ class Server {
 class ServersListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ServerBloc(ServerState.changing),  // TODO Kevin: Specifying a state here doesn't make any sense.
-      child: FutureBuilder<List<Server>>(
-        future: fetchServers(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else if (!snapshot.hasData) {
-            return Text('No data');
+    return FutureBuilder<List<Server>>(
+      future: fetchServers(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (!snapshot.hasData) {
+          return Text('No data');
+        }
+    
+        final servers = snapshot.data!;
+        return ListView.builder(
+          itemCount: servers.length,
+          itemBuilder: (context, index) {
+            final Server server = servers[index];
+            return ServerListItemWidget(server: server,);
           }
-      
-          final servers = snapshot.data!;
-          return ListView.builder(
-            itemCount: servers.length,
-            itemBuilder: (context, index) {
-              final Server server = servers[index];
-              return ServerListItemWidget(server: server,);
-            }
-          );
-        },
-      ),
+        );
+      },
     );
   }
 }

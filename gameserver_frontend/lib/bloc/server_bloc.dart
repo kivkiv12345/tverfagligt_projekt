@@ -7,7 +7,7 @@ import 'package:gameserver_frontend/api.dart';
 import 'package:gameserver_frontend/bloc/server_event.dart';
 import 'package:gameserver_frontend/bloc/server_state.dart';
 
-class ServerBloc extends Bloc<ServerEvent, ServerState> {
+class ServerBloc extends Bloc<ServerEvent, ServerBlocState> {
   ServerBloc(super.state) {
     on<ServerStart>(serverStart);
     on<ServerStarted>(serverStarted);
@@ -16,23 +16,27 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
     on<ServerChanging>(serverChanging);
   }
 
-  Future serverStart(ServerStart event, Emitter<ServerState> emit) async {
-    this.add(ServerChanging(event.server));  // Should disable the server widget
+  Future serverStart(ServerStart event, Emitter<ServerBlocState> emit) async {
+    //this.add(ServerChanging(event.server));  // Should disable the server widget
+    emit(ServerChangingState(event.server));  // Should disable the server widget
     final response = await event.server.start();  // WebAPI call
 
     if (!bad_statuscode(response.statusCode)) {
-      this.add(ServerStarted(event.server)); // Set state to started if start successful
+      //this.add(ServerStarted(event.server)); // Set state to started if start successful
+      emit(ServerRunningState(event.server));
     } else {
-      this.add(ServerError(event.server)); // Something went wrong, now we don't know what's going on
+      //this.add(ServerError(event.server)); // Something went wrong, now we don't know what's going on
+      emit(ServerErrorState(event.server));
     }
 
   }
 
-  Future serverStarted(ServerStarted event, Emitter<ServerState> emit) async {
+  Future serverStarted(ServerStarted event, Emitter<ServerBlocState> emit) async {
     // TODO Kevin: Enable server widget
+    emit(ServerRunningState(event.server));
   }
 
-  Future serverStop(ServerStop event, Emitter<ServerState> emit) async {
+  Future serverStop(ServerStop event, Emitter<ServerBlocState> emit) async {
     this.add(ServerChanging(event.server));  // Should disable the server widget
     final response = await event.server.stop();  // WebAPI call
 
@@ -44,11 +48,11 @@ class ServerBloc extends Bloc<ServerEvent, ServerState> {
 
   }
 
-  Future serverStopped(ServerStopped event, Emitter<ServerState> emit) async {
+  Future serverStopped(ServerStopped event, Emitter<ServerBlocState> emit) async {
     // TODO Kevin: Enable server widget
   }
 
-  Future serverChanging(ServerChanging event, Emitter<ServerState> emit) async {
+  Future serverChanging(ServerChanging event, Emitter<ServerBlocState> emit) async {
 
   }
 }

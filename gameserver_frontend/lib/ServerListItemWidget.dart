@@ -12,53 +12,34 @@ class ServerListItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ServerBloc, ServerState>(
-      listener: (context, state) {
-        print("AAAAA");
-        ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Server error occurred!')),
-            );
-        if (state is ServerError) {
-            // Handle server error
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Server error occurred!')),
-            );
-          } else if (state is ServerChanging) {
-            // Handle server changing state
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: const Text('Server state is changing...')),
-            );
-          }
-          // Add more conditions as needed
-      },
+    ServerBloc serverBloc = ServerBloc(this.server.state);  // Every server gets its own Bloc
+    return BlocProvider(
+      create: (context) => serverBloc,
       child: ListTile(
           title: Text(server.serverName),
           trailing: IconButton(
             icon: this._buildIconForState(server.state),
-            onPressed: server.state == ServerState.changing
+            onPressed: server.state is ServerChangingState
                 ? null // Disable the button while the state is changing
                 : () {
-                    final ServerEvent event = server.state == ServerState.running
+                    final ServerEvent event = server.state is ServerRunningState
                         ? ServerStop(server) // Create a StopServer event with the server object
                         : ServerStart(server); // Create a StartServer event with the server object
-                    // TODO Kevin: Can't find ServerBloc from context here!!
-                    context.read<ServerBloc>().add(event); // Dispatch the event to the ServerBloc
+                    serverBloc.add(event); // Dispatch the event to the ServerBloc
                   },
           ),
         ),
     );
   }
 
-  Widget _buildIconForState(ServerState state) {
-    switch (state) {
-      case ServerState.running:
-        return const Icon(Icons.stop);
-      case ServerState.stopped:
-        return const Icon(Icons.play_arrow);
-      case ServerState.changing:
-        return CircularProgressIndicator();
-      default:
-        return const Icon(Icons.error);
+  Widget _buildIconForState(ServerBlocState state) {
+    if (state is ServerRunningState) {
+      return const Icon(Icons.stop);
+    } else if (state is ServerStoppedState) {
+      return const Icon(Icons.play_arrow);
+    } else if (state is ServerChangingState) {
+      return CircularProgressIndicator();
     }
+    return const Icon(Icons.error);
   }
 }
