@@ -10,23 +10,28 @@ class ServerListItemWidget extends StatelessWidget {
 
   ServerListItemWidget({required this.server});
 
-  @override
+    @override
   Widget build(BuildContext context) {
     // Every server is its own Bloc
-    return ListTile(
-        title: Text(server.serverName),
-        trailing: IconButton(
-          icon: this._buildIconForState(this.server.state),
-          onPressed: server.state is ServerChangingState
-              ? null // Disable the button while the state is changing
-              : () {
-                  final ServerEvent event = server.state is ServerRunningState
-                      ? ServerStop(server) // Create a StopServer event with the server object
-                      : ServerStart(server); // Create a StartServer event with the server object
-                  this.server.add(event); // Dispatch the event to the ServerBloc
-                },
-        ),
-      );
+    return BlocBuilder(
+      bloc: server,
+      builder: (context, state) {
+        return ListTile(
+            title: Text(server.serverName),
+            trailing: IconButton(
+              icon: this._buildIconForState(this.server.state),
+              onPressed: server.state is ServerChangingState
+                  ? null // Disable the button while the state is changing
+                  : () {
+                      final ServerEvent event = server.state is ServerRunningState
+                          ? ServerStop(server) // Create a StopServer event with the server object
+                          : ServerStart(server); // Create a StartServer event with the server object
+                      this.server.add(event); // Dispatch the event to the ServerBloc
+                    },
+            ),
+          );
+      }
+    );
   }
 
   Widget _buildIconForState(ServerBlocState state) {
