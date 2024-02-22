@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gameserver_frontend/ServerListWidget.dart';
+import 'package:gameserver_frontend/bloc/auth/auth_bloc.dart';
+import 'package:gameserver_frontend/bloc/auth/auth_state.dart';
+import 'package:gameserver_frontend/pages/login_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 void main() {
+
   runApp(const MyApp());
 }
 
@@ -58,7 +65,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -77,10 +83,33 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: ServersListWidget(),
+      body: FutureBuilder<SharedPreferences>(
+        future: () async {
+          return await SharedPreferences.getInstance();
+        }(),
+        builder: (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
+          if (!snapshot.hasData) {
+            return CircularProgressIndicator();
+          }
+          
+          return BlocProvider(
+            create: (context) => AuthBloc.fromSharedPrefs(snapshot.data!),
+            child: BlocBuilder<AuthBloc, AuthBlocState>(
+              bloc: BlocProvider.of<AuthBloc>(context),
+              builder: (context, state) {
+            
+                if (state is LoggedInState) {
+                  return Center(
+                    // Center is a layout widget. It takes a single child and positions it
+                    // in the middle of the parent.
+                    child: ServersListWidget(state.user),
+                  );
+                }
+                return LoginPage();
+              },
+            ),
+          );
+        },
       ),
     );
   }

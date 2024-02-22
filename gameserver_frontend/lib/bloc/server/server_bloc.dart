@@ -4,8 +4,8 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gameserver_frontend/api.dart';
-import 'package:gameserver_frontend/bloc/server_event.dart';
-import 'package:gameserver_frontend/bloc/server_state.dart';
+import 'package:gameserver_frontend/bloc/server/server_event.dart';
+import 'package:gameserver_frontend/bloc/server/server_state.dart';
 
 class ServerBloc extends Bloc<ServerEvent, ServerBlocState> {
   final int id;
@@ -20,10 +20,10 @@ class ServerBloc extends Bloc<ServerEvent, ServerBlocState> {
     required this.serverVersion,
   }) {
     on<ServerStart>(serverStart);
-    on<ServerStarted>(serverStarted);
+    // on<ServerStarted>(serverStarted);
     on<ServerStop>(serverStop);
-    on<ServerStopped>(serverStopped);
-    on<ServerChanging>(serverChanging);
+    // on<ServerStopped>(serverStopped);
+    // on<ServerChanging>(serverChanging);
   }
 
   factory ServerBloc.fromJson(Map<String, dynamic> json) {
@@ -37,25 +37,22 @@ class ServerBloc extends Bloc<ServerEvent, ServerBlocState> {
   }
 
   Future serverStart(ServerStart event, Emitter<ServerBlocState> emit) async {
-    //this.add(ServerChanging(event.server));  // Should disable the server widget
     emit(ServerChangingState());  // Should disable the server widget
 
     final response = await dio.post('$api_url/start-server/', data: {'server_ident': this.id});  // WebAPI call
 
     if (!bad_statuscode(response.statusCode)) {
-      //this.add(ServerStarted(event.server)); // Set state to started if start successful
-      emit(ServerRunningState());
+      emit(ServerRunningState());  // Set state to started if start successful
     } else {
-      //this.add(ServerError(event.server)); // Something went wrong, now we don't know what's going on
-      emit(ServerErrorState());
+      emit(ServerErrorState());  // Something went wrong, now we don't know what's going on
     }
 
   }
 
-  Future serverStarted(ServerStarted event, Emitter<ServerBlocState> emit) async {
-    // TODO Kevin: Enable server widget
-    emit(ServerRunningState());
-  }
+  // Future serverStarted(ServerStarted event, Emitter<ServerBlocState> emit) async {
+  //   // TODO Kevin: Enable server widget
+  //   emit(ServerRunningState());
+  // }
 
   Future serverStop(ServerStop event, Emitter<ServerBlocState> emit) async {
     emit(ServerChangingState());  // Should disable the server widget
@@ -70,11 +67,11 @@ class ServerBloc extends Bloc<ServerEvent, ServerBlocState> {
 
   }
 
-  Future serverStopped(ServerStopped event, Emitter<ServerBlocState> emit) async {
-    // TODO Kevin: Enable server widget
-  }
+  // Future serverStopped(ServerStopped event, Emitter<ServerBlocState> emit) async {
+  //   // TODO Kevin: Enable server widget
+  // }
 
-  Future serverChanging(ServerChanging event, Emitter<ServerBlocState> emit) async {
+  // Future serverChanging(ServerChanging event, Emitter<ServerBlocState> emit) async {
 
-  }
+  // }
 }

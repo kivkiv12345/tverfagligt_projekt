@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gameserver_frontend/ServerListWidget.dart';
-import 'package:gameserver_frontend/bloc/server_bloc.dart';
-import 'package:gameserver_frontend/bloc/server_event.dart';
-import 'package:gameserver_frontend/bloc/server_state.dart';
+import 'package:gameserver_frontend/bloc/server/server_bloc.dart';
+import 'package:gameserver_frontend/bloc/server/server_event.dart';
+import 'package:gameserver_frontend/bloc/server/server_state.dart';
 
 class ServerListItemWidget extends StatelessWidget {
   final ServerBloc server;
