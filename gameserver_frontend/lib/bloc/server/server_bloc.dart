@@ -12,12 +12,14 @@ class ServerBloc extends Bloc<ServerEvent, ServerBlocState> {
   final String serverName;
   final String game;
   final String serverVersion;
+  final Api api;
 
   ServerBloc(super.state, {
     required this.id,
     required this.serverName,
     required this.game,
     required this.serverVersion,
+    required this.api,
   }) {
     on<ServerStart>(serverStart);
     // on<ServerStarted>(serverStarted);
@@ -26,20 +28,21 @@ class ServerBloc extends Bloc<ServerEvent, ServerBlocState> {
     // on<ServerChanging>(serverChanging);
   }
 
-  factory ServerBloc.fromJson(Map<String, dynamic> json) {
+  factory ServerBloc.fromJson(Map<String, dynamic> json, Api api) {
     return ServerBloc(
       (json['is_running'] as bool) ? ServerRunningState() : ServerStoppedState(), // Convert boolean to enum
       id: json['id'] as int,
       serverName: json['server_name'] as String,
       game: json['game'] as String,
       serverVersion: json['server_version'] as String,
+      api: api,
     );
   }
 
   Future serverStart(ServerStart event, Emitter<ServerBlocState> emit) async {
     emit(ServerChangingState());  // Should disable the server widget
 
-    final response = await dio.post('$api_url/start-server/', data: {'server_ident': this.id});  // WebAPI call
+    final response = await this.api.dio.post('${this.api.api_url}/start-server/', data: {'server_ident': this.id});  // WebAPI call
 
     if (!bad_statuscode(response.statusCode)) {
       emit(ServerRunningState());  // Set state to started if start successful
@@ -57,7 +60,7 @@ class ServerBloc extends Bloc<ServerEvent, ServerBlocState> {
   Future serverStop(ServerStop event, Emitter<ServerBlocState> emit) async {
     emit(ServerChangingState());  // Should disable the server widget
 
-    final response = await dio.post('$api_url/stop-server/', data: {'server_ident': this.id});  // WebAPI call
+    final response = await this.api.dio.post('${this.api.api_url}/stop-server/', data: {'server_ident': this.id});  // WebAPI call
 
     if (!bad_statuscode(response.statusCode)) {
       emit(ServerStoppedState()); // Set state to stopped if stop successful

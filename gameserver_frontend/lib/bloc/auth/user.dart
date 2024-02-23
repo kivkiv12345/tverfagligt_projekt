@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:gameserver_frontend/api.dart';
 
 class User {
@@ -18,5 +19,9 @@ class AuthenticatedUser extends User {
   static Future<AuthenticatedUser> from_credentials(String username, String password) async {
     Api api = await Api.from_credentials(username, password);
     return AuthenticatedUser.from_api(username, api);
+  }
+
+  Future<Response> logout() async {
+    return this.api.logout();
   }
 }

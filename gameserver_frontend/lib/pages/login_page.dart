@@ -1,4 +1,4 @@
-// Mostly stolen from: 
+// Mostly stolen from:
 // https://github.com/TotallyNotRust/Chivalry-2-Competitive-Platform/blob/main/lib/pages/login_page.dart
 import 'dart:io';
 
@@ -13,7 +13,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: const LoginForm());
+    return const Center(child: LoginForm());
   }
 }
 
@@ -27,10 +27,8 @@ class LoginForm extends StatelessWidget {
       width = MediaQuery.of(context).size.width / 3;
     }
 
-    TextEditingController identityController =
-        TextEditingController();
-    TextEditingController passwordController =
-        TextEditingController();
+    TextEditingController usernameController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
 
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
@@ -40,7 +38,7 @@ class LoginForm extends StatelessWidget {
         child: Column(
           children: [
             const Text("Username"),
-            TextField(controller: identityController),
+            TextField(controller: usernameController),
             const Text("Password"),
             TextField(
               controller: passwordController,
@@ -48,10 +46,12 @@ class LoginForm extends StatelessWidget {
             ),
             CupertinoButton(
               child: const Text("Login"),
-              onPressed: () {
-                BlocProvider.of<AuthBloc>(context).add(LoginEvent(
-                    identifier: identityController.text,
-                    password: passwordController.text));
+              onPressed: () async {
+                BlocProvider.of<AuthBloc>(context)
+                    .add(await LoginEvent.from_credentials(
+                  usernameController.text,
+                  passwordController.text,
+                ));
               },
             )
           ],

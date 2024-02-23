@@ -11,26 +11,31 @@ bool bad_statuscode(int ?statusCode) {
 
 class Api {
   
-  static const String url = 'http://localhost:8000/api'; 
-  late final Dio _dio;  // Use Dio for HTTP requests
+  static const String url = 'http://localhost:8000/api';
+  final String api_url = Api.url;
+  late final Dio dio;  // Use Dio for HTTP requests
 
   // late final String token;  // TODO Kevin: What if token changes?
 
   Api(String token) {
-    this._dio = Dio();
-    this._dio.options.headers['Authorization'] = 'Token $token';
+    this.dio = Dio();
+    this.dio.options.headers['Authorization'] = 'Token $token';
   }
 
   Api._with_dio(String token, Dio dio) {
-    this._dio = dio;
-    this._dio.options.headers['Authorization'] = 'Token $token';
+    this.dio = dio;
+    this.dio.options.headers['Authorization'] = 'Token $token';
+  }
+
+  Future<Response> logout() async {
+    return await await this.dio.post('${Api.url}/user-logout/');  // WebAPI call
   }
 
   static Future<Api> from_credentials(String username, String password) async {
     Dio dio = Dio();
-    String cred_str = '{"username": $username, "password": $password}';  // TODO Kevin: What if token changes?
-    Response response = await dio.post(Api.url, data: cred_str);
-    String token = response.data as String;
+    String cred_str = '{"username": "$username", "password": "$password"}';  // TODO Kevin: What if token changes?
+    Response response = await dio.post('${Api.url}/user-login/', data: cred_str);
+    String token = (response.data as Map<String, dynamic>)['token']!;
     return Api._with_dio(token, dio);
   }
   
@@ -41,13 +46,13 @@ class Api {
   // Fetch servers from backend
   Future<List<ServerBloc>> fetchServers() async {
     // TODO Kevin: Set token during login
-    final response = await this._dio.get('${Api.url}/get-server-info');
+    final response = await this.dio.get('${Api.url}/get-server-info');
     // Parse JSON response and return list of Server objects
     if (bad_statuscode(response.statusCode)) {
       throw ConnectionError('Failed to fetch servers');
     }
 
     final List<dynamic> jsonList = response.data as List<dynamic>;
-    return jsonList.map((json) => ServerBloc.fromJson(json)).toList();
+    return jsonList.map((json) => ServerBloc.fromJson(json, this)).toList();
   }
 }

@@ -6,11 +6,14 @@ abstract class AuthEvent {}
 
 class LoginEvent extends AuthEvent {
 
-  LoginEvent(Api api);
+  Api api;
+  String username;
+
+  LoginEvent(this.api, this.username);
 
   static Future<LoginEvent> from_credentials(String username, String password) async {
     Api api = await Api.from_credentials(username, password);
-    return LoginEvent(api);
+    return LoginEvent(api, username);
   }
 }
 

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gameserver_frontend/api.dart';
 import 'package:gameserver_frontend/bloc/auth/auth_event.dart';
@@ -27,16 +28,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthBlocState> {
     return AuthBloc(LoggedOutState());
   }
 
-  Future login(LoginEvent event, Emitter<LoggedInState> emit) async {
+  Future login(LoginEvent event, Emitter<AuthBlocState> emit) async {
     //emit(ServerChangingState());  // Should disable the server widget
 
-    final response = await dio.post('$api_url/start-server/', data: {'server_ident': this.id});  // WebAPI call
+    // final response = await dio.post('$api_url/user-login/', data: {'server_ident': this.id});  // WebAPI call
 
-    if (!bad_statuscode(response.statusCode)) {
-      emit(LoggedInState());  // Set state to started if start successful
-    } else {
-      emit(ServerErrorState());  // Something went wrong, now we don't know what's going on
-    }
+    emit(LoggedInState(AuthenticatedUser.from_api(event.username, event.api)));  // Set state to started if start successful
+    // if (!bad_statuscode(response.statusCode)) {
+    //   emit(LoggedInState(AuthenticatedUser.from_api(event.username, event.api)));  // Set state to started if start successful
+    // } else {
+    //   emit(ServerErrorState());  // Something went wrong, now we don't know what's going on
+    // }
 
   }
 
@@ -45,15 +47,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthBlocState> {
   //   emit(ServerRunningState());
   // }
 
-  Future logout(LogoutEvent event, Emitter<LoginBlocState> emit) async {
+  Future logout(LogoutEvent event, Emitter<AuthBlocState> emit) async {
     //emit(ServerChangingState());  // Should disable the server widget
 
-    final response = await dio.post('$api_url/stop-server/', data: {'server_ident': this.id});  // WebAPI call
+    Response response = await event.user.logout();  // WebAPI call
 
     if (!bad_statuscode(response.statusCode)) {
       emit(LoggedOutState()); // Set state to stopped if stop successful
     } else {
-      emit(ServerErrorState()); // Something went wrong, now we don't know what's going on
+      // emit(ServerErrorState()); // Something went wrong, now we don't know what's going on
     }
 
   }

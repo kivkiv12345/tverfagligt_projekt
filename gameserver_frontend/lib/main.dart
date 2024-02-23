@@ -92,10 +92,11 @@ class _MyHomePageState extends State<MyHomePage> {
             return CircularProgressIndicator();
           }
           
+          AuthBloc authBloc = AuthBloc.fromSharedPrefs(snapshot.data!);
           return BlocProvider(
-            create: (context) => AuthBloc.fromSharedPrefs(snapshot.data!),
+            create: (context) => authBloc,
             child: BlocBuilder<AuthBloc, AuthBlocState>(
-              bloc: BlocProvider.of<AuthBloc>(context),
+              bloc: authBloc,
               builder: (context, state) {
             
                 if (state is LoggedInState) {
