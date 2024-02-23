@@ -19,8 +19,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthBlocState> {
     final String? token = prefs.getString('token');
     final String? username = prefs.getString('username');
 
-    // Either we get both, or none.
-    assert ((token == null && username == null) || (token != null && username != null));
+    // ideally we either get both, or none.
+    // But sharedPrefs makes no promise to actually save data to disk.
+    //assert ((token == null && username == null) || (token != null && username != null));
 
     if (token != null && username != null) {
       return AuthBloc(LoggedInState(AuthenticatedUser.from_api(username, Api(token))));

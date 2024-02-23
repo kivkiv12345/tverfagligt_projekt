@@ -16,3 +16,7 @@ Access-control list (ACl)
 
 GameServer.server_name must be case-insensitive unique:
 https://stackoverflow.com/questions/7773341/case-insensitive-unique-model-fields-in-django
+
+
+Flutter darkmode:
+https://stackoverflow.com/questions/60232070/how-to-implement-dark-mode-and-light-mode-in-flutter

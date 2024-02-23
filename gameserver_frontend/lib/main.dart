@@ -4,13 +4,13 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gameserver_frontend/ServerListWidget.dart';
 import 'package:gameserver_frontend/bloc/auth/auth_bloc.dart';
+import 'package:gameserver_frontend/bloc/auth/auth_event.dart';
 import 'package:gameserver_frontend/bloc/auth/auth_state.dart';
+import 'package:gameserver_frontend/bloc/theme/theme_bloc.dart';
 import 'package:gameserver_frontend/pages/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 void main() {
-
   runApp(const MyApp());
 }
 
@@ -20,28 +20,38 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return BlocProvider(
+      create: (context) => ThemeBloc(
+          ThemeMode.system), // Use system preferred dark/light mode by default.
+      child: BlocBuilder<ThemeBloc, ThemeMode>(
+        builder: (context, themeMode) {
+          return MaterialApp(
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              // This is the theme of your application.
+              //
+              // TRY THIS: Try running your application with "flutter run". You'll see
+              // the application has a purple toolbar. Then, without quitting the app,
+              // try changing the seedColor in the colorScheme below to Colors.green
+              // and then invoke "hot reload" (save your changes or press the "hot
+              // reload" button in a Flutter-supported IDE, or press "r" if you used
+              // the command line to start the app).
+              //
+              // Notice that the counter didn't reset back to zero; the application
+              // state is not lost during the reload. To reset the state, use hot
+              // restart instead.
+              //
+              // This works for code too, not just values: Most code changes can be
+              // tested with just a hot reload.
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              useMaterial3: true,
+            ),
+            darkTheme: ThemeData.dark(),
+            themeMode: themeMode,
+            home: const MyHomePage(title: 'Flutter Demo Home Page'),
+          );
+        },
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -73,45 +83,121 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: FutureBuilder<SharedPreferences>(
-        future: () async {
-          return await SharedPreferences.getInstance();
-        }(),
-        builder: (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
-          if (!snapshot.hasData) {
-            return CircularProgressIndicator();
-          }
-          
-          AuthBloc authBloc = AuthBloc.fromSharedPrefs(snapshot.data!);
-          return BlocProvider(
-            create: (context) => authBloc,
-            child: BlocBuilder<AuthBloc, AuthBlocState>(
-              bloc: authBloc,
-              builder: (context, state) {
-            
-                if (state is LoggedInState) {
-                  return Center(
-                    // Center is a layout widget. It takes a single child and positions it
-                    // in the middle of the parent.
-                    child: ServersListWidget(state.user),
-                  );
-                }
-                return LoginPage();
-              },
-            ),
-          );
-        },
-      ),
+    return FutureBuilder<SharedPreferences>(
+      future: () async {
+        return await SharedPreferences.getInstance();
+      }(),
+      builder:
+          (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
+        if (!snapshot.hasData) {
+          return CircularProgressIndicator();
+        }
+
+        AuthBloc authBloc = AuthBloc.fromSharedPrefs(snapshot.data!);
+        return BlocProvider(
+          create: (context) => authBloc,
+          child: BlocBuilder<AuthBloc, AuthBlocState>(
+            bloc: authBloc,
+            builder: (context, state) {
+              final Widget content;
+
+              if (state is LoggedInState) {
+                content = Center(
+                  // Center is a layout widget. It takes a single child and positions it
+                  // in the middle of the parent.
+                  child: ServersListWidget(state.user),
+                );
+              } else {
+                content = LoginPage();
+              }
+
+              return Scaffold(
+                appBar: AppBar(
+                  // TRY THIS: Try changing the color here to a specific color (to
+                  // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
+                  // change color while the other colors stay the same.
+                  backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                  // Here we take the value from the MyHomePage object that was created by
+                  // the App.build method, and use it to set our appbar title.
+                  title: Text(widget.title),
+                  leading: Builder(
+                    builder: (BuildContext context) {
+                      return IconButton(
+                        icon: Icon(Icons.menu),
+                        onPressed: () {
+                          Scaffold.of(context).openDrawer(); // Open the drawer
+                        },
+                      );
+                    },
+                  ),
+                ),
+                body: content,
+                drawer: Drawer(
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: <Widget>[
+                      DrawerHeader(
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                        ),
+                        child: Text(
+                          'Menu',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.settings),
+                        title: Text('Settings'),
+                        // onTap: () {
+                        //   // Navigate to the settings page
+                        //   Navigator.pop(context); // Close the drawer
+                        //   Navigator.push(context,
+                        //       MaterialPageRoute(builder: (context) => SettingsPage()));
+                        // },
+                      ),
+                      if (state is LoggedInState)
+                        Builder(builder: (context) {
+                          return ListTile(
+                            leading: Icon(Icons.logout),
+                            title: Text('Log Out'),
+                            onTap: () {
+                              BlocProvider.of<AuthBloc>(context)
+                                  .add(LogoutEvent(user: state.user));
+                              Scaffold.of(context).closeDrawer();
+                            },
+                          );
+                        }),
+                      ListTile(
+                        title: Text('Dark Mode'),
+                        trailing: Switch(
+                          value:
+                              Theme.of(context).brightness == Brightness.dark,
+                          onChanged: (value) {
+                            // Toggle dark mode
+                            ThemeMode newThemeMode =
+                                value ? ThemeMode.dark : ThemeMode.light;
+                            MediaQuery.platformBrightnessOf(context);
+                            var newBrightness =
+                                MediaQuery.of(context).platformBrightness;
+                            if (newBrightness == Brightness.dark) {
+                              ThemeMode.dark;
+                            }
+                            BlocProvider.of<ThemeBloc>(context).add(newThemeMode);
+                            // Theme.of(context).themeMode = newThemeMode;  // TODO: <-- Error here
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

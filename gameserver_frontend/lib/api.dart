@@ -41,7 +41,7 @@ class Api {
   static Future<Api> from_credentials(String username, String password) async {
     Dio dio = Api._get_base_dio();
     String cred_str = '{"username": "$username", "password": "$password"}';  // TODO Kevin: What if token changes?
-    Response response = await dio.post('${Api.url}/user-login/', data: cred_str);
+    Response response = await dio.post('${Api.url}/user-login/', data: cred_str);  // TODO Kevin: Exception if server is down
 
     if (bad_statuscode(response.statusCode)) {
       throw PermissionDeniedError("Login failed, ${response.data}");
