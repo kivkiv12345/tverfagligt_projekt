@@ -6,6 +6,7 @@ import 'package:gameserver_frontend/ServerListWidget.dart';
 import 'package:gameserver_frontend/bloc/auth/auth_bloc.dart';
 import 'package:gameserver_frontend/bloc/auth/auth_event.dart';
 import 'package:gameserver_frontend/bloc/auth/auth_state.dart';
+import 'package:gameserver_frontend/bloc/auth/user.dart';
 import 'package:gameserver_frontend/bloc/theme/theme_bloc.dart';
 import 'package:gameserver_frontend/pages/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -93,7 +94,9 @@ class _MyHomePageState extends State<MyHomePage> {
           return CircularProgressIndicator();
         }
 
-        AuthBloc authBloc = AuthBloc.fromSharedPrefs(snapshot.data!);
+        SharedPreferences prefs = snapshot.data!;
+
+        AuthBloc authBloc = AuthBloc.fromSharedPrefs(prefs);
         return BlocProvider(
           create: (context) => authBloc,
           child: BlocBuilder<AuthBloc, AuthBlocState>(
@@ -102,10 +105,13 @@ class _MyHomePageState extends State<MyHomePage> {
               final Widget content;
 
               if (state is LoggedInState) {
+                AuthenticatedUser user = state.user;
+                prefs.setString('token', user.api.token);
+                prefs.setString('username', user.username);
                 content = Center(
                   // Center is a layout widget. It takes a single child and positions it
                   // in the middle of the parent.
-                  child: ServersListWidget(state.user),
+                  child: ServersListWidget(user),
                 );
               } else {
                 content = LoginPage();
@@ -164,6 +170,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             leading: Icon(Icons.logout),
                             title: Text('Log Out'),
                             onTap: () {
+                              prefs.remove('username');
+                              prefs.remove('token');
                               BlocProvider.of<AuthBloc>(context)
                                   .add(LogoutEvent(user: state.user));
                               Scaffold.of(context).closeDrawer();

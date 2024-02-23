@@ -12,6 +12,7 @@ class Api {
   static const String url = 'http://localhost:8000/api';
   final String api_url = Api.url;
   late final Dio dio;  // Use Dio for HTTP requests
+  final String token;
 
   // late final String token;  // TODO Kevin: What if token changes?
 
@@ -24,14 +25,14 @@ class Api {
     ));
   }
 
-  Api(String token) {
+  Api(this.token) {
     this.dio = Api._get_base_dio();
-    this.dio.options.headers['Authorization'] = 'Token $token';
+    this.dio.options.headers['Authorization'] = 'Token ${this.token}';
   }
 
-  Api._with_dio(String token, Dio dio) {
+  Api._with_dio(this.token, Dio dio) {
     this.dio = dio;
-    this.dio.options.headers['Authorization'] = 'Token $token';
+    this.dio.options.headers['Authorization'] = 'Token ${this.token}';
   }
 
   Future<Response> logout() async {

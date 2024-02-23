@@ -337,5 +337,5 @@ def user_logout(request: Request) -> Response:
     """
 
     request.user.auth_token.delete()
-    logout(request.user)
+    logout(request)
     return Response({'detail': 'Logged out successfully.'}, status=status.HTTP_200_OK)
