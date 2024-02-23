@@ -3,3 +3,9 @@ class ConnectionError implements Exception {
 
   ConnectionError([this.message]);
 }
+
+class PermissionDeniedError implements Exception {
+  String? message;
+
+  PermissionDeniedError([this.message]);
+}

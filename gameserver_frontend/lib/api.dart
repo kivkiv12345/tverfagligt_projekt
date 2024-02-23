@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:gameserver_frontend/Exceptions.dart';
-import 'package:gameserver_frontend/ServerListWidget.dart';
 import 'package:gameserver_frontend/bloc/server/server_bloc.dart';
-import 'package:gameserver_frontend/bloc/server/server_event.dart';
 
 
 bool bad_statuscode(int ?statusCode) {
@@ -17,8 +15,17 @@ class Api {
 
   // late final String token;  // TODO Kevin: What if token changes?
 
+  static Dio _get_base_dio() {
+    return Dio(BaseOptions(
+      // followRedirects: false,  // Seems to be recommended, but breaks get-server-info, which is apparently 'moved permanently'
+      validateStatus: (status) {
+        return status! < 500;
+      },
+    ));
+  }
+
   Api(String token) {
-    this.dio = Dio();
+    this.dio = Api._get_base_dio();
     this.dio.options.headers['Authorization'] = 'Token $token';
   }
 
@@ -32,9 +39,14 @@ class Api {
   }
 
   static Future<Api> from_credentials(String username, String password) async {
-    Dio dio = Dio();
+    Dio dio = Api._get_base_dio();
     String cred_str = '{"username": "$username", "password": "$password"}';  // TODO Kevin: What if token changes?
     Response response = await dio.post('${Api.url}/user-login/', data: cred_str);
+
+    if (bad_statuscode(response.statusCode)) {
+      throw PermissionDeniedError("Login failed, ${response.data}");
+    }
+
     String token = (response.data as Map<String, dynamic>)['token']!;
     return Api._with_dio(token, dio);
   }

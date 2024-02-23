@@ -11,6 +11,12 @@ class LoggedInState extends AuthBlocState {
   LoggedInState(this.user);
 }
 
+class LoginFailedState extends AuthBlocState {
+  String username;
+  String message;
+  LoginFailedState(this.username, this.message);
+}
+
 class LoggedOutState extends AuthBlocState {
   LoggedOutState();  // TODO Kevin: Should it be possible to signal which user has logged out?
 }

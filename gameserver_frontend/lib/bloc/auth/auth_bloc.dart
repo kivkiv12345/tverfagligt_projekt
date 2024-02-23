@@ -12,6 +12,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthBlocState> {
   AuthBloc(super.initialState) {
     on<LoginEvent>(login);
     on<LogoutEvent>(logout);
+    on<LoginFailureEvent>(login_failed);
   }
 
   factory AuthBloc.fromSharedPrefs(SharedPreferences prefs) {
@@ -29,26 +30,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthBlocState> {
   }
 
   Future login(LoginEvent event, Emitter<AuthBlocState> emit) async {
-    //emit(ServerChangingState());  // Should disable the server widget
-
-    // final response = await dio.post('$api_url/user-login/', data: {'server_ident': this.id});  // WebAPI call
-
-    emit(LoggedInState(AuthenticatedUser.from_api(event.username, event.api)));  // Set state to started if start successful
-    // if (!bad_statuscode(response.statusCode)) {
-    //   emit(LoggedInState(AuthenticatedUser.from_api(event.username, event.api)));  // Set state to started if start successful
-    // } else {
-    //   emit(ServerErrorState());  // Something went wrong, now we don't know what's going on
-    // }
-
+    emit(LoggedInState(AuthenticatedUser.from_api(event.username, event.api)));
   }
 
-  // Future serverStarted(ServerStarted event, Emitter<ServerBlocState> emit) async {
-  //   // TODO Kevin: Enable server widget
-  //   emit(ServerRunningState());
-  // }
+  Future login_failed(LoginFailureEvent event, Emitter<AuthBlocState> emit) async {
+    emit(LoginFailedState(event.username, event.message));
+  }
 
   Future logout(LogoutEvent event, Emitter<AuthBlocState> emit) async {
-    //emit(ServerChangingState());  // Should disable the server widget
 
     Response response = await event.user.logout();  // WebAPI call
 
@@ -59,12 +48,4 @@ class AuthBloc extends Bloc<AuthEvent, AuthBlocState> {
     }
 
   }
-
-  // Future serverStopped(ServerStopped event, Emitter<ServerBlocState> emit) async {
-  //   // TODO Kevin: Enable server widget
-  // }
-
-  // Future serverChanging(ServerChanging event, Emitter<ServerBlocState> emit) async {
-
-  // }
 }

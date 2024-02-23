@@ -47,11 +47,18 @@ class LoginForm extends StatelessWidget {
             CupertinoButton(
               child: const Text("Login"),
               onPressed: () async {
-                BlocProvider.of<AuthBloc>(context)
-                    .add(await LoginEvent.from_credentials(
+                
+                AuthEvent event = await LoginEvent.from_credentials(
                   usernameController.text,
                   passwordController.text,
-                ));
+                );
+
+                if (event is LoginFailureEvent) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(event.message)));
+                }
+
+                BlocProvider.of<AuthBloc>(context)
+                    .add(event);
               },
             )
           ],
