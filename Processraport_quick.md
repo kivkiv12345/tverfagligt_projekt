@@ -60,10 +60,19 @@ Alligevel er jeg åben for at vælge Flutter igen i fremtiden, grundet min store
 
 Jeg har efterhånden brugt Django til en håndfuld projekter, og har derfor nemmere ved at forudsige kompleksiteterne dertil.
 Selv sagt vil jeg også sige at jeg opbrugte min kvote på ukendte teknologier da jeg valgte Flutter som frontend, som viste sig at tage noget tid at lære.
+Efterhånden kendetegner _jeg_ Django ved hvor nemt det er at lave sine modeller. Og med lidt viden om Django-REST-framework, er det også ret hurtigt at lave sit web-API.
+
+Jeg har tidligere brugt Dockers officielle Python SDK (API) med et godt indtryk, og planlagde derfor også at bruge det her.
+Desværre fandt jeg ret tidligt ud af at det ikke understøtter docker-compose.
+Jeg fortrækker docker-compose da det tillader mig at starte næsten alle servere med minimale ændringer til argumenter, så jeg ville nødigt undvære det.
+Jeg søgte mig derfor frem til Python-on-whales, som er et uofficielt Docker/Python API med indbygget understøttelse. Pakken fungerer således at man instantierer en klient, ved at pege den i retning af en docker-compose.yml fil.
+Herpå kan man derefter kalde metoderne: .up(), .down(), .start(), .stop() osv. præcis som man kender kommandoerne fra terminal.
+Den eneste ulempe jeg oplevede ved Python-on-whales er det faktum 
+
 
 ### Database
 
-Django's ORM (Object Relational Mapping) understøtter som udgangspunkt en række relationelle database, hvoraf SQLite roligt kan bruges uden at lave endnu en Docker container. Havde jeg haft større krav til databasen, ville jeg i stedet have valgt PostgreSQL af flere grunde:
+Django's ORM (Object Relational Mapping) understøtter en række relationelle database, hvoraf SQLite roligt kan bruges uden at lave endnu en Docker container. Havde jeg haft større krav til databasen, ville jeg i stedet have valgt PostgreSQL af flere grunde:
 - For at kunne installere Django-Polymorphism pakken, som ville tillade mig at gøre min GameServer model abstrakt, men fortsat lave forspørgeler derpå for at få konkrete nedarvede klasser til specifikke spil.
 Hermed ville jeg kunne undgå mine 'Manager' klasser (og arvehierarkiet dertil).
 Sagt således lyder Django-Polymorphism som et meget fornuftigt valg, men tager man i begtragtning at det ville koste en ekstra SQL JOIN per konkrete spilklasse, samt en ekstra Docker container, har pakken alligevel væsentlige ulemper.
@@ -78,7 +87,7 @@ Sagt således lyder Django-Polymorphism som et meget fornuftigt valg, men tager 
 
 ### Refleksioner
 
-Dog jeg er tilfreds men kravspecifikationens nedprioriterede krav, har jeg følt at de 11 krav jeg har haft er for få, når jeg tillader mig selv __ikke__ at nå alle.
+Dog jeg er tilfreds med kravspecifikationens nedprioriterede krav, har jeg følt at de 11 krav jeg har haft er for få, når jeg tillader mig selv __ikke__ at nå alle.
 
 Med andre ord har mine højt prioriterede krav nok været for brede. Det er en situation som jeg vil forsøge at undgå til svendeprøven.
 
