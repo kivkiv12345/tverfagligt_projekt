@@ -37,6 +37,12 @@ Oprindeligt var det også tiltænkt at logging skulle kunne forgå vha. en tidsb
 
 ## Tidsplan
 
+Selv ser jeg oftest flere ulempe end fordele ved at lægge for mange kræfter i sin tidsplan.
+Så længe de tidsplaner jeg laver kan fortælle mig om jeg er forud eller falder bagud, kan jeg altid tilpasse dem løbende, ment som at jeg ikke føler behovet for at ramme rigtigt med første skud.
+Jeg forstår at det synspunkt ikke holder i en virksomhed, hvor der er tale penge.
+Med det sagt lagde jeg ikke alt for mange kræfter i min estimerede tidsplan.
+Set i bakspejlet skulle jeg, i følge tidsplanen, uheldigvis have startet på min Flutter app lidt inden vi startede på App faget.
+
 ## Dokumentation af Valg
 
 Produktet præsenteres af en frontend lavet med Flutter (Dart), som forbinder til en backend lavet med Django (Python). Databasen er på nuværende tidspunkt SQLite, men er nemt udskiftelig skulle der blive behov for det.
@@ -47,9 +53,10 @@ Projektets Dockerfiler (hermed også docker-compose.yml) har som formål at gør
 
 Indtil videre har jeg ikke mødt nogen frontend udviklingsværtøjer som jeg synes godt om.
 Jeg er stor modstander af XML (eller lignende) til frontend, jeg oplever at det typisk knytter én til Visual Studio og dermed Windows.
-Modsat set kan man beholde alt UI som kode, hvor jeg tidlige har brugt TKinter og Kivy (Python).
+Modsat set kan man beholde alt UI som kode, hvor jeg tidlige har brugt TKinter og Kivy (Python). Selv ser jeg størst potentiale med denne metodik.
+Flutter udvikling forgår som den sidstnævnte, eksklusivt i kode.
 
-Sjovt nok er Flutter stort set det stik modsatte af hvad jeg foretrækker inden for programmering:
+Sjovt nok er Flutter alligevel stort set det stik modsatte af hvad jeg foretrækker inden for programmering:
 - Meget af koden forgår med async/await, som kan siges at være ukompatibel men synkron programmering.
 - Typisk instantierer man alle sine widgets som 'recursive' argumenter til retur værdigen. Det medfører en masse indlejrede paraneteser, af flere forskellige slags, som er svære at omstrukturere, trods hjælpen fra Visual Studio Code.
 
@@ -82,8 +89,28 @@ Sagt således lyder Django-Polymorphism som et meget fornuftigt valg, men tager 
 
 ## Realiseret tidsplan
 
+Dog det måske er svært at se på arket her [TODO Kevin: indsæt], har mine løbende opdateringer til min tidsplan vist at jeg langsomt faldt bagud. Alligvel har jeg ikke været specialt bekymret, da jeg primært mistænkte det ske fra tid brugt på eksperimentation med mine valgte teknologier.
+Derfor var min idé at jeg kunne indhente meget tidsplanen ved at fokusere på de vigtigste dele af projektet.
+
 
 ## Koklusion
+
+Med mit program har jeg målrettet serveradministration til specifikke spil og implementationer. Herved har jeg kunne forenkle og forene opsætningen samt administration deraf.
+Med denne målsætning kræves der mindre arbejde fra brugere, men mere fra udvikleren (per spil). Dog lettes det af kræfterne lagt i arvehierarkiet, hvor metoder og registering (af spil/klasser) kan håndteres af superklasser.
+
+I virkeligheden kan spillere, samt deres spil, stille vidt forskellige krav til hvad serveradministration kræver.
+Til mit projekt oplevede jeg ret tidligt nødvendigheden ved at håndtere versionering af serverene.
+Heldigvis var denne problematik nem at løse med min GitHubVersionedManager klasse, som tildeler commits til spilversioner på et givent repo.
+I fremtiden håber jeg også på at finde en god løsning til modding (tilføjelse af bruger-skabte udvidelser) af servere, da det er relevant for hvordan jeg selv kommer til at bruge produktet. Dog ligger dette krav uden for min kravspecifikation, så manglen er ikke væsentlig her.
+
+Mit største problem burde jeg have undersøgt, inden jeg startede projektet. Jeg lærte undervejs at 'URL' paths er HTTP specifikke, og derfor ikke kan bruges til viderestilling af TCP/UDP pakker.
+Alternativt kunne jeg have brugt subdomains. Men da det ville have stilt større krav til deployment of HTTPS certifikater, besluttede jeg mig at det kostede for meget arbejdstid uden for kravspecifikationen.
+I stedet endte jeg med den simple løsning, at eksponere spilservernes porte.
+Som fordel er det simpelt; Docker tillader brugeren af styre hvilken container en given port skal viderestilles til.
+Derfor ordnede jeg således at hver instans af en server finder den mindst inkrementeret port, som ikke er brugt af andre servere. Det er væsentligt da flere servere til samme spil ellers ville have brugt samme port.
+Som ulempe stiller det krav til at en lang række potentielle porte skal åbnes på opsætterens/administratorens router, hvilket jeg havde håbet at undgå.
+
+Trods jeg ikke nåede at tilpasse Flutter applikationen til at understøtte oprettelse af nye server, kan Django's autogenerede administratorside vise hvor nemt det er.
 
 ### Refleksioner
 
@@ -98,6 +125,3 @@ Jeg vil forsøge at være mere produktiv til svendeprøven, så jeg kan øge omf
 Hertil tror jeg at det er til megen hjælp at vi primært kommer kunne arbejde hjemmefra. På nuværende tidspunkt vil det spare mig 3 timer i transport dagligt, som jeg i stedet kan lægge på tidsplanen.
 Motivationmæssigt oplever jeg dage hvor jeg opnår meget mere hjemmefra, men samtidig også dage som er fyldt med overspringshandlinger.
 Som helhed er jeg næsten sikker på at jeg vil være mere produktiv til svendeprøven.
-
-
-Forholdvis til svendeprøve?
