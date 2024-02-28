@@ -51,6 +51,10 @@ Projektets Dockerfiler (hermed også docker-compose.yml) har som formål at gør
 
 ### Flutter
 
+Flutter er et cross-platform frontend framework, hvormed den samme kode derfor kan præstere på: mobil, computere, web, mm.
+Flutter håndterer derfor automatisk mange af de elementer nødvendige for skalering og præsentation på de forskellige platforme.
+Alternativt kan kode udvikles til en specific platform, hvilket giver bedere mulighed for at udnytte platformens hardware og skræddersye udseende.
+
 Indtil videre har jeg ikke mødt nogen frontend udviklingsværtøjer som jeg synes godt om.
 Jeg er stor modstander af XML (eller lignende) til frontend, jeg oplever at det typisk knytter én til Visual Studio og dermed Windows.
 Modsat set kan man beholde alt UI som kode, hvor jeg tidlige har brugt TKinter og Kivy (Python). Selv ser jeg størst potentiale med denne metodik.
@@ -63,11 +67,34 @@ Sjovt nok er Flutter alligevel stort set det stik modsatte af hvad jeg foretræk
 Alligevel er jeg åben for at vælge Flutter igen i fremtiden, grundet min store respekt for understøttelsen af mange platforme.
 
 
-### Django / Python(-on-whales)
+### Django
+
+Som backend framework bruger projektet Django, som er et Python web framework med fokus på hurtig udvikling med indbygget sikkerhed.
+Django er dog større og mere kompleks end mange andre Python alternativer, såsom Flask, og ligner på mange måder Asp.Net Core (med Entity Framework) fra .Net verdenen.
 
 Jeg har efterhånden brugt Django til en håndfuld projekter, og har derfor nemmere ved at forudsige kompleksiteterne dertil.
 Selv sagt vil jeg også sige at jeg opbrugte min kvote på ukendte teknologier da jeg valgte Flutter som frontend, som viste sig at tage noget tid at lære.
 Efterhånden kendetegner _jeg_ Django ved hvor nemt det er at lave sine modeller. Og med lidt viden om Django-REST-framework, er det også ret hurtigt at lave sit web-API.
+
+Det primære formål med projektets Django backend er at tilbyde et web-API som muliggør at administrere spilserverne fra Flutter applikationen. Derfor skal backenden også tilbyde et fælles interface til diverse implementationer af spilservere.
+Som den første konkrete spilklasse understøtter projektet servere til spillet Vintage Story, som i baggrunden kører vha. Docker-Compose. Men med Manager klassernes arvehierarki, kan udvikleren nemt udskifte hvordan spilserveren i virkeligheden køres.
+
+#### Docker / Python(-on-whales)
+
+Docker er et meget veletableret virtualiserings værktøj, hvortil mange spilservere derfor allerede understøttes.
+Docker fraskiller sig fra typiske virtualiserings værktøjer ved ikke at bruge virtuelle maskiner, i virkeligheden separerer Docker bare processer ved at bruge namespaces.
+Det giver forholdsvis lave omkostninger til virtualisering.
+Samtidig gør Docker det også nemt, og systematisk, at 'Dockerisere' sine egne tjenester med deres 'Dockerfiler' og Docker-Compose.
+Kombinerer man derfor Docker med en grafisk brugerflade, såsom Portainer, opnår man allerede meget af problemformuleringen til dette projekt.
+
+Docker i sig selv er meget generisk, hvilket også afspejler sig i brugerfladerne dertil. Derfor ser jeg stadig hjemmel i en skræddersyet løsning som dette projekt forsøger at tilbyde.
+
+Når man 'Dockeriserer' en tjeneste, laver man først et "image" med din "Dockerfile". Her fortæller man løser man sin tjenestes afhængerigheder ved at vælge hvilken virtualiseret platform/OS den skal køre på, hvorefter man yderligere tilpasser den til sit behov.
+Herefter fortæller man også hvordan sin tjeneste skal starte på denne platform.
+Et "image" i sig selv er bare en opskrift, når den virkeliggøres laver man en "container" (som man som programmør skulle kunne beskrive som en 'instans')
+Tjenesten synliggøres for omverdenen når man vælger 
+
+Docker kan udvides med 'Docker Compose', som gør det nemt at administrere flere "Corntainere" som én helhed.
 
 Jeg har tidligere brugt Dockers officielle Python SDK (API) med et godt indtryk, og planlagde derfor også at bruge det her.
 Desværre fandt jeg ret tidligt ud af at det ikke understøtter docker-compose.
@@ -79,11 +106,17 @@ Den eneste ulempe jeg oplevede ved Python-on-whales er det faktum
 
 ### Database
 
-Django's ORM (Object Relational Mapping) understøtter en række relationelle database, hvoraf SQLite roligt kan bruges uden at lave endnu en Docker container. Havde jeg haft større krav til databasen, ville jeg i stedet have valgt PostgreSQL af flere grunde:
+Til database bruger jeg Django's ORM (Object Relational Mapping), som understøtter en række relationelle databaser. Heraf bruger jeg SQLite, som ikke kræver endnu en Docker container. Havde jeg haft større krav til databasen, ville jeg i stedet have valgt PostgreSQL af flere grunde:
+
 - For at kunne installere Django-Polymorphism pakken, som ville tillade mig at gøre min GameServer model abstrakt, men fortsat lave forspørgeler derpå for at få konkrete nedarvede klasser til specifikke spil.
 Hermed ville jeg kunne undgå mine 'Manager' klasser (og arvehierarkiet dertil).
 Sagt således lyder Django-Polymorphism som et meget fornuftigt valg, men tager man i begtragtning at det ville koste en ekstra SQL JOIN per konkrete spilklasse, samt en ekstra Docker container, har pakken alligevel væsentlige ulemper.
+
 - Jeg har tidligere Dockeriseret en PostgreSQL database til vores H3 Trello lignende projekt, og ved derfor at det nemt kan gøres med nogle enkelte ændringer til Django og docker-compose.yml filen.
+
+Forespørgsler til relationelle databaser skrives i sproget SQL, som kan have mindre variationer afhængigt af database brugt. Disse variationer udviskes ved brugen af en ORM, som giver et abstraktionslag til databasen. Dette tillader udviklingeren at holde alle forespørgsler til databasen i samme sprog som resten af programmet og dets kode.
+Abstraktionslaget gør det typisk også nemt at udskifte hvilken database som bruges. Den fordel vil jeg gøre brug af, skulle jeg for behov for PostgreSQL.
+Som ulempe er ORMe typisk langsommere end skræddersyede SQL sætninger.
 
 ### Alternativer
 
