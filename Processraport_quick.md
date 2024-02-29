@@ -1,4 +1,11 @@
 
+## Læsevejledning
+
+- ORM (Object Relational Mapping)
+- API (Application Programming Interface)
+- SQL (Structured Query Language)
+- Repo ((GitHub) repository)
+
 
 ## Indledning
 
@@ -82,7 +89,7 @@ Som den første konkrete spilklasse understøtter projektet servere til spillet 
 #### Docker / Python(-on-whales)
 
 Docker er et meget veletableret virtualiserings værktøj, hvortil mange spilservere derfor allerede understøttes.
-Docker fraskiller sig fra typiske virtualiserings værktøjer ved ikke at bruge virtuelle maskiner, i virkeligheden separerer Docker bare processer ved at bruge namespaces.
+Docker adskiller sig fra typiske virtualiserings værktøjer ved ikke at bruge virtuelle maskiner, i virkeligheden separerer Docker bare processer ved at bruge namespaces.
 Det giver forholdsvis lave omkostninger til virtualisering.
 Samtidig gør Docker det også nemt, og systematisk, at 'Dockerisere' sine egne tjenester med deres 'Dockerfiler' og Docker-Compose.
 Kombinerer man derfor Docker med en grafisk brugerflade, såsom Portainer, opnår man allerede meget af problemformuleringen til dette projekt.
