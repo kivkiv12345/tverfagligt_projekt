@@ -5,6 +5,7 @@
 - API (Application Programming Interface)
 - SQL (Structured Query Language)
 - Repo ((GitHub) repository)
+- DRF (Django-REST-Framework)
 
 
 ## Indledning

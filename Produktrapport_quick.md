@@ -294,7 +294,112 @@ def get_form(self, request, obj: GameServer = None, change=False, **kwargs):
 
 ### Flutter
 
+Programmet præsenteres af Flutter, som er et cross-platform frontend framework, hvormed den samme kode derfor kan præstere på: mobil, computere, web, mm.
+Kører man systemet med Docker, kan Flutter tilgås som en webapp på port 8080.
+
+Login proceduren fungere ved at Flutter sender de indtastede legitimationsoplysninger (brugernavn og kodeord) til Django applikationen, som derefter verificerer oplysningerne.
+Herefter svarer Django applikationen med "Token" som Flutter applikationen efterfølgende bruger til at verificere brugeren identitet til forespørgsler.
+
+Flutter applikationen bruger pakken shared_preferences til at persitere brugernavn og token til disken på tværs af sessioner. Hermed behøver brugere, som adgangspunkt, kun at logge ind én enkelt gang.
+
+
+Flutter applikationen gør stort brug af pakken Bloc til at håndtere opdateringer af brugerfladen.
+Disse opdateringer indebærer på nuværnde tidspunkt:
+- Bemyndigelse af brugere ved login/logout.
+- Ændring mellem mørkt og lyst tema.
+- Ønskede og reelle opdateringer af servere (start/stop osv.)
+
+En 'Bloc' er en kombineret state maskine og observer pattern. Brugere af en Bloc kan skabe 'Events' som kan påvirke den aktuelle Bloc instans til at skifte tilstand ("state"). Denne tilstand udsendes herefter til relevante lyttere (BlocBuilder instanser), som genbygger dele af brugerfladen baseret på informationen inkluderet i den udsendte tilstand instans.
+Brugerfladen mest simple eksempel ses i form af ThemeBloc:
+
+```
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class ThemeBloc extends Bloc<ThemeMode, ThemeMode> {
+
+  ThemeBloc(super.initialState) {
+    on<ThemeMode>(themeChange);
+  }
+
+  void themeChange(ThemeMode theme, Emitter<ThemeMode> emit) {
+    emit(theme);
+  }
+}
+```
+
+Denne Bloc klasse bruger både ThemeMode klassen som 'events' og 'states', hermed behøver Bloc'en blot videresende det modtagede 'event' til lyttende BlocBuilder instanser:
+
+```
+BlocBuilder<ThemeBloc, ThemeMode>(
+    builder: (context, themeMode) {
+        return MaterialApp(
+        ...
+        themeMode: themeMode,
+        home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        );
+    },
+),
+```
+
+I det overstående eksempel er themeMode argumentet den videresendte ThemeMode fra vores ThemeBloc. Hermed bygges resten af applikationen med det signalerede tema.
+Temaet signaleres når brugeren trykker på følgende ListTile:
+
+
+```
+ListTile(
+    title: Text('Dark Mode'),
+    trailing: Switch(
+        ...,
+        onChanged: (value) {
+            // Toggle dark mode
+            ThemeMode newThemeMode =
+                value ? ThemeMode.dark : ThemeMode.light;
+            ...
+            BlocProvider.of<ThemeBloc>(context).add(newThemeMode);
+        },
+    ),
+),
+```
+
+Switch.onChanged() finder den nærmeste overstående ThemeBloc i widget træet, og giver den et event om at ændre temaet til det modsatte af den nuværnde.
+
 ### Database
+
+Systemet bruger på nuværende tidspunkt én enkelt SQLite database, for at mindske kompleksiteten.
+Takket været Django's ORM, kan databasen nemt ændres til et mere skalérbart alternativt efter behov.
+Ønskes en PostgreSQL database, kan følgende ændreringer anvendes:
+
+- Ændre "DATABASES" i ./backend/settings.py til:
+```
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_NAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': 'db',
+        'PORT': 5432,
+    }
+}
+```
+
+- Tilføj service til docker-compose.yml:
+```
+services:
+    ...
+    db:
+    image: postgres
+    volumes:
+      - ./db_volume/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"  # Forward the port, so we can use the container when running Django locally for debug purposes.
+    ...
+```
 
 ### Diagrammer, beregninger, hardware, software m.v.
 
