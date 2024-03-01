@@ -159,6 +159,11 @@ Dog jeg er tilfreds med kravspecifikationens nedprioriterede krav, har jeg følt
 Med andre ord har mine højt prioriterede krav nok været for brede. Det er en situation som jeg vil forsøge at undgå til svendeprøven.
 
 
+Jeg har længe forsøgt, eller i hvert fald overvejet, at fortsætte arbejdsmetodikken vi brugte på GF1. Her blev alle opgaver nedbrudt til max 5 dages længde, og dokumenteret med arbejdsplaner. Efterfulgt GF1 har min plan været at samle disse arbejdsplaner (til ét givent projekt) ved at skrive en rapport, som man løbende kan udvides efter projektets fremgang.
+Jeg kan godt lide tanken om at dokumentere projektet til det fremtidige jeg, eller andre som ellers kan interessere sig for projektet.
+Modsat set har denne rapport givet mig større respekt for tiden det kræver, dog har en frivillig rapport ikke samme krav om længde og indhold.
+Jeg holder fast i tanken og håber jeg får tid til flere rapporter i fremtiden.
+
 Dette tverefaglige projekt har givet mig meget spekulation vedrørende omfanget til produktet til den kommende svendeprøve. De få obligatoriske krav jeg har stilt mig selv på kravspecifikationen, for mig til at tro at mit produkt er for småt, og dermed ikke passende, til svendeprøven. Men tidsmæssigt har omfanget vist sig at passe fint.
 
 Jeg vil forsøge at være mere produktiv til svendeprøven, så jeg kan øge omfanget af produktet.
