@@ -3,24 +3,24 @@ from __future__ import annotations
 from django import forms
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
+from django.core.handlers.wsgi import WSGIRequest
 from django.db.models import QuerySet
 from django.forms import ModelForm
-from requests import Request
 
 from api.gameserver_manager.versioned_manager import VersionedGameServerManager
 from api.models import GameServer, ServerPermission, ServerEvent
 
 
 @admin.action(description="Start servers")
-def start_servers(modeladmin: ModelAdmin, request: Request, queryset: QuerySet[GameServer]):
+def start_servers(modeladmin: ModelAdmin, request: WSGIRequest, queryset: QuerySet[GameServer]):
     for server in queryset:
-        server.manager.start()
+        server.manager.start(request.user)
 
 
 @admin.action(description="Stop servers")
-def stop_servers(modeladmin: ModelAdmin, request: Request, queryset: QuerySet[GameServer]):
+def stop_servers(modeladmin: ModelAdmin, request: WSGIRequest, queryset: QuerySet[GameServer]):
     for server in queryset:
-        server.manager.stop()
+        server.manager.stop(request.user)
 
 
 # Register your models here.
@@ -30,7 +30,7 @@ class GameServerAdmin(ModelAdmin):
     actions = (start_servers, stop_servers)
     list_display = ('server_name', 'game', 'server_version', 'is_running', 'ports_used', )
 
-    def get_form(self, request, obj: GameServer = None, change=False, **kwargs):
+    def get_form(self, request: WSGIRequest, obj: GameServer = None, change=False, **kwargs):
         if not obj:
             return super().get_form(request, obj, change, **kwargs)
 
@@ -60,9 +60,9 @@ class GameServerAdmin(ModelAdmin):
                 pass
         if should_run != obj.manager.server_running():
             if should_run:
-                obj.manager.start()
+                obj.manager.start(request.user)
             else:
-                obj.manager.stop()
+                obj.manager.stop(request.user)
 
         return super().save_model(request, obj, form, change)
 

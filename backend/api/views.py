@@ -15,7 +15,9 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from django.contrib.auth.models import User, AnonymousUser
 
-from api.models import ServerPermission, GameServer, ServerPermissionChoices
+from api.gameserver_manager.base_manager import validate_server_permission, server_from_identifier, \
+    ServerPermissionError
+from api.models import GameServer
 from api.serializers import GameServerSerializer
 
 
@@ -25,71 +27,10 @@ from api.serializers import GameServerSerializer
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def get_server_info(request: Request) -> Response:
-    servers = GameServer.objects.all()  # TODO Kevin: Filter by permission here.
+    # TODO Kevin: validate_server_permission() should be implemented as a query for performance reasons.
+    servers = (server for server in GameServer.objects.all() if not isinstance(validate_server_permission(server, request.user), Response))
     serializer = GameServerSerializer(servers, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-# class Result(NamedTuple):
-#     data: Any
-#     err_resp: Response
-
-
-# TODO Kevin: I can't really decide what return value pattern feels best here.
-def server_from_identifier(identifier: int | str | GameServer) -> GameServer | Response:
-    """
-
-    :returns: A GameServer if a valid identifier was specified, otherwise Response with error-code set
-    """
-
-    if isinstance(identifier, GameServer):
-        return identifier
-
-    if isinstance(identifier, int):
-        try:
-            return GameServer.objects.get(pk=identifier)
-        except GameServer.DoesNotExist:
-            return Response(f"Server with ID '{identifier}' could not be found", status=status.HTTP_404_NOT_FOUND)
-
-    if isinstance(identifier, str):
-        try:
-            return GameServer.objects.get(server_name=identifier)
-        except GameServer.DoesNotExist:
-            return Response(f"Server with name '{identifier}' could not be found", status=status.HTTP_404_NOT_FOUND)
-
-    raise TypeError(f"type {type(identifier)} is not a valid identifier for GameServer")
-
-
-def validate_server_permission(server: GameServer | int, user: User) -> Response | None:
-    """
-    Check if a given has permission to control the specified server.
-
-    :returns: a Response instance with a status code set,
-        if the user lacks permissions for the specified server, otherwise None.
-    """
-    # TODO Kevin: Unit test this.
-
-    if isinstance(server := server_from_identifier(server), Response):
-        return server
-
-    try:
-        # TODO Kevin: This will create 2 queries, so is bad.
-        if isinstance(user, AnonymousUser):
-            raise ServerPermission.DoesNotExist
-        user_permission: ServerPermission = ServerPermission.objects.get(user=user, server=server)
-        if user_permission.access is ServerPermissionChoices.ALLOW:
-            return None  # User has permissions for this server
-        elif user_permission.access is ServerPermissionChoices.DENY:
-            return Response(status=status.HTTP_403_FORBIDDEN)
-    except User.DoesNotExist:
-        # I think it's very unlikely that the user doesn't exist.
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
-    except ServerPermission.DoesNotExist:  # No override persmission specified between this server and user.
-        if server.default_permissions == ServerPermissionChoices.ALLOW:
-            return None
-        return Response(status=status.HTTP_403_FORBIDDEN)
-
-    assert False, "With how the validation function is structured, it shouldn't be possible to reach a default here."
 
 
 @api_view(['POST'])
@@ -143,11 +84,10 @@ def stop_server(request: Request) -> Response:
     if isinstance(server := server_from_identifier(server_ident), Response):
         return server
 
-    # Check if the user has permission for the server
-    if error_response := validate_server_permission(server, request.user):
-        return error_response
-
-    server.manager.stop()  # TODO Kevin: Error handling here?
+    try:
+        server.manager.stop(request.user)  # TODO Kevin: Error handling here?
+    except ServerPermissionError as e:
+        return e.response
 
     return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -174,11 +114,10 @@ def start_server(request: Request) -> Response:
     if isinstance(server := server_from_identifier(server_ident), Response):
         return server
 
-    # Check if the user has permission for the server
-    if error_response := validate_server_permission(server, request.user):
-        return error_response
-
-    server.manager.start()  # TODO Kevin: Error handling here?
+    try:
+        server.manager.start(request.user)  # TODO Kevin: Error handling here?
+    except ServerPermissionError as e:
+        return e.response
 
     return Response(status=status.HTTP_204_NO_CONTENT)
 

@@ -1,7 +1,5 @@
 from django.apps import AppConfig
-from api.gameserver_manager.docker_compose_manager import AbstractDockerComposeGameServerManager, \
-    GitHubVersionedDockerComposeManager
-from api.gameserver_manager.github_versioned_manager import GitHubVersionedManager
+from api.gameserver_manager.docker_compose_manager import GitHubVersionedDockerComposeManager
 
 
 class ApiConfig(AppConfig):

@@ -9,6 +9,11 @@ import yaml
 from abc import ABC
 from typing import Iterable
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from django.contrib.auth.models import User
+
 from api.gameserver_manager.base_manager import AbstractGameServerManager
 from api.gameserver_manager.github_versioned_manager import GitHubVersionedManager
 
@@ -178,18 +183,21 @@ class AbstractDockerComposeGameServerManager(AbstractGameServerManager, ABC):
         # but python-on-whales should continue to use the directory of the original compose-file.
         cls.working_directory = path.dirname(cls.compose_file)
 
-    def start(self):
+    def start(self, user: User = None):
         # TODO Kevin: Container will obviously fail to start,
         #   if the port is already in use by another server.
         # TODO Kevin: .start() or .up()? I dont know.
         self.client.compose.up(detach=True, services=list(self.services))
+        super().start(user)
 
-    def stop(self):
+    def stop(self, user: User = None):
         # TODO Kevin: .stop() or .down()? I dont know.
         self.client.compose.stop()
+        super().stop(user)
 
-    def restart(self):
+    def restart(self, user: User = None):
         self.client.compose.restart()
+        super().restart(user)
 
     def server_running(self) -> bool | None:
         """ Currently returns True if any specified services are running, otherwise False. """

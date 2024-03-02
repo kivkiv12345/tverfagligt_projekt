@@ -54,14 +54,14 @@ class GameServer(Model):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if self.pk:
-            self.manager = managers[self.game](self.server_name)
+            self.manager = managers[self.game](self)
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         super().save(force_insert, force_update, using, update_fields)
         # self.game was valid and has changed.
         if self.pk and type(self.manager) is not managers.get(self.game):
             # We don't really care for changing the game, but we support it for now.
-            self.manager = managers[self.game](self.server_name)
+            self.manager = managers[self.game](self)
 
     def __str__(self):
         return f"{self.game} | {self.server_name}"
@@ -128,9 +128,13 @@ class ServerEventChoices(StrChoicesEnum):
     DISABLE = 'DISABLE'
 
 
+# TODO Kevin: ServerEvent should probably be able to log failed attempts
+# TODO Kevin: Current implementation has issues with abstract methods (see AbstractGameServerManager).
+#   Methods can't raise NotImplementedError, as that would prevent them from creating ServerEvent instances,
+#   but not raising may hide a missing implementation for queried instances.
 class ServerEvent(Model):
     type = CharField(choices=ServerEventChoices.choices, max_length=ServerEventChoices.max_choice_len())
-    user = ForeignKey(User, on_delete=CASCADE, help_text='Shows which user caused this event')
+    user = ForeignKey(User, on_delete=CASCADE, help_text='Shows which user caused this event', null=True)
     server = ForeignKey(GameServer, on_delete=CASCADE, help_text='Shows which server this event affected')
     timestamp = DateTimeField(auto_now_add=True, help_text='Shows when this event occurred')
 
