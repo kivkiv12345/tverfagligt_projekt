@@ -12,6 +12,9 @@ from typing import Iterable
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from api.models import GameServer
+
+if TYPE_CHECKING:
     from django.contrib.auth.models import User
 
 from api.gameserver_manager.base_manager import AbstractGameServerManager
@@ -36,8 +39,8 @@ class AbstractDockerComposeGameServerManager(AbstractGameServerManager, ABC):
     services: list[str] | str = None  # services must be a list when multiple, because of python-on-whales reasons
     # ports: list[ValidPortMapping] = None
 
-    def __init__(self, server_name: str) -> None:
-        super().__init__(server_name)
+    def __init__(self, server: GameServer) -> None:
+        super().__init__(server)
         self._original_compose_file = self.compose_file
         self.compose_file = self._mutate_to_proper_compose_file()
         # TODO Kevin: Everything will most likely explode if the server_name/compose_project_name is changed.
@@ -188,6 +191,9 @@ class AbstractDockerComposeGameServerManager(AbstractGameServerManager, ABC):
         #   if the port is already in use by another server.
         # TODO Kevin: .start() or .up()? I dont know.
         self.client.compose.up(detach=True, services=list(self.services))
+        # NOTE Kevin: Appararently putting stream_logs=True breaks prevents the services from starting,
+        #   luckily it doesn't seem to be required to read the logs with client.compose.logs(follow=True, stream=True)
+        #self.client.compose.up(detach=True, services=list(self.services), stream_logs=True)
         super().start(user)
 
     def stop(self, user: User = None):

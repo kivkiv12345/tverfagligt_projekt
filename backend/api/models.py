@@ -138,6 +138,9 @@ class ServerEvent(Model):
     server = ForeignKey(GameServer, on_delete=CASCADE, help_text='Shows which server this event affected')
     timestamp = DateTimeField(auto_now_add=True, help_text='Shows when this event occurred')
 
+    def __str__(self):
+        return f"{self.timestamp} {self.user} {self.type} {self.server}"
+
 
 class ServerPermission(Model):
     server = ForeignKey(GameServer, on_delete=CASCADE)
