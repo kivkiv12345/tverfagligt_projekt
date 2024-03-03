@@ -12,9 +12,18 @@
 
 ### Definition af produktet
 
+Server Sentry lægger kompleksiteterne ved opsætningen og administration af dedikerede spilservere hos dets udviklere, og gør det derfor nemt for brugere.
+Software pakken gør udelukkende brug af cross platform teknologier, for sikre at du køre værktøjet hvor det passer dig bedst, og tilgå brugerfladen fra din foretrukne platform.
+
+Software pakken inkluderer både en Flutter og en Django applikation, herudover også en database.
+En administrativ brugerflade kan tilgås på Django applikationen, som tilbyder lignende funktionalitet som den sikrerere/simplere Flutter frontend.
+
 ### Funktionalitet
 
 ### Begrænsning
+
+Programmet begrænser sig til specifikke spil, for at gøre brugeroplevelsen så problemfri som muligt.
+Det er muligt at implementation kunne laves mere generisk i fremtiden, men det nuværende fokus er på bedst mulig understøttelse af de valgte spil.
 
 ### Testkonditioner
 
@@ -78,12 +87,45 @@ Herefter anvendes følgende kommandoer til at hente og starte programmet:
 
 ### Anvendelse
 
+#### Oprettelse af brugere
+
+Alemene brugere af projektet applikationer tillades _ikke_ at registrere sig selv, hermed ville de kunne tildele sig selv administrationsrettiheder som ellers _kun_ udstedes til bestemte brugere.
+I stedet er administratorbrugere ansvarlige for oprettelsen af yderligere brugere (administratorer eller ej).
+Køres Django applikationen med "docker compose up" kan programmets første administratorbruger kan oprettes med følgende kommandoer:
+```
+docker exec -it tverfagligt_projekt-api-1 /bin/bash
+python3 manage.py createsuperuser
+```
+Herefter bedes administratorbrugeren at besvare opfordringerne med deres ønskede legimitationsoplysninger, hvorefter de ville kunne tilgå både "Django Admin" og Flutter (se tilsvarende afsnit).
+
+#### Flutter
+
+Flutter applikationen kan nemmest tilgås vha. dets web-applikation.
+Køres Flutter applikationen med "docker compose up" kan brugerfladen tilgås på 127.0.0.1:8080
+
+På det overstående link bliver brugeren først mødt af en 'login' formular. Udfyldes og indsendes denne formular med brugerens legimitationsoplysninger (se "oprettelse af brugere"), vil de derefter videresendes til listen af servere som denne bruger er bevilget at se/administrere.
+
+På denne side kan brugeren se hvilke servere som er aktive/inaktive.
+Vises serveren med et "pause" ikon (firkant), er den på nuværende tidspunkt aktiv. Trykker brugeren på ikonet deaktiverer de serveren.
+Modsat set vises inaktive servere med et "afspil" ikon (trekant), og kan aktiveres med et tryk på ikonet.
+
+
+Når brugeren engang er færdige med at starte/stoppe servere, kan de 'logge ud' af applikationen ved først at tykke på burgermenuen (set øverst i venstre hjørne), og derefter "Log Out". Herefter slettes brugerens gemte legimitationsoplysninger, hvorefter de tilbagesendes til 'login' formularen.
+
+Burgermenuen tillader også brugeren at ændre mellem lys/mørk tilstand af applikationen.
+Standardtilstanden følger brugerens valg fra operativsystemet.
+
+
 #### Django Admin
 
-Django kommer med en nem tilpasselig administrationsside som en del af deres contrib side.
+Django kommer med en nem tilpasselig administrationsside som en del af deres contrib pakke.
 Django applikationen implementerer derfor denne administrationsside, for at afprøve og understøtte udviddet funktionalitet som endnu ikke findes i Flutter applikationen, såsom oprettelse af nye servere.
 
 Køres projektet lokalt kan administrationssiden findes på 127.0.0.1:8000/admin
+
+På det overstående link bliver brugeren mødt af en side som viser de mest væsentlige modeller fra projektets database.
+Herpå fører linket "Game servers" til "http://localhost:8000/admin/api/gameserver/" som er en liste af spilservere som kan sammenlignes med den fundet i Flutter applikationen. Dog adskiller denne liste sig med tilføjelsen af knappen "Add game server", som fører til http://localhost:8000/admin/api/gameserver/add/ hvor nye servere kan tilføjes. På denne side udfylder brugeren en formular hvor server navn, standardtilladelser og spil specificeres. Klikker brugeren herefter på én af de adskillige "save" knapper oprettes en ny server.
+Brugeren kan herefter starter serveren ved at navigere tilbage til "http://localhost:8000/admin/api/gameserver/", hvor de kan markere deres server i listen og vælge "Start servers" i "Action" rullemenuen.
 
 ### Service
 
@@ -107,8 +149,10 @@ Hermed kræves det at Docker er installeret på serveren.
 Som backend framework bruger projektet Django, som er et Python web framework med fokus på hurtig udvikling med indbygget sikkerhed.
 Det primære formål med projektets Django backend er at tilbyde et web-API som muliggør at administrere spilserverne fra Flutter applikationen. Derfor skal backenden også tilbyde et fælles interface til diverse implementationer af spilservere.
 
+```
 Rodmappen for Django applikationen (i forhold til projektets rodmappe) findes i ./backend/
 Stier forklaret i dette afsnit, tager derfor udgangspunkt i denne mappe.
+```
 
 Når man laver et Django projekt, laver men deri efterfulgt en (eller flere) "app(s)", hvori alt implementation forgår. Der findes ingen fast afgrænsning for hvad én app må indeholde, og hvornår projektet skal implementers på tværs af flere apps.
 
@@ -297,8 +341,13 @@ def get_form(self, request, obj: GameServer = None, change=False, **kwargs):
 Programmet præsenteres af Flutter, som er et cross-platform frontend framework, hvormed den samme kode derfor kan præstere på: mobil, computere, web, mm.
 Kører man systemet med Docker, kan Flutter tilgås som en webapp på port 8080.
 
-Login proceduren fungere ved at Flutter sender de indtastede legitimationsoplysninger (brugernavn og kodeord) til Django applikationen, som derefter verificerer oplysningerne.
-Herefter svarer Django applikationen med "Token" som Flutter applikationen efterfølgende bruger til at verificere brugeren identitet til forespørgsler.
+```
+Rodmappen for Flutter applikationen (i forhold til projektets rodmappe) findes i ./gameserver_frontend/
+Stier forklaret i dette afsnit, tager derfor udgangspunkt i denne mappe.
+```
+
+Login proceduren fungerer ved at Flutter sender de indtastede legitimationsoplysninger (brugernavn og kodeord) til Django applikationen, som derefter verificerer oplysningerne.
+Herefter svarer Django applikationen med en "Token" som Flutter applikationen bruger til at verificere brugerens identitet ved efterfølgende forespørgsler.
 
 Flutter applikationen bruger pakken shared_preferences til at persitere brugernavn og token til disken på tværs af sessioner. Hermed behøver brugere, som adgangspunkt, kun at logge ind én enkelt gang.
 
