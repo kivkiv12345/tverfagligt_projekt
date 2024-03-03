@@ -10,17 +10,17 @@ class ServerStart extends ServerEvent {
   ServerStart(this.server);
 }
 
-// class ServerStarted extends ServerEvent {
-//   final ServerBloc server;
+class ServerStarted extends ServerEvent {
+  final ServerBloc server;
 
-//   ServerStarted(this.server);
-// }
+  ServerStarted(this.server);
+}
 
-// class ServerStopped extends ServerEvent {
-//   final ServerBloc server;
+class ServerStopped extends ServerEvent {
+  final ServerBloc server;
 
-//   ServerStopped(this.server);
-// }
+  ServerStopped(this.server);
+}
 
 class ServerStop extends ServerEvent {
   final ServerBloc server;

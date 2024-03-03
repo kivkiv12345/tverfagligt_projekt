@@ -1,14 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gameserver_frontend/ServerListWidget.dart';
+import 'package:gameserver_frontend/api.dart';
 import 'package:gameserver_frontend/bloc/server/server_bloc.dart';
 import 'package:gameserver_frontend/bloc/server/server_event.dart';
 import 'package:gameserver_frontend/bloc/server/server_state.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
+
+import 'dart:convert';
 
 class ServerListItemWidget extends StatelessWidget {
   final ServerBloc server;
 
-  ServerListItemWidget({required this.server});
+  ServerListItemWidget({required this.server}) {
+    final wsUrl = Uri.parse('${Api.wsUrl}/server/${this.server.id}/');
+    final channel = WebSocketChannel.connect(wsUrl);
+
+    // NOTE: Constructor can't be async, but we don't really care to wait anyway,
+    //  we only care to receive which can just happen whenever it's ready.
+    //await channel.ready;
+
+    channel.stream.listen((message) {
+      // TODO Kevin: Ensure message enums are identical to backend by putting in library.
+      String operation = json.decode(message)['message'];
+      if (operation == 'Server opened') {
+        this.server.add(ServerStarted(this.server));
+      } else if (operation == 'Server closed') {
+        this.server.add(ServerStopped(this.server));
+      } else {
+        print("Websocket received unknown message: $message");
+      }
+    });
+  }
 
     @override
   Widget build(BuildContext context) {

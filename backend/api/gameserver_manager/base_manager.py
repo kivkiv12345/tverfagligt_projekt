@@ -9,6 +9,9 @@ from rest_framework import status
 from rest_framework.response import Response
 from typing import TYPE_CHECKING
 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+
 if TYPE_CHECKING:
     from django.contrib.auth.models import User, AnonymousUser
 
@@ -42,6 +45,30 @@ def server_from_identifier(identifier: int | str | GameServer) -> GameServer | R
             return Response(f"Server with name '{identifier}' could not be found", status=status.HTTP_404_NOT_FOUND)
 
     raise TypeError(f"type {type(identifier)} is not a valid identifier for GameServer")
+
+
+def websocket_notify_server_opened(server_ident: int | str | GameServer):
+    """ Notify connected clients about server status change via WebSocket """
+
+    server_id = server_from_identifier(server_ident).pk
+
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        # TODO Kevin: Ensure message enums are identical to frontend by putting in library.
+        f"server_{server_id}", {"type": "server_event", "message": "Server opened"}
+    )
+
+
+def websocket_notify_serer_closed(server_ident: int | str | GameServer):
+    """ Notify connected clients about server status change via WebSocket """
+
+    server_id = server_from_identifier(server_ident).pk
+
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        # TODO Kevin: Ensure message enums are identical to frontend by putting in library.
+        f"server_{server_id}", {"type": "server_event", "message": "Server closed"}
+    )
 
 
 @dataclass(init=True)
@@ -134,6 +161,7 @@ class AbstractGameServerManager(ABC):
             raise ServerPermissionError(permission_error)
 
         ServerEvent.objects.create(user=user, server=self.server, type=ServerEventChoices.ENABLE)
+        websocket_notify_server_opened(self.server)
 
     @abstractmethod
     def stop(self, user: User = None):
@@ -146,6 +174,7 @@ class AbstractGameServerManager(ABC):
             raise ServerPermissionError(permission_error)
 
         ServerEvent.objects.create(user=user, server=self.server, type=ServerEventChoices.DISABLE)
+        websocket_notify_serer_closed(self.server)
 
     def restart(self, user: User = None):
         self.stop(user)

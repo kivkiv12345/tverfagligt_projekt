@@ -22,9 +22,13 @@ class ServerBloc extends Bloc<ServerEvent, ServerBlocState> {
     required this.api,
   }) {
     on<ServerStart>(serverStart);
-    // on<ServerStarted>(serverStarted);
     on<ServerStop>(serverStop);
-    // on<ServerStopped>(serverStopped);
+
+    // These 2 are likely received from websockets.
+    //  In any case, we don't question their validity.
+    on<ServerStarted>(serverStarted);
+    on<ServerStopped>(serverStopped);
+
     // on<ServerChanging>(serverChanging);
   }
 
@@ -52,10 +56,9 @@ class ServerBloc extends Bloc<ServerEvent, ServerBlocState> {
 
   }
 
-  // Future serverStarted(ServerStarted event, Emitter<ServerBlocState> emit) async {
-  //   // TODO Kevin: Enable server widget
-  //   emit(ServerRunningState());
-  // }
+  Future serverStarted(ServerStarted event, Emitter<ServerBlocState> emit) async {
+    emit(ServerRunningState());
+  }
 
   Future serverStop(ServerStop event, Emitter<ServerBlocState> emit) async {
     emit(ServerChangingState());  // Should disable the server widget
@@ -70,9 +73,9 @@ class ServerBloc extends Bloc<ServerEvent, ServerBlocState> {
 
   }
 
-  // Future serverStopped(ServerStopped event, Emitter<ServerBlocState> emit) async {
-  //   // TODO Kevin: Enable server widget
-  // }
+  Future serverStopped(ServerStopped event, Emitter<ServerBlocState> emit) async {
+    emit(ServerStoppedState());
+  }
 
   // Future serverChanging(ServerChanging event, Emitter<ServerBlocState> emit) async {
 

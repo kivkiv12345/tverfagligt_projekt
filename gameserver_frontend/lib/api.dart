@@ -9,6 +9,7 @@ bool bad_statuscode(int ?statusCode) {
 
 class Api {
   
+  static const String wsUrl = 'ws://127.0.0.1:8000/ws';
   static const String url = 'http://localhost:8000/api';
   final String api_url = Api.url;
   late final Dio dio;  // Use Dio for HTTP requests

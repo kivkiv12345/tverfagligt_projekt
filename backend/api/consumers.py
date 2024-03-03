@@ -4,10 +4,12 @@ from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 
 
-class ChatConsumer(WebsocketConsumer):
+# Class has been partly revised by ChatGPT
+class ServerConsumer(WebsocketConsumer):
+
     def connect(self):
-        self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
-        self.room_group_name = f"chat_{self.room_name}"
+        self.server_id = self.scope["url_route"]["kwargs"]["server_id"]
+        self.room_group_name = f"server_{self.server_id}"
 
         # Join room group
         async_to_sync(self.channel_layer.group_add)(
@@ -33,8 +35,7 @@ class ChatConsumer(WebsocketConsumer):
         )
 
     # Receive message from room group
-    def chat_message(self, event):
+    def server_event(self, event):
+        # Handle server-specific events
         message = event["message"]
-
-        # Send message to WebSocket
         self.send(text_data=json.dumps({"message": message}))

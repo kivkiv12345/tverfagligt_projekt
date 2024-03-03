@@ -20,3 +20,9 @@ https://stackoverflow.com/questions/7773341/case-insensitive-unique-model-fields
 
 Flutter darkmode:
 https://stackoverflow.com/questions/60232070/how-to-implement-dark-mode-and-light-mode-in-flutter
+
+Django Channels:
+https://channels.readthedocs.io/en/latest/installation.html
+
+Flutter/Dart channels:
+https://pub.dev/packages/web_socket_channel/example
