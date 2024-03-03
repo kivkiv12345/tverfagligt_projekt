@@ -12,8 +12,6 @@ import 'package:gameserver_frontend/pages/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dart:convert';
-import 'package:web_socket_channel/status.dart' as status;
-import 'package:web_socket_channel/web_socket_channel.dart';
 
 
 void main() {

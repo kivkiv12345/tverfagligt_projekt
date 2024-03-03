@@ -22,17 +22,12 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double? width;
-    if (Platform.isWindows || Platform.isLinux) {
-      width = MediaQuery.of(context).size.width / 3;
-    }
 
     TextEditingController usernameController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
 
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
-      width: width,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -44,7 +39,7 @@ class LoginForm extends StatelessWidget {
               controller: passwordController,
               obscureText: true,
             ),
-            CupertinoButton(
+            MaterialButton(
               child: const Text("Login"),
               onPressed: () async {
                 

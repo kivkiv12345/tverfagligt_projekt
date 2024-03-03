@@ -11,7 +11,7 @@ class ApiConfig(AppConfig):
     name = 'api'
 
 
-class VintageStoryManager(PlayerEventStreamReader, GitHubVersionedDockerComposeManager):
+class VintageStoryManager(GitHubVersionedDockerComposeManager):
     #compose_file = 'docker-compose/vintage-story_server/docker-compose.yml'
     compose_file = 'repos/docker-vintagestory/docker-compose.yml'
     version_commit_map = {
