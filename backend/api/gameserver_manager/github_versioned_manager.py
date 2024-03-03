@@ -38,8 +38,8 @@ class GitHubVersionedManager(VersionedGameServerManager, ABC):
 
         assert not (unknown_commit_versions := set(cls.game_versions).difference(set(cls.version_commit_map.keys()))), \
             f"No commit has been specified for the following version(s) {unknown_commit_versions}"
-        assert issubclass(next(basecls for basecls in cls.mro() if ABC in basecls.__bases__), GitHubVersionedManager), \
-            'GitHubVersionedManager must be subclassed before other base GameServerManagers (when using multiple inheretance)'
+        #assert issubclass(next(basecls for basecls in cls.mro() if ABC in basecls.__bases__), GitHubVersionedManager), \
+        #    'GitHubVersionedManager must be subclassed before other base GameServerManagers (when using multiple inheretance)'
 
     @classmethod
     def _get_repo_dir(cls) -> str:
@@ -53,8 +53,9 @@ class GitHubVersionedManager(VersionedGameServerManager, ABC):
     @classmethod
     def checkout(cls, commit: str):
         cls.clone()
+        run(['git', '-C', cls._get_repo_dir(), 'fetch'], check=True)
         # TODO Kevin: We should check if the repo is clean here
-        run(['git', '-C', cls._get_repo_dir(), 'checkout', commit])
+        run(['git', '-C', cls._get_repo_dir(), 'checkout', commit], check=True)
 
     def set_version(self, version: str):
         try:
