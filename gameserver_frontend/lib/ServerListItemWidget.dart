@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gameserver_frontend/ServerListWidget.dart';
 import 'package:gameserver_frontend/api.dart';
 import 'package:gameserver_frontend/bloc/server/server_bloc.dart';
 import 'package:gameserver_frontend/bloc/server/server_event.dart';

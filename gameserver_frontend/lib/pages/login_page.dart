@@ -1,8 +1,6 @@
 // Mostly stolen from:
 // https://github.com/TotallyNotRust/Chivalry-2-Competitive-Platform/blob/main/lib/pages/login_page.dart
-import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gameserver_frontend/bloc/auth/auth_bloc.dart';

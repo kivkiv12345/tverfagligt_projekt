@@ -1,4 +1,3 @@
-import 'package:gameserver_frontend/ServerListWidget.dart';
 import 'package:gameserver_frontend/bloc/server/server_bloc.dart';
 
 abstract class ServerEvent {}
