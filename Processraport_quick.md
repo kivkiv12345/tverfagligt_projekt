@@ -10,7 +10,12 @@
 
 ## Indledning
 
-Denne processrapport dækker over udviklingen af mit serveradministrationsværktøj. Det har fra starten været indtænkt at produktet skal implementeres på min server derhjemme, men samtidigt har det også været vigtigt, for mig, at implementationen er nem i flest mulige passende sammenhænge.
+Denne procesrapport er skrevet i sammenhæng med det tværfaglige projekt på H5PD010124.
+
+Procesrapporten dækker udviklingen af mit serveradministrationsværktøj kaldet "Server Sentry".
+Hermed indgår overvejelser vedrørende alternative teknologivalg.
+
+Det har fra starten været indtænkt at produktet skal implementeres på min server derhjemme, men samtidigt har det også været vigtigt, for mig, at implementationen er nem i flest mulige passende sammenhænge.
 
 Den réele implementation skal som efter planen bruges af en vennegruppe på 5 mennesker, som skal have mulighed for lettere administration af vores spilservere, mens jeg selv er på arbejde eller ligeledes henholdt fra serveradministration.
 
@@ -37,7 +42,7 @@ Hvordan kan slutbrugere oprette og fjernadministrere spilservere på deres nemt 
 
 ## Afgrænsning
 
-Jeg stiftede min kravspecifikation med flere nedprioriterede krav som, blandt andet, har som formål at lægge grundlag for fremtidig udvidelse af produktet af projektets færdiggørelse.
+Jeg stiftede min kravspecifikation med flere nedprioriterede krav som, blandt andet, har som formål at lægge grundlag for fremtidig udvidelse af produktet efter projektets færdiggørelse.
 Hermed er tiltænkt alle krav af prioritet 5, hvoraf følgende stadig mangler: push notifikationer, tilstrækkelig håndtering af brugerrettigheder og whitelist/blacklist.
 
 Oprindeligt var det også tiltænkt at logging skulle kunne forgå vha. en tidsbaseret database (sandsynligvis Victoria Metrics), men sådan en væsentlig udvidelse af kompleksitet har jeg ikke vovet mig at introducere i projektet.
@@ -53,9 +58,9 @@ Set i bakspejlet skulle jeg, i følge tidsplanen, uheldigvis have startet på mi
 
 ## Dokumentation af Valg
 
-Produktet præsenteres af en frontend lavet med Flutter (Dart), som forbinder til en backend lavet med Django (Python). Databasen er på nuværende tidspunkt SQLite, men er nemt udskiftelig skulle der blive behov for det.
+Produktet præsenteres af en frontend lavet med Flutter (Dart), som forbinder til en backend lavet med Django (Python). Databasen er på nuværende tidspunkt SQLite, men takket være Django's ORM er den nemt udskiftelig skulle der blive behov for det.
 
-Projektets Dockerfiler (hermed også docker-compose.yml) har som formål at gøre det nemt at afprøve og implementere produkterne.
+Projektets Dockerfiler (hermed også docker-compose.yml) har som formål at gøre det nemt at opsætte og afprøve produkterne.
 
 ### Flutter
 
@@ -102,7 +107,7 @@ Herefter fortæller man også hvordan sin tjeneste skal starte på denne platfor
 Et "image" i sig selv er bare en opskrift, når den virkeliggøres laver man en "container" (som man som programmør skulle kunne beskrive som en 'instans')
 Tjenesten synliggøres for omverdenen når man vælger 
 
-Docker kan udvides med 'Docker Compose', som gør det nemt at administrere flere "Corntainere" som én helhed.
+Docker kan udvides med 'Docker Compose', som gør det nemt at administrere flere "Containere" som én helhed.
 
 Jeg har tidligere brugt Dockers officielle Python SDK (API) med et godt indtryk, og planlagde derfor også at bruge det her.
 Desværre fandt jeg ret tidligt ud af at det ikke understøtter docker-compose.
@@ -161,13 +166,14 @@ Med andre ord har mine højt prioriterede krav nok været for brede. Det er en s
 
 
 Jeg har længe forsøgt, eller i hvert fald overvejet, at fortsætte arbejdsmetodikken vi brugte på GF1. Her blev alle opgaver nedbrudt til max 5 dages længde, og dokumenteret med arbejdsplaner. Efterfulgt GF1 har min plan været at samle disse arbejdsplaner (til ét givent projekt) ved at skrive en rapport, som man løbende kan udvides efter projektets fremgang.
-Jeg kan godt lide tanken om at dokumentere projektet til det fremtidige jeg, eller andre som ellers kan interessere sig for projektet.
+Jeg kan godt lide tanken om at dokumentere vilkårlige projekter til det fremtidige jeg, eller andre som ellers kan interessere sig for dem.
 Modsat set har denne rapport givet mig større respekt for tiden det kræver, dog har en frivillig rapport ikke samme krav om længde og indhold.
 Jeg holder fast i tanken og håber jeg får tid til flere rapporter i fremtiden.
 
-Dette tverefaglige projekt har givet mig meget spekulation vedrørende omfanget til produktet til den kommende svendeprøve. De få obligatoriske krav jeg har stilt mig selv på kravspecifikationen, for mig til at tro at mit produkt er for småt, og dermed ikke passende, til svendeprøven. Men tidsmæssigt har omfanget vist sig at passe fint.
+Dette tverefaglige projekt har givet mig meget spekulation vedrørende omfanget til produktet til den kommende svendeprøve. De få obligatoriske krav jeg har stilt mig selv på kravspecifikationen, får mig til at tro at mit produkt er for småt, og dermed ikke passende til svendeprøven. Men tidsmæssigt tror jeg omfanget passer fint, nu hvor jeg har oplevet at skrive størstedelen af rapporterne dertil.
 
 Jeg vil forsøge at være mere produktiv til svendeprøven, så jeg kan øge omfanget af produktet.
 Hertil tror jeg at det er til megen hjælp at vi primært kommer kunne arbejde hjemmefra. På nuværende tidspunkt vil det spare mig 3 timer i transport dagligt, som jeg i stedet kan lægge på tidsplanen.
 Motivationmæssigt oplever jeg dage hvor jeg opnår meget mere hjemmefra, men samtidig også dage som er fyldt med overspringshandlinger.
 Som helhed er jeg næsten sikker på at jeg vil være mere produktiv til svendeprøven.
+På 2 dages hjemmearbejde fik jeg skrevet mellem 14000-17000 anslag til disse rapporter, hvor samme antal har varet projekttiden brugt på skolen.
