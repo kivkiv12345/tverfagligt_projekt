@@ -55,6 +55,9 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'api',
+
+    # To generate UML diagrams
+    #'django_extensions',
 ]
 
 REST_FRAMEWORK = {

@@ -8,6 +8,7 @@ import 'package:gameserver_frontend/bloc/auth/auth_state.dart';
 import 'package:gameserver_frontend/bloc/auth/user.dart';
 import 'package:gameserver_frontend/bloc/theme/theme_bloc.dart';
 import 'package:gameserver_frontend/pages/login_page.dart';
+import 'package:gameserver_frontend/widgets/server_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -125,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: ListView(
                     padding: EdgeInsets.zero,
                     children: <Widget>[
-                      DrawerHeader(
+                      const DrawerHeader(
                         decoration: BoxDecoration(
                           color: Colors.blue,
                         ),
@@ -137,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                       ),
-                      ListTile(
+                      const ListTile(
                         leading: Icon(Icons.settings),
                         title: Text('Settings'),
                         // onTap: () {
