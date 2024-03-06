@@ -1,4 +1,4 @@
-import 'package:gameserver_frontend/Exceptions.dart';
+import 'package:gameserver_frontend/exceptions.dart';
 import 'package:gameserver_frontend/api.dart';
 import 'package:gameserver_frontend/bloc/auth/user.dart';
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gameserver_frontend/ServerListWidget.dart';
+import 'package:gameserver_frontend/pages/serverlist_page.dart';
+import 'package:gameserver_frontend/widgets/server_list.dart';
 import 'package:gameserver_frontend/bloc/auth/auth_bloc.dart';
 import 'package:gameserver_frontend/bloc/auth/auth_event.dart';
 import 'package:gameserver_frontend/bloc/auth/auth_state.dart';
@@ -94,11 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 AuthenticatedUser user = state.user;
                 prefs.setString('token', user.api.token);
                 prefs.setString('username', user.username);
-                content = Center(
-                  // Center is a layout widget. It takes a single child and positions it
-                  // in the middle of the parent.
-                  child: ServersListWidget(user),
-                );
+                content = ServerListPage(user);
               } else {
                 content = LoginPage();
               }

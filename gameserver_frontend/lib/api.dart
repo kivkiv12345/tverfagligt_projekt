@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:gameserver_frontend/Exceptions.dart';
+import 'package:gameserver_frontend/exceptions.dart';
 import 'package:gameserver_frontend/bloc/server/server_bloc.dart';
 
 
@@ -37,7 +37,7 @@ class Api {
   }
 
   Future<Response> logout() async {
-    return await await this.dio.post('${Api.url}/user-logout/');  // WebAPI call
+    return await this.dio.post('${Api.url}/user-logout/');  // WebAPI call
   }
 
   static Future<Api> from_credentials(String username, String password) async {

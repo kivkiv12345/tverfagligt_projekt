@@ -2,7 +2,7 @@
 
 // Define Dart classes for JSON serialization
 import 'package:flutter/material.dart';
-import 'package:gameserver_frontend/ServerListItemWidget.dart';
+import 'package:gameserver_frontend/widgets/server_list_item.dart';
 import 'package:gameserver_frontend/bloc/auth/user.dart';
 import 'package:gameserver_frontend/bloc/server/server_bloc.dart';
 
