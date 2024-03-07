@@ -202,7 +202,9 @@ class AbstractDockerComposeGameServerManager(AbstractGameServerManager, ABC):
         super().stop(user)
 
     def restart(self, user: User = None):
-        self.client.compose.restart()
+        self.client.compose.restart(services=list(self.services))
+        # self.client.compose.stop()
+        # self.client.compose.start()
         super().restart(user)
 
     def server_running(self) -> bool | None:
@@ -224,8 +226,12 @@ class AbstractDockerComposeGameServerManager(AbstractGameServerManager, ABC):
 
 class GitHubVersionedDockerComposeManager(GitHubVersionedManager, AbstractDockerComposeGameServerManager, ABC):
 
-    def set_version(self, version: str):
+    def set_version(self, version: str, user: User = None):
         super(GitHubVersionedDockerComposeManager, self).set_version(version)
         #self.stop()
         self.client.compose.build()  # TODO Kevin: Is a full rebuild required?
+        if self.server_running():
+            # self.restart(user)  # TODO Kevin: self.restart() causes a weird crash
+            self.stop(user)
+            self.start(user)
         #self.start()

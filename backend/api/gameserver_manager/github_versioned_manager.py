@@ -1,5 +1,10 @@
+from __future__ import annotations
+
 from abc import ABC
-from typing import Iterable
+from typing import Iterable, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from django.contrib.auth.models import User
 
 from api.gameserver_manager.base_manager import AbstractGameServerManager
 from os import getcwd
@@ -57,7 +62,7 @@ class GitHubVersionedManager(VersionedGameServerManager, ABC):
         # TODO Kevin: We should check if the repo is clean here
         run(['git', '-C', cls._get_repo_dir(), 'checkout', commit], check=True)
 
-    def set_version(self, version: str):
+    def set_version(self, version: str, user: User = None):
         try:
             commit: str = self.version_commit_map[version]
         except KeyError as e:
