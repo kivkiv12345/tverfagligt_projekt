@@ -1,37 +1,19 @@
 ### This Dockerfile is copied from:
-### https://github.com/Ammar7077/docker_flutter_web/blob/main/my_flutter_web_app/Dockerfile
-### Which was recommneded by:
-### https://medium.com/@ammaromari7077/dockerize-a-flutter-web-apps-using-d-web-server-fbd01f593d10
+### https://github.com/TotallyNotRust/Chivalry-2-Competitive-Platform/blob/main/Dockerfile
 
-FROM debian:latest AS build-env
+# Use the official Flutter Docker image as the base image
+FROM ghcr.io/cirruslabs/flutter:latest
 
-RUN apt-get update
-# Install necessary dependencies for running Flutter on web
-RUN apt-get install -y libxi6 libgtk-3-0 libxrender1 libxtst6 libxslt1.1 curl git wget unzip libgconf-2-4 gdb libstdc++6 libglu1-mesa fonts-droid-fallback lib32stdc++6 python3
-RUN apt-get clean
+# Set the working directory in the container
+WORKDIR /app
 
-RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
+# Copy the entire project to the container
+COPY . .
 
-# Set Flutter path
-ENV PATH="/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:${PATH}"
+RUN flutter pub global activate dhttpd 
+RUN flutter pub get
+RUN flutter build web
 
-RUN flutter doctor -v
-RUN flutter channel master
-RUN flutter upgrade
+EXPOSE 8080
 
-# Enable web support
-RUN flutter config --enable-web
-
-RUN mkdir /app/
-COPY . /app/
-# Set the working directory inside the container
-WORKDIR /app/
-
-# Build the Flutter web application
-RUN flutter build web --release --web-renderer html
-
-FROM nginx:1.21.1-alpine
-COPY --from=build-env /app/build/web /usr/share/nginx/html
-
-# EXPOSE <EXPOSE PORT THAT YOU WANT>
-EXPOSE 80
+CMD ["flutter", "pub", "global", "run", "dhttpd", "--path", "build/web/", "--host", "0.0.0.0"]
