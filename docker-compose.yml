@@ -44,3 +44,15 @@ services:
   #   volumes:
   #       # - ./nginx/conf/http:/opt/nginx/http.conf.d
   #       - ./nginx/conf/stream:/opt/nginx/stream.conf.d
+
+  # To serve Django staticfiles when hosting with Daphne,
+  #   which allows us to increase timeout for websockets.
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx_staticfiles/conf.d:/etc/nginx/conf.d
+      - ./backend/static:/usr/share/nginx/html/static
+    depends_on:
+      - api

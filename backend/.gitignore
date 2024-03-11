@@ -12,3 +12,6 @@ backend/__pycache__/
 .pyc
 repos/*
 compose_files/*.yml
+
+# Static files
+static/

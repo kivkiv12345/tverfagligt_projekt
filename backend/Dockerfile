@@ -18,7 +18,6 @@ RUN apt-get update
 
 RUN apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-
 # setup environment variable
 ENV DockerHOME=/home/app/webapi
 
@@ -37,9 +36,13 @@ RUN pip install --upgrade pip
 
 # copy whole project to your docker home directory.
 COPY . $DockerHOME
+
 # Install Django dependencies
 RUN pip install -r requirements.txt
+
 # port where the Django app runs
 EXPOSE 8000
+
 # start server
-CMD python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000
+#CMD python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000
+CMD python3 manage.py makemigrations && python3 manage.py migrate && daphne -b 0.0.0.0 -p 8000 --websocket_timeout 240 --websocket_connect_timeout 240 --http-timeout 240 --ping-timeout 240 --application-close-timeout 240 backend.asgi:application
