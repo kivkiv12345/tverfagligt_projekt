@@ -45,4 +45,4 @@ EXPOSE 8000
 
 # start server
 #CMD python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000
-CMD python3 manage.py makemigrations && python3 manage.py migrate && daphne -b 0.0.0.0 -p 8000 --websocket_timeout 240 --websocket_connect_timeout 240 --http-timeout 240 --ping-timeout 240 --application-close-timeout 240 backend.asgi:application
+CMD python3 manage.py makemigrations && python3 manage.py migrate && daphne -b 0.0.0.0 -p 8000 --http-timeout 600 --ping-timeout 600 --application-close-timeout 600 backend.asgi:application
