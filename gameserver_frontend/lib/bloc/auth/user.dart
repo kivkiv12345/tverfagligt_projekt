@@ -21,7 +21,14 @@ class AuthenticatedUser extends User {
     return AuthenticatedUser.from_api(username, api);
   }
 
-  Future<Response> logout() async {
+  Future<Response> logout({
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
     return this.api.logout();
   }
 }

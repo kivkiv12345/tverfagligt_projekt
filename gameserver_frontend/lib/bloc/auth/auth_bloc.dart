@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gameserver_frontend/api.dart';
@@ -40,13 +42,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthBlocState> {
 
   Future logout(LogoutEvent event, Emitter<AuthBlocState> emit) async {
 
-    Response response = await event.user.logout();  // WebAPI call
+    /* We make an effort to tell the server that we wan't to log out,
+        and that it should delete our token. */
+    try {
+      Response response = await event.user.logout();  // WebAPI call
 
-    if (!bad_statuscode(response.statusCode)) {
-      emit(LoggedOutState()); // Set state to stopped if stop successful
-    } else {
-      // emit(ServerErrorState()); // Something went wrong, now we don't know what's going on
+      /*
+      if (!bad_statuscode(response.statusCode)) {
+        emit(LoggedOutState());
+      } else {
+        // emit(ServerErrorState()); // Something went wrong, now we don't know what's going on
+      }
+      */
+    } on (DioException, SocketException) {
+
+    } catch (e) {
+
     }
 
+    /* But we don't care if it succeeds or fails,
+        the user should be allowed to log out locally either way. */
+    emit(LoggedOutState());
+    
   }
 }

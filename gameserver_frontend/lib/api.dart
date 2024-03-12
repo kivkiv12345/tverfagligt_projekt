@@ -36,7 +36,14 @@ class Api {
     this.dio.options.headers['Authorization'] = 'Token ${this.token}';
   }
 
-  Future<Response> logout() async {
+  Future<Response> logout({
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
     return await this.dio.post('${Api.url}/user-logout/');  // WebAPI call
   }
 
