@@ -33,6 +33,9 @@ def get_server_info(request: Request) -> Response:
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+ERROR_KEY = 'error'
+
+
 @api_view(['POST'])
 def backup_savefile(request: Request) -> Response:
     """
@@ -47,7 +50,7 @@ def backup_savefile(request: Request) -> Response:
 
     server_ident = data.get('server_ident')
     if server_ident is None:
-        return Response("Must specify 'server_ident' in request", status=status.HTTP_400_BAD_REQUEST)
+        return Response({ERROR_KEY: "Must specify 'server_ident' in request"}, status=status.HTTP_400_BAD_REQUEST)
 
     # Find server from name or ID
     if isinstance(server := server_from_identifier(server_ident), Response):
@@ -78,7 +81,7 @@ def stop_server(request: Request) -> Response:
 
     server_ident = data.get('server_ident')
     if server_ident is None:
-        return Response("Must specify 'server_ident' in request", status=status.HTTP_400_BAD_REQUEST)
+        return Response({ERROR_KEY: "Must specify 'server_ident' in request"}, status=status.HTTP_400_BAD_REQUEST)
 
     # Find server from name or ID
     if isinstance(server := server_from_identifier(server_ident), Response):
@@ -108,7 +111,7 @@ def start_server(request: Request) -> Response:
 
     server_ident = data.get('server_ident')
     if server_ident is None:
-        return Response("Must specify 'server_ident' in request", status=status.HTTP_400_BAD_REQUEST)
+        return Response({ERROR_KEY: "Must specify 'server_ident' in request"}, status=status.HTTP_400_BAD_REQUEST)
 
     # Find server from name or ID
     if isinstance(server := server_from_identifier(server_ident), Response):
@@ -137,11 +140,11 @@ def set_server_version(request: Request) -> Response:
 
     server_ident = data.get('server_ident')
     if server_ident is None:
-        return Response("Must specify 'server_ident' in request", status=status.HTTP_400_BAD_REQUEST)
+        return Response({ERROR_KEY: "Must specify 'server_ident' in request"}, status=status.HTTP_400_BAD_REQUEST)
 
     server_version = data.get('server_version')
     if server_version is None:
-        return Response("Must specify 'server_version' in request", status=status.HTTP_400_BAD_REQUEST)
+        return Response({ERROR_KEY: "Must specify 'server_version' in request"}, status=status.HTTP_400_BAD_REQUEST)
 
     # Find server from name or ID
     if isinstance(server := server_from_identifier(server_ident), Response):
@@ -154,7 +157,7 @@ def set_server_version(request: Request) -> Response:
     try:
         server.manager.set_version(server_version)
     except KeyError as e:  # TODO Kevin: Are we revealing to much information here?
-        return Response(str(e), status.HTTP_400_BAD_REQUEST)
+        return Response({ERROR_KEY: str(e)}, status.HTTP_400_BAD_REQUEST)
 
     return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -174,7 +177,7 @@ def get_server_version(request: Request, ident: str) -> Response:
     # server_ident = data.get('server_ident')
     server_ident = ident
     if server_ident is None:
-        return Response("Must specify 'server_ident' in request", status=status.HTTP_400_BAD_REQUEST)
+        return Response({ERROR_KEY: "Must specify 'server_ident' in request"}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
         server_ident = int(server_ident)  # ident must be PK
@@ -194,7 +197,7 @@ def get_server_version(request: Request, ident: str) -> Response:
         return error_response
 
     # TODO Kevin: Should probably be JSON
-    return Response(server.manager.get_version(), status=status.HTTP_200_OK)
+    return Response({'server_version': server.manager.get_version()}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -212,7 +215,7 @@ def is_server_running(request: Request, ident: str) -> Response:
     # server_ident = data.get('server_ident')
     server_ident = ident
     if server_ident is None:
-        return Response("Must specify 'server_ident' in request", status=status.HTTP_400_BAD_REQUEST)
+        return Response({ERROR_KEY: "Must specify 'server_ident' in request"}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
         server_ident = int(server_ident)  # ident must be PK
@@ -229,8 +232,7 @@ def is_server_running(request: Request, ident: str) -> Response:
     if error_response := validate_server_permission(server, request.user):
         return error_response
 
-    # TODO Kevin: Should probably be JSON
-    return Response(server.manager.server_running(), status=status.HTTP_200_OK)
+    return Response({'is_running': server.manager.server_running()}, status=status.HTTP_200_OK)
 
 
 # With inspiration from https://chat.openai.com
@@ -250,15 +252,15 @@ def user_login(request: Request) -> Response:
     password: str = data.get('password')
 
     if None in (username, password):
-        return Response('Request must include both "username" and "password"', status=status.HTTP_400_BAD_REQUEST)
+        return Response({ERROR_KEY: 'Request must include both "username" and "password"'}, status=status.HTTP_400_BAD_REQUEST)
 
     user: User | None = authenticate(request, username=username, password=password)
 
     if user is None:
-        return Response('Invalid username or password', status=status.HTTP_400_BAD_REQUEST)
+        return Response({ERROR_KEY: 'Invalid username or password'}, status=status.HTTP_400_BAD_REQUEST)
 
     if not user.is_active:
-        return Response('User is disabled', status=status.HTTP_400_BAD_REQUEST)
+        return Response({ERROR_KEY: 'User is disabled'}, status=status.HTTP_400_BAD_REQUEST)
 
     login(request, user)
     token, created = Token.objects.get_or_create(user=user)
